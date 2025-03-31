@@ -1,0 +1,34 @@
+[gd_scene load_steps=5 format=3 uid="uid://vxjjorsl3diw"]
+
+[ext_resource type="Script" uid="uid://73omd8dgkp17" path="res://CycleManager.gd" id="1_ulcgi"]
+[ext_resource type="PackedScene" uid="uid://d12cdk8004rqb" path="res://unit.tscn" id="2_3253y"]
+[ext_resource type="Script" uid="uid://utcxv0jhaf54" path="res://Commander.gd" id="4_m7jmp"]
+[ext_resource type="PackedScene" uid="uid://dasoh2hw436d3" path="res://castle.tscn" id="4_u3cyc"]
+
+[node name="CycleManager" type="Node"]
+script = ExtResource("1_ulcgi")
+combat_cycle_time = 1.0
+
+[node name="EnemyUnit" parent="." instance=ExtResource("2_3253y")]
+position = Vector2(200, 300)
+faction = -1
+
+[node name="PlayerUnit" parent="." instance=ExtResource("2_3253y")]
+position = Vector2(350, 300)
+unit_id = "unit_002"
+max_attack = 50
+
+[node name="PlayerUnit2" parent="." instance=ExtResource("2_3253y")]
+position = Vector2(450, 300)
+unit_id = "unit_003"
+
+[node name="PlayerUnit3" parent="." instance=ExtResource("2_3253y")]
+position = Vector2(350, 400)
+unit_id = "unit_004"
+
+[node name="Castle" parent="." instance=ExtResource("4_u3cyc")]
+position = Vector2(829, 373)
+
+[node name="Commander" type="Node" parent="."]
+script = ExtResource("4_m7jmp")
+faction = 1
