@@ -10,6 +10,8 @@ var end_pos: Vector2
 var selecting := false
 var selected_rect := Rect2()
 
+var last_mouse_position: Vector2
+
 func _hover(node: Node2D) -> void:
 	if node and ((node is Unit and hover_node is Caslte) or hover_node == null):
 		hover_node = node
@@ -20,6 +22,7 @@ func _dehover(node: Node2D) -> void:
 
 func _input(event):
 	is_multi_select = Input.is_key_pressed(KEY_SHIFT)
+	var current_mouse_position = get_viewport().get_mouse_position()
 
 	if event is InputEventMouseButton:
 		match event.button_index:
@@ -41,10 +44,10 @@ func _input(event):
 					return
 			
 				if event.pressed:
-					start_pos = get_viewport().get_mouse_position()
+					start_pos = current_mouse_position
 					selecting = true
 				elif selecting:
-					end_pos = get_viewport().get_mouse_position()
+					end_pos = current_mouse_position
 					selecting = false
 					selected_rect = Rect2(start_pos, end_pos - start_pos).abs()
 					_select_units_in_rect(selected_rect)
@@ -52,10 +55,13 @@ func _input(event):
 
 			MOUSE_BUTTON_RIGHT:
 				if event.pressed and selected_nodes:
-					var destination = get_viewport().get_mouse_position()
+					var destination = current_mouse_position
+
 					for node in selected_nodes:
 						if node:
 							node.properties["destination"] = destination
+						
+	last_mouse_position = current_mouse_position
 
 func _process(delta):
 	queue_redraw()

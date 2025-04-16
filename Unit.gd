@@ -22,6 +22,7 @@ class_name Unit
 
 var push_velocity: Vector2 = Vector2.ZERO
 var push_decay: float = 180.0
+var remove_destination_timer: Timer
 
 func _ready():
 	UnitManager._register_unit(self, unit_id, properties)
@@ -30,6 +31,10 @@ func _ready():
 		sprite["flip_h"] = true
 
 	update_health_bar()
+	remove_destination_timer = Timer.new()
+	remove_destination_timer.one_shot = true
+	remove_destination_timer.timeout.connect(_remove_destination)
+	add_child(remove_destination_timer)
 
 func _process(delta: float) -> void:
 	update_health_bar()
@@ -46,6 +51,10 @@ func _process(delta: float) -> void:
 
 func _physics_process(delta):
 	velocity = Vector2.ZERO
+	if !properties["is_move"]:
+		remove_destination_timer.paused = true
+	else:
+		remove_destination_timer.paused = false
 
 	# Movement toward destination
 	if destination != Vector2.ZERO && properties["is_move"]:
@@ -54,6 +63,10 @@ func _physics_process(delta):
 
 		if global_position.distance_to(destination) > distance:
 			velocity = direction * speed
+			var expected_traverse_time = ceil(global_position.distance_to(destination)/(speed/5)) + 2
+			if remove_destination_timer.is_stopped() or remove_destination_timer.time_left > expected_traverse_time:
+				remove_destination_timer.start(expected_traverse_time)
+			
 		else:
 			global_position = destination
 			properties["destination"] = Vector2.ZERO
@@ -113,3 +126,6 @@ func _get_skills(_phase: String) -> Array:
 
 func _remove():
 	state_machine.travel("die")
+
+func _remove_destination():
+	properties["destination"] = Vector2.ZERO
