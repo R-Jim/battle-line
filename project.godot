@@ -22,3 +22,9 @@ Skill="*res://Skill.gd"
 PendingProperty="*res://PendingProperty.gd"
 UnitManager="*res://UnitManager.gd"
 PlayerManager="*res://PlayerManager.gd"
+
+[physics]
+
+3d/default_gravity=0.0
+3d/default_gravity_vector=Vector3(0, 0, 0)
+2d/default_gravity_vector=Vector2(0, 0)

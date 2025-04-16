@@ -1,6 +1,6 @@
 extends Area2D
 
-@export var unit: Node2D
+@export var unit: Unit
 @export var action = "attack"
 
 var target_units = {}  # Tracks unit properties
@@ -17,7 +17,7 @@ func _on_area_entered(area: Area2D):
 		target_units[area.unit.unit_id] = area.unit
 
 func _on_area_exited(area: Area2D):
-	if "unit" not in area:
+	if "unit" not in area or "unit_id" not in area.unit:
 		return
 
 	target_units.erase(area.unit.unit_id)

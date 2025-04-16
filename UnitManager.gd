@@ -1,7 +1,7 @@
 extends Node
 
 var registered_units = {}  # Tracks units
-var action_log = {}  # Stores active skill actions
+var last_unit_index = 0
 
 func _process_unit_skills(phase: String):
 	for unit_id in registered_units:
@@ -16,6 +16,7 @@ func _process_unit_skills(phase: String):
 func _register_unit(unit: Node, unit_id: String, properties: Dictionary):
 	registered_units[unit_id] = unit
 	BaseProperty._register_unit(unit_id, properties)
+	last_unit_index+=1
 	
 	unit._confirm_registration()  # Call back to confirm
 	#print("Registered Units After Update:", registered_units)

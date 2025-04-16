@@ -6,9 +6,11 @@
 [ext_resource type="Script" uid="uid://cupqrbonpqjcf" path="res://Selectable.gd" id="3_davkp"]
 [ext_resource type="Texture2D" uid="uid://cn8xhc12f71rd" path="res://Sprites/flag.png" id="5_1sk4h"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_nxogm"]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ctwoc"]
+radius = 31.0
+height = 96.0
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_ctwoc"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_nxogm"]
 
 [sub_resource type="Animation" id="Animation_davkp"]
 length = 0.001
@@ -160,13 +162,30 @@ states/moving/position = Vector2(659.674, 190.433)
 transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_ctwoc"), "attack", "Idle", SubResource("AnimationNodeStateMachineTransition_davkp"), "moving", "Idle", SubResource("AnimationNodeStateMachineTransition_baxm0"), "Idle", "moving", SubResource("AnimationNodeStateMachineTransition_of1k5")]
 graph_offset = Vector2(33.3477, 11.5875)
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ctwoc"]
-radius = 31.0
-height = 96.0
+[sub_resource type="CircleShape2D" id="CircleShape2D_1sk4h"]
 
 [node name="Unit" type="CharacterBody2D"]
+motion_mode = 1
 script = ExtResource("1_btf8p")
 unit_id = "unit_001"
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+offset_left = -26.0
+offset_top = 23.0
+offset_right = 26.0
+offset_bottom = 34.0
+show_percentage = false
+
+[node name="Selectable" type="Area2D" parent="." node_paths=PackedStringArray("sprite", "unit")]
+script = ExtResource("3_davkp")
+sprite = NodePath("../Sprite2D")
+unit = NodePath("..")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Selectable"]
+visible = false
+position = Vector2(-4, 14)
+shape = SubResource("CapsuleShape2D_ctwoc")
+debug_color = Color(0, 0.751532, 0.539796, 0.42)
 
 [node name="SkillMelee" type="Area2D" parent="." node_paths=PackedStringArray("unit")]
 script = ExtResource("2_5wnup")
@@ -176,18 +195,6 @@ unit = NodePath("..")
 scale = Vector2(10, 10)
 shape = SubResource("CircleShape2D_nxogm")
 debug_color = Color(0, 0.6, 0.701961, 0.176471)
-
-[node name="HealthBar" type="ProgressBar" parent="."]
-offset_left = -26.0
-offset_top = 18.0
-offset_right = 26.0
-offset_bottom = 33.0
-show_percentage = false
-
-[node name="WarningIgnore" type="CollisionShape2D" parent="."]
-visible = false
-shape = SubResource("CircleShape2D_ctwoc")
-disabled = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(3, 3)
@@ -211,19 +218,13 @@ parameters/conditions/is_moving = false
 parameters/Idle/blend_position = 0.0166667
 parameters/attack/blend_position = 0.000503063
 
-[node name="Selectable" type="Area2D" parent="." node_paths=PackedStringArray("sprite", "unit")]
-script = ExtResource("3_davkp")
-sprite = NodePath("../Sprite2D")
-unit = NodePath("..")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Selectable"]
-visible = false
-position = Vector2(-4, 14)
-shape = SubResource("CapsuleShape2D_ctwoc")
-debug_color = Color(0, 0.751532, 0.539796, 0.42)
-
 [node name="Flag" type="Sprite2D" parent="."]
 visible = false
 position = Vector2(52, 43)
 scale = Vector2(0.0970588, 0.0794118)
 texture = ExtResource("5_1sk4h")
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+scale = Vector2(3, 3)
+shape = SubResource("CircleShape2D_1sk4h")
+debug_color = Color(1, 1, 1, 0.180392)

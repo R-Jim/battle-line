@@ -1,10 +1,11 @@
-extends Node2D
+extends CharacterBody2D
 class_name Unit
 
 @export var unit_id = "unit_000"
 @export var max_health = 100
 @export var max_attack = 10
-@export var speed = 50
+@export var speed = 100
+@export var push_strenght = 3
 @export var faction = 1
 
 @export var destination: Vector2 = Vector2.ZERO
@@ -19,6 +20,9 @@ class_name Unit
 @onready var animation_tree = $AnimationTree
 @onready var state_machine = animation_tree["parameters/playback"]
 
+var push_velocity: Vector2 = Vector2.ZERO
+var push_decay: float = 180.0
+
 func _ready():
 	UnitManager._register_unit(self, unit_id, properties)
 	
@@ -32,24 +36,53 @@ func _process(delta: float) -> void:
 	queue_redraw()
 
 	destination = properties["destination"]
-	
 	if destination == Vector2.ZERO || !properties["is_move"]:
 		animation_tree["parameters/conditions/is_moving"] = false
 		animation_tree["parameters/conditions/is_idle"] = true
-		return  # No destination set
-	
-	var direction = (destination - position).normalized()
-	var distance = speed * delta
-	if position.distance_to(destination) > distance:
+	else:  # No destination set
 		animation_tree["parameters/conditions/is_moving"] = true
-		animation_tree["parameters/conditions/is_idle"] = false
-		position += direction * distance
+		animation_tree["parameters/conditions/is_idle"] = false		
+
+
+func _physics_process(delta):
+	velocity = Vector2.ZERO
+
+	# Movement toward destination
+	if destination != Vector2.ZERO && properties["is_move"]:
+		var direction = (destination - global_position).normalized()
+		var distance = speed * delta
+
+		if global_position.distance_to(destination) > distance:
+			velocity = direction * speed
+		else:
+			global_position = destination
+			properties["destination"] = Vector2.ZERO
+
+	# Apply push velocity
+	if push_velocity.length() > 0.1:
+		velocity += push_velocity
+		push_velocity = push_velocity.move_toward(Vector2.ZERO, push_decay * delta)
 	else:
-		animation_tree["parameters/conditions/is_moving"] = false
-		animation_tree["parameters/conditions/is_idle"] = true
-		position = destination  # Snap to target if close enough
-		properties["destination"] = Vector2.ZERO
+		push_velocity = Vector2.ZERO
+
+	# Skip movement if not needed
+	if velocity == Vector2.ZERO:
+		return
+
+	# Move and check collisions
+	move_and_slide()
+
+	for i in range(get_slide_collision_count()):
+		var collision = get_slide_collision(i)
+		var collider = collision.get_collider()
+
+		if collider is CharacterBody2D and collider.has_method("apply_push"):
+			var push_dir = (collider.global_position - global_position).normalized()
+			collider.apply_push(push_dir*push_strenght)
 		
+func apply_push(force: Vector2):
+	push_velocity += force
+
 func _draw() -> void:
 	var destination = properties["destination"]
 	
