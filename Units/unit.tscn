@@ -1,10 +1,12 @@
-[gd_scene load_steps=26 format=3 uid="uid://d12cdk8004rqb"]
+[gd_scene load_steps=29 format=3 uid="uid://d12cdk8004rqb"]
 
-[ext_resource type="Script" uid="uid://byvgjo8griexj" path="res://Unit.gd" id="1_btf8p"]
-[ext_resource type="Script" uid="uid://d3stps3jmc8nq" path="res://SkillMelee.gd" id="2_5wnup"]
-[ext_resource type="Texture2D" uid="uid://dp2jpx6krcd2q" path="res://Sprites/MiniSwordMan.png" id="2_ctwoc"]
-[ext_resource type="Script" uid="uid://cupqrbonpqjcf" path="res://Selectable.gd" id="3_davkp"]
-[ext_resource type="Texture2D" uid="uid://cn8xhc12f71rd" path="res://Sprites/flag.png" id="5_1sk4h"]
+[ext_resource type="Script" uid="uid://byvgjo8griexj" path="res://Unit.gd" id="1_4on0r"]
+[ext_resource type="Script" uid="uid://cupqrbonpqjcf" path="res://Selectable.gd" id="2_ph5yc"]
+[ext_resource type="Script" uid="uid://d3stps3jmc8nq" path="res://Skills/Combat/SkillMelee.gd" id="3_1l5s1"]
+[ext_resource type="Script" uid="uid://bjmljbot2yp32" path="res://Skills/Combat/SkillCaptureCastle.gd" id="4_w7p7v"]
+[ext_resource type="Texture2D" uid="uid://dp2jpx6krcd2q" path="res://Sprites/MiniSwordMan.png" id="5_c2hf3"]
+[ext_resource type="Texture2D" uid="uid://cn8xhc12f71rd" path="res://Sprites/flag.png" id="6_7safk"]
+[ext_resource type="Script" uid="uid://b73v1ig6e1l5p" path="res://Property.gd" id="7_2qu7j"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ctwoc"]
 radius = 31.0
@@ -42,6 +44,35 @@ tracks/0/keys = {
 "values": [Vector2i(0, 3), Vector2i(1, 3), Vector2i(2, 3), Vector2i(3, 3), Vector2i(4, 3), Vector2i(5, 3), Vector2i(0, 4)]
 }
 
+[sub_resource type="Animation" id="Animation_baxm0"]
+resource_name = "die"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(5, 5)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"queue_free"
+}]
+}
+
 [sub_resource type="Animation" id="Animation_ctwoc"]
 resource_name = "idle"
 loop_mode = 1
@@ -72,35 +103,6 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [Vector2i(0, 1), Vector2i(1, 1), Vector2i(2, 1), Vector2i(3, 1), Vector2i(4, 1), Vector2i(5, 1)]
-}
-
-[sub_resource type="Animation" id="Animation_baxm0"]
-resource_name = "die"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame_coords")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
-"update": 1,
-"values": [Vector2i(0, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(5, 5)]
-}
-tracks/1/type = "method"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(1),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [],
-"method": &"queue_free"
-}]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_1sk4h"]
@@ -148,6 +150,10 @@ advance_condition = &"is_idle"
 advance_mode = 2
 advance_condition = &"is_moving"
 
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_74e6i"]
+switch_mode = 2
+advance_mode = 2
+
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_74e6i"]
 states/End/position = Vector2(839.5, 77.4568)
 states/Idle/node = SubResource("AnimationNodeBlendSpace1D_baxm0")
@@ -156,18 +162,17 @@ states/Start/position = Vector2(262.5, 81.6094)
 states/attack/node = SubResource("AnimationNodeBlendSpace1D_of1k5")
 states/attack/position = Vector2(470.359, 190.125)
 states/die/node = SubResource("AnimationNodeAnimation_baxm0")
-states/die/position = Vector2(700.348, 80.5381)
+states/die/position = Vector2(700.348, 77.9975)
 states/moving/node = SubResource("AnimationNodeAnimation_1sk4h")
 states/moving/position = Vector2(659.674, 190.433)
-transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_ctwoc"), "attack", "Idle", SubResource("AnimationNodeStateMachineTransition_davkp"), "moving", "Idle", SubResource("AnimationNodeStateMachineTransition_baxm0"), "Idle", "moving", SubResource("AnimationNodeStateMachineTransition_of1k5")]
+transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_ctwoc"), "attack", "Idle", SubResource("AnimationNodeStateMachineTransition_davkp"), "moving", "Idle", SubResource("AnimationNodeStateMachineTransition_baxm0"), "Idle", "moving", SubResource("AnimationNodeStateMachineTransition_of1k5"), "die", "End", SubResource("AnimationNodeStateMachineTransition_74e6i")]
 graph_offset = Vector2(33.3477, 11.5875)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_1sk4h"]
 
 [node name="Unit" type="CharacterBody2D"]
 motion_mode = 1
-script = ExtResource("1_btf8p")
-unit_id = "unit_001"
+script = ExtResource("1_4on0r")
 
 [node name="HealthBar" type="ProgressBar" parent="."]
 offset_left = -26.0
@@ -176,10 +181,10 @@ offset_right = 26.0
 offset_bottom = 34.0
 show_percentage = false
 
-[node name="Selectable" type="Area2D" parent="." node_paths=PackedStringArray("sprite", "unit")]
-script = ExtResource("3_davkp")
+[node name="Selectable" type="Area2D" parent="." node_paths=PackedStringArray("sprite", "source")]
+script = ExtResource("2_ph5yc")
 sprite = NodePath("../Sprite2D")
-unit = NodePath("..")
+source = NodePath("..")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Selectable"]
 visible = false
@@ -187,18 +192,33 @@ position = Vector2(-4, 14)
 shape = SubResource("CapsuleShape2D_ctwoc")
 debug_color = Color(0, 0.751532, 0.539796, 0.42)
 
-[node name="SkillMelee" type="Area2D" parent="." node_paths=PackedStringArray("unit")]
-script = ExtResource("2_5wnup")
-unit = NodePath("..")
+[node name="SkillMelee" type="Area2D" parent="." node_paths=PackedStringArray("_source")]
+script = ExtResource("3_1l5s1")
+_range = 8
+_action = "attack"
+_source = NodePath("..")
+_phase = "Combat"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SkillMelee"]
-scale = Vector2(10, 10)
+scale = Vector2(8, 8)
 shape = SubResource("CircleShape2D_nxogm")
 debug_color = Color(0, 0.6, 0.701961, 0.176471)
 
+[node name="SkillCaptureCastle" type="Area2D" parent="." node_paths=PackedStringArray("_source")]
+script = ExtResource("4_w7p7v")
+_range = 6
+_action = "capture"
+_source = NodePath("..")
+_phase = "Combat"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SkillCaptureCastle"]
+scale = Vector2(6, 6)
+shape = SubResource("CircleShape2D_nxogm")
+debug_color = Color(0.641848, 0.52437, 5.77569e-07, 0.176471)
+
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(3, 3)
-texture = ExtResource("2_ctwoc")
+texture = ExtResource("5_c2hf3")
 centered = false
 offset = Vector2(-16, -27)
 hframes = 6
@@ -222,9 +242,12 @@ parameters/attack/blend_position = 0.000503063
 visible = false
 position = Vector2(52, 43)
 scale = Vector2(0.0970588, 0.0794118)
-texture = ExtResource("5_1sk4h")
+texture = ExtResource("6_7safk")
 
 [node name="Collision" type="CollisionShape2D" parent="."]
 scale = Vector2(3, 3)
 shape = SubResource("CircleShape2D_1sk4h")
 debug_color = Color(1, 1, 1, 0.180392)
+
+[node name="Property" type="Node" parent="."]
+script = ExtResource("7_2qu7j")

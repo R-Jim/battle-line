@@ -1,0 +1,55 @@
+[gd_scene load_steps=8 format=3 uid="uid://dasoh2hw436d3"]
+
+[ext_resource type="Script" uid="uid://btu16nkg7c6gh" path="res://Castle.gd" id="1_1gkcl"]
+[ext_resource type="Texture2D" uid="uid://njlf6uqtl1p2" path="res://Sprites/castle.png" id="1_xtwgx"]
+[ext_resource type="Script" uid="uid://cupqrbonpqjcf" path="res://Selectable.gd" id="3_t33uu"]
+[ext_resource type="Script" uid="uid://d2u7sgcijj81f" path="res://Skills/Combat/SkillResourceGenerate.gd" id="4_t33uu"]
+[ext_resource type="Script" uid="uid://b73v1ig6e1l5p" path="res://Property.gd" id="5_231t4"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_vm22h"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_231t4"]
+
+[node name="Castle" type="StaticBody2D"]
+script = ExtResource("1_1gkcl")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_xtwgx")
+
+[node name="Selectable" type="Area2D" parent="." node_paths=PackedStringArray("sprite", "source")]
+scale = Vector2(0.3, 0.3)
+script = ExtResource("3_t33uu")
+sprite = NodePath("../Sprite2D")
+source = NodePath("..")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Selectable"]
+scale = Vector2(20, 20)
+shape = SubResource("CircleShape2D_vm22h")
+debug_color = Color(0, 0.751532, 0.539796, 0.42)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+scale = Vector2(4, 4)
+polygon = PackedVector2Array(-16.25, -3.25, -16.25, 8.25, 0, 16.25, 17.5, 8, 17.5, -3.5, 0, -10.25)
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+offset_left = -26.0
+offset_top = 23.0
+offset_right = 26.0
+offset_bottom = 34.0
+show_percentage = false
+
+[node name="SkilResourceGenerate" type="Area2D" parent="." node_paths=PackedStringArray("_source")]
+script = ExtResource("4_t33uu")
+_range = -1
+_action = "generate_resource"
+_source = NodePath("..")
+_phase = "Combat"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SkilResourceGenerate"]
+scale = Vector2(2, 2)
+shape = SubResource("CircleShape2D_231t4")
+debug_color = Color(0, 0.6, 0.701961, 0.176471)
+
+[node name="Property" type="Node" parent="."]
+script = ExtResource("5_231t4")

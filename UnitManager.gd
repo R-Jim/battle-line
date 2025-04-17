@@ -1,34 +1,41 @@
 extends Node
 
-var registered_units = {}  # Tracks units
+var registered_units: Dictionary[String, Unit] = {}  # Tracks units
 var last_unit_index = 0
 
-func _process_unit_skills(phase: String):
-	for unit_id in registered_units:
-		for skill in registered_units[unit_id]._get_skills(phase):
-			var property_updates = skill._get_target_effects()
-			for target_unit_id in property_updates:
-				PendingProperty._append_property_update(property_updates[target_unit_id], target_unit_id)
+func _process_unit_skills(phase: StringName):
+    for unit_id in registered_units:
+        for skill in registered_units[unit_id]._get_skills(phase):
+            var targets = skill._get_targets()
+            for target_id in targets:
+                var property_updates = skill._get_target_effects(target_id)
+                var target = targets[target_id]
+                target.property.add_pending_property(property_updates)
 
-			skill._notifi_units()
-	return
+            skill._notifi_source()
+            skill._notifi_targets()
+    return
 
-func _register_unit(unit: Node, unit_id: String, properties: Dictionary):
-	registered_units[unit_id] = unit
-	BaseProperty._register_unit(unit_id, properties)
-	last_unit_index+=1
-	
-	unit._confirm_registration()  # Call back to confirm
-	#print("Registered Units After Update:", registered_units)
+func _process_unit_properties():
+    for unit_id in registered_units:
+        registered_units[unit_id].property.commit_pending_properties()
+    return
+
+func _register_unit(unit: Node, unit_id: String):
+    registered_units[unit_id] = unit
+    last_unit_index+=1
+    
+    unit._confirm_registration()  # Call back to confirm
+    #print("Registered Units After Update:", registered_units)
 
 func _process_unit_health():
-	for unit_id in registered_units:
-		if registered_units[unit_id].properties["health"] <= 0:
-			var unit = registered_units[unit_id]
-			registered_units.erase(unit_id)
-			unit._remove()
+    for unit_id in registered_units:
+        if registered_units[unit_id].property.get_property("health") <= 0:
+            var unit = registered_units[unit_id]
+            registered_units.erase(unit_id)
+            unit._remove()
 
 
 func _toggle_move_unit(toggle: bool):
-	for unit_id in registered_units:
-		registered_units[unit_id].properties["is_move"] = toggle
+    for unit_id in registered_units:
+        registered_units[unit_id].property.set_property("is_move", toggle)

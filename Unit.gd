@@ -1,16 +1,13 @@
 extends CharacterBody2D
 class_name Unit
 
-@export var unit_id = "unit_000"
+@export var id = "unit_000"
 @export var max_health = 100
 @export var max_attack = 10
-@export var speed = 100
-@export var push_strenght = 3
+@export var speed = 50
 @export var faction = 1
 
-@export var destination: Vector2 = Vector2.ZERO
-
-@onready var properties = {"health": max_health, "attack": max_attack, "faction": faction, "destination": destination, "is_move": false}
+@onready var property: Property = $Property
 
 @onready var health_bar = $HealthBar
 @onready var sprite = $Sprite2D
@@ -21,111 +18,119 @@ class_name Unit
 @onready var state_machine = animation_tree["parameters/playback"]
 
 var push_velocity: Vector2 = Vector2.ZERO
+var max_velocity = 5
 var push_decay: float = 180.0
 var remove_destination_timer: Timer
 
 func _ready():
-	UnitManager._register_unit(self, unit_id, properties)
-	
-	if faction > 0:
-		sprite["flip_h"] = true
+    property.new_property({"health": max_health, "attack": max_attack, "speed": speed, "push_strength": 3, "faction": faction, "destination": Vector2.ZERO, "is_move": false})
+    UnitManager._register_unit(self, id)
+    
+    
+    if property.get_property("faction") > 0:
+        sprite["flip_h"] = true
+    
 
-	update_health_bar()
-	remove_destination_timer = Timer.new()
-	remove_destination_timer.one_shot = true
-	remove_destination_timer.timeout.connect(_remove_destination)
-	add_child(remove_destination_timer)
+    update_health_bar()
+    remove_destination_timer = Timer.new()
+    remove_destination_timer.one_shot = true
+    remove_destination_timer.timeout.connect(_remove_destination)
+    add_child(remove_destination_timer)
 
-func _process(delta: float) -> void:
-	update_health_bar()
-	queue_redraw()
+func _process(_delta: float) -> void:
+    update_health_bar()
+    queue_redraw()
 
-	destination = properties["destination"]
-	if destination == Vector2.ZERO || !properties["is_move"]:
-		animation_tree["parameters/conditions/is_moving"] = false
-		animation_tree["parameters/conditions/is_idle"] = true
-	else:  # No destination set
-		animation_tree["parameters/conditions/is_moving"] = true
-		animation_tree["parameters/conditions/is_idle"] = false		
+    var destination = property.get_property("destination")
+    if destination == Vector2.ZERO || !property.get_property("is_move"):
+        animation_tree["parameters/conditions/is_moving"] = false
+        animation_tree["parameters/conditions/is_idle"] = true
+    else:  # No destination set
+        animation_tree["parameters/conditions/is_moving"] = true
+        animation_tree["parameters/conditions/is_idle"] = false		
 
 
 func _physics_process(delta):
-	velocity = Vector2.ZERO
-	if !properties["is_move"]:
-		remove_destination_timer.paused = true
-	else:
-		remove_destination_timer.paused = false
+    velocity = Vector2.ZERO
+    if !property.get_property("is_move"):
+        remove_destination_timer.paused = true
+    else:
+        remove_destination_timer.paused = false
 
-	# Movement toward destination
-	if destination != Vector2.ZERO && properties["is_move"]:
-		var direction = (destination - global_position).normalized()
-		var distance = speed * delta
+    # Movement toward destination
+    var destination = property.get_property("destination")
+    if destination != Vector2.ZERO && property.get_property("is_move"):
+        var direction = (destination - global_position).normalized()
+        var distance = speed * delta
 
-		if global_position.distance_to(destination) > distance:
-			velocity = direction * speed
-			var expected_traverse_time = ceil(global_position.distance_to(destination)/(speed/5)) + 2
-			if remove_destination_timer.is_stopped() or remove_destination_timer.time_left > expected_traverse_time:
-				remove_destination_timer.start(expected_traverse_time)
-			
-		else:
-			global_position = destination
-			properties["destination"] = Vector2.ZERO
+        if global_position.distance_to(destination) > distance:
+            velocity = direction * speed
+            @warning_ignore("integer_division")
+            var expected_traverse_time = ceil(global_position.distance_to(destination)/(speed/5)) + 2
+            if remove_destination_timer.is_stopped() or remove_destination_timer.time_left > expected_traverse_time:
+                remove_destination_timer.start(expected_traverse_time)
+            
+        else:
+            global_position = destination
+            property.set_property("destination", Vector2.ZERO)
 
-	# Apply push velocity
-	if push_velocity.length() > 0.1:
-		velocity += push_velocity
-		push_velocity = push_velocity.move_toward(Vector2.ZERO, push_decay * delta)
-	else:
-		push_velocity = Vector2.ZERO
+    # Apply push velocity
+    if push_velocity.length() > 0.1:
+        velocity += push_velocity
+        push_velocity = push_velocity.move_toward(Vector2.ZERO, push_decay * delta)
+    else:
+        push_velocity = Vector2.ZERO
 
-	# Skip movement if not needed
-	if velocity == Vector2.ZERO:
-		return
+    # Skip movement if not needed
+    if velocity == Vector2.ZERO:
+        return
 
-	# Move and check collisions
-	move_and_slide()
+    velocity.limit_length(max_velocity)
+    # Move and check collisions
+    move_and_slide()
 
-	for i in range(get_slide_collision_count()):
-		var collision = get_slide_collision(i)
-		var collider = collision.get_collider()
+    for i in range(get_slide_collision_count()):
+        var collision = get_slide_collision(i)
+        var collider = collision.get_collider()
 
-		if collider is CharacterBody2D and collider.has_method("apply_push"):
-			var push_dir = (collider.global_position - global_position).normalized()
-			collider.apply_push(push_dir*push_strenght)
-		
+        if collider is CharacterBody2D and collider.has_method("apply_push"):
+            var push_dir = (collider.global_position - global_position).normalized()
+            var push_strength = property.get_property("push_strength")
+            collider.apply_push(push_dir*push_strength)
+        
 func apply_push(force: Vector2):
-	push_velocity += force
+    push_velocity += force
 
 func _draw() -> void:
-	var destination = properties["destination"]
-	
-	if destination != Vector2.ZERO:
-		waypoint_flag["visible"] = true
-		waypoint_flag["global_position"] = destination
-		draw_dashed_line(sprite.position, waypoint_flag.position, Color.BLUE, 3.0, 5.0)
-	else:
-		waypoint_flag["visible"] = false
+    var destination = property.get_property("destination")
+    
+    if destination != Vector2.ZERO:
+        waypoint_flag["visible"] = true
+        waypoint_flag["global_position"] = destination
+        draw_dashed_line(sprite.position, waypoint_flag.position, Color.BLUE, 3.0, 5.0)
+    else:
+        waypoint_flag["visible"] = false
 
 
 func _receive_action_noti(action: String, _isTarget: bool):
-	state_machine.travel(action)
+    state_machine.travel(action)
 
 func update_health_bar():
-	if health_bar:
-		health_bar.value = float(properties["health"]) / max_health * 100
+    if health_bar:
+        health_bar.value = float(property.get_property("health")) / max_health * 100
 
 func _confirm_registration():
-	print("Unit[", unit_id, "] registered successfully.")
+    print("Unit[", id, "] registered successfully.")
 
-func _get_skills(_phase: String) -> Array:
-	var skills = []
-	for child in get_children():
-		if child is Area2D and child.name.begins_with("Skill"):
-			skills.append(child)
-	return skills
+func _get_skills(phase: StringName) -> Array[Skill]:
+    var skills: Array[Skill] = []
+    for child in get_children():
+        if child is Skill and child._get_phase() == phase:
+            skills.append(child)
+    return skills
 
 func _remove():
-	state_machine.travel("die")
+    state_machine.travel("die")
 
 func _remove_destination():
-	properties["destination"] = Vector2.ZERO
+    property.set_property("destination", Vector2.ZERO)

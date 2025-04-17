@@ -5,7 +5,7 @@ extends Node
 
 @onready var strategic_timer: Timer = _strategic_timer()
 @onready var combat_timer: Timer = _combat_timer()
-var phases = ["strategic", "combat"]
+var phases = [&"Strategic", &"Combat"]
 var currentPhaseIndex = -1
 
 
@@ -48,8 +48,10 @@ func _strategic_end_cycle():
 	currentPhaseIndex = 1 # transition to combat phase
 
 func _combat_end_cycle():
-	UnitManager._process_unit_skills("combat")
-	var updates = PendingProperty._retrieve_pending_properties()
-	BaseProperty._append_properties(updates)
+	UnitManager._process_unit_skills(&"Combat")
+	StructureManager._process_structure_skills(&"Combat")
+	UnitManager._process_unit_properties()
+	StructureManager._process_structure_properties()
 	UnitManager._process_unit_health()
+	StructureManager._process_structures_health()
 	currentPhaseIndex = -1 # transition to start of strategic phase

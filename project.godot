@@ -17,11 +17,9 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-BaseProperty="*res://BaseProperty.gd"
-Skill="*res://Skill.gd"
-PendingProperty="*res://PendingProperty.gd"
 UnitManager="*res://UnitManager.gd"
 PlayerManager="*res://PlayerManager.gd"
+StructureManager="*res://StructureManager.gd"
 
 [physics]
 
