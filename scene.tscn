@@ -9,9 +9,12 @@
 script = ExtResource("1_ulcgi")
 combat_cycle_time = 1.0
 
-[node name="Commander" type="Node" parent="."]
+[node name="EnemyCommander" type="Node" parent="." node_paths=PackedStringArray("commandable_units")]
 script = ExtResource("4_m7jmp")
-faction = 1
+_faction = -1
+_objective_types = Array[String](["capture"])
+commander_points = 5
+commandable_units = [NodePath("../EnemyUnit")]
 
 [node name="EnemyUnit" parent="." instance=ExtResource("2_3253y")]
 position = Vector2(200, 300)
