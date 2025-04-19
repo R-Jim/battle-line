@@ -1,7 +1,16 @@
 extends Node
+class_name UnitManager
 
 var registered_units: Dictionary[String, Unit] = {}  # Tracks units
 var last_unit_index = 0
+
+func _ready():
+  var childs = get_children()
+  for child in childs:
+    if child is Unit:
+      _register_unit(child, child.id)
+  
+  PlayerManager._unit_manager_register(self)
 
 func _process_unit_skills(phase: StringName):
     for unit_id in registered_units:
@@ -25,8 +34,7 @@ func _register_unit(unit: Node, unit_id: String):
     registered_units[unit_id] = unit
     last_unit_index+=1
     
-    unit._confirm_registration()  # Call back to confirm
-    #print("Registered Units After Update:", registered_units)
+    print("registered unit:", unit.id)
 
 func _process_unit_health():
     for unit_id in registered_units:

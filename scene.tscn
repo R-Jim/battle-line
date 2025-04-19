@@ -1,44 +1,62 @@
-[gd_scene load_steps=5 format=3 uid="uid://vxjjorsl3diw"]
+[gd_scene load_steps=9 format=3 uid="uid://vxjjorsl3diw"]
 
 [ext_resource type="Script" uid="uid://73omd8dgkp17" path="res://CycleManager.gd" id="1_ulcgi"]
+[ext_resource type="Script" uid="uid://cjmt8blais5fm" path="res://Skirmish.gd" id="1_y2354"]
 [ext_resource type="PackedScene" uid="uid://d12cdk8004rqb" path="res://Units/unit.tscn" id="2_3253y"]
 [ext_resource type="Script" uid="uid://utcxv0jhaf54" path="res://Commander.gd" id="4_m7jmp"]
 [ext_resource type="PackedScene" uid="uid://dasoh2hw436d3" path="res://Structures/castle.tscn" id="4_u3cyc"]
+[ext_resource type="Script" uid="uid://be7oj8c0tpvxi" path="res://SelectableTileMap.gd" id="5_m7jmp"]
+[ext_resource type="Script" uid="uid://0r1kvq2r0ecr" path="res://UnitManager.gd" id="7_ni31j"]
+[ext_resource type="Script" uid="uid://b6p48687rgesd" path="res://StructureManager.gd" id="7_xlvrw"]
 
-[node name="CycleManager" type="Node"]
-script = ExtResource("1_ulcgi")
-combat_cycle_time = 1.0
+[node name="SkirmishMap" type="Node"]
+script = ExtResource("1_y2354")
 
-[node name="EnemyCommander" type="Node" parent="." node_paths=PackedStringArray("commandable_units")]
+[node name="EnemyCommander" type="Node" parent="." node_paths=PackedStringArray("_unit_manager", "_structure_manager", "commandable_units")]
 script = ExtResource("4_m7jmp")
+_unit_manager = NodePath("../CycleManager/UnitManager")
+_structure_manager = NodePath("../CycleManager/StructureManager")
 _faction = -1
 _objective_types = Array[String](["capture"])
 commander_points = 5
-commandable_units = [NodePath("../EnemyUnit")]
+commandable_units = [NodePath("../CycleManager/UnitManager/EnemyUnit")]
 
-[node name="EnemyUnit" parent="." instance=ExtResource("2_3253y")]
+[node name="CycleManager" type="Node" parent="."]
+script = ExtResource("1_ulcgi")
+combat_cycle_time = 1.0
+
+[node name="UnitManager" type="Node" parent="CycleManager"]
+script = ExtResource("7_ni31j")
+
+[node name="EnemyUnit" parent="CycleManager/UnitManager" instance=ExtResource("2_3253y")]
 position = Vector2(200, 300)
 id = "unit_001"
 faction = -1
 
-[node name="PlayerUnit" parent="." instance=ExtResource("2_3253y")]
+[node name="PlayerUnit" parent="CycleManager/UnitManager" instance=ExtResource("2_3253y")]
 position = Vector2(350, 300)
 id = "unit_002"
 max_attack = 50
 
-[node name="PlayerUnit2" parent="." instance=ExtResource("2_3253y")]
+[node name="PlayerUnit2" parent="CycleManager/UnitManager" instance=ExtResource("2_3253y")]
 position = Vector2(410, 300)
 id = "unit_003"
 
-[node name="PlayerUnit3" parent="." instance=ExtResource("2_3253y")]
+[node name="PlayerUnit3" parent="CycleManager/UnitManager" instance=ExtResource("2_3253y")]
 position = Vector2(350, 360)
 id = "unit_004"
 
-[node name="PlayerCastle" parent="." instance=ExtResource("4_u3cyc")]
+[node name="StructureManager" type="Node" parent="CycleManager"]
+script = ExtResource("7_xlvrw")
+
+[node name="PlayerCastle" parent="CycleManager/StructureManager" instance=ExtResource("4_u3cyc")]
 position = Vector2(991, 117)
 id = "caslte_001"
 
-[node name="EnemyCastle" parent="." instance=ExtResource("4_u3cyc")]
+[node name="EnemyCastle" parent="CycleManager/StructureManager" instance=ExtResource("4_u3cyc")]
 position = Vector2(156, 517)
 id = "caslte_002"
 faction = -1
+
+[node name="SelectableTileMap" type="Node2D" parent="."]
+script = ExtResource("5_m7jmp")

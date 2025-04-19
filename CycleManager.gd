@@ -5,6 +5,11 @@ extends Node
 
 @onready var strategic_timer: Timer = _strategic_timer()
 @onready var combat_timer: Timer = _combat_timer()
+
+@onready var _unit_manager: UnitManager = $UnitManager
+@onready var _structure_manager: StructureManager = $StructureManager
+
+
 var phases = [&"Strategic", &"Combat"]
 var currentPhaseIndex = -1
 
@@ -40,17 +45,17 @@ func _combat_timer() -> Timer:
     return timer
     
 func _strategic_start_cycle():
-    UnitManager._toggle_move_unit(true)
+    _unit_manager._toggle_move_unit(true)
 
 func _strategic_end_cycle():
-    UnitManager._toggle_move_unit(false)
+    _unit_manager._toggle_move_unit(false)
     currentPhaseIndex = 1 # transition to combat phase
 
 func _combat_end_cycle():
-    UnitManager._process_unit_skills(&"Combat")
-    StructureManager._process_structure_skills(&"Combat")
-    UnitManager._process_unit_properties()
-    StructureManager._process_structure_properties()
-    UnitManager._process_unit_health()
-    StructureManager._process_structures_health()
+    _unit_manager._process_unit_skills(&"Combat")
+    _structure_manager._process_structure_skills(&"Combat")
+    _unit_manager._process_unit_properties()
+    _structure_manager._process_structure_properties()
+    _unit_manager._process_unit_health()
+    _structure_manager._process_structures_health()
     currentPhaseIndex = -1 # transition to start of strategic phase

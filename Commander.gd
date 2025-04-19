@@ -1,6 +1,9 @@
 extends Node
 class_name Commander
 
+@export var _unit_manager: UnitManager
+@export var _structure_manager: StructureManager
+
 @export var _faction: int
 @export_enum(&"capture", &"attack") var _objective_types: Array[String] = []
 var _objectives: Array[Objective] = []
@@ -24,7 +27,7 @@ func _process(_delta):
 
 func _process_objective(objective: Objective) -> void:
   if objective.get_type() == "capture":
-    if StructureManager.registered_structures.values().filter(_is_castle).size() > 0 and StructureManager.registered_structures.values().filter(func(n): return _is_castle(n) && _is_enemy(n)).size() == 0:
+    if _structure_manager.registered_structures.values().filter(_is_castle).size() > 0 and _structure_manager.registered_structures.values().filter(func(n): return _is_castle(n) && _is_enemy(n)).size() == 0:
       objective.mark_complete()
   return
 
@@ -40,7 +43,7 @@ func command_units() -> void:
     _command_units_capture()
   
 func _command_units_capture() -> void:
-  var enemy_castles = StructureManager.registered_structures.values().filter(func(n): return _is_castle(n) && _is_enemy(n))
+  var enemy_castles = _structure_manager.registered_structures.values().filter(func(n): return _is_castle(n) && _is_enemy(n))
   if enemy_castles.size() == 0:
     return
 

@@ -10,7 +10,6 @@ class_name Castle
 @onready var health_bar = $HealthBar
 
 func _ready():
-    StructureManager._register(self, id)
     property.new_property({"health": max_health, "faction": faction, "resource": max_resource})
     update_health_bar()
 

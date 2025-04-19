@@ -1,6 +1,14 @@
 extends Node
+class_name StructureManager
 
 var registered_structures: Dictionary[String, Castle] = {}  
+
+func _ready():
+  var childs = get_children()
+  for child in childs:
+    if child is Castle:
+      registered_structures[child.id] = child
+      print("registered structure:", child.id)
 
 func _process_structure_skills(phase: StringName):
     for structure_id in registered_structures:

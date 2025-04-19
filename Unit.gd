@@ -24,8 +24,6 @@ var remove_destination_timer: Timer
 
 func _ready():
     property.new_property({"health": max_health, "attack": max_attack, "speed": speed, "push_strength": 3, "faction": faction, "destination": Vector2.ZERO, "is_move": false})
-    UnitManager._register_unit(self, id)
-    
     
     if property.get_property("faction") > 0:
         sprite["flip_h"] = true
@@ -118,9 +116,6 @@ func _receive_action_noti(action: String, _isTarget: bool):
 func update_health_bar():
     if health_bar:
         health_bar.value = float(property.get_property("health")) / max_health * 100
-
-func _confirm_registration():
-    print("Unit[", id, "] registered successfully.")
 
 func _get_skills(phase: StringName) -> Array[Skill]:
     var skills: Array[Skill] = []

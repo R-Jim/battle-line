@@ -12,6 +12,9 @@ var selected_rect := Rect2()
 
 var last_mouse_position: Vector2
 
+var _unit_manager: UnitManager
+var _skirmish_selectable_tile_map: SkirmishSelectableTileMap
+
 func _hover(node: Node2D) -> void:
     if node and ((node is Unit and hover_node is Castle) or hover_node == null):
         hover_node = node
@@ -40,11 +43,12 @@ func _input(event):
                     var resource: int = hover_node.property.get_property("resource")
                     if resource >= 1:
                         var spawn = deploy_unit.instantiate()
-                        spawn.id = "unit_00" + str(UnitManager.last_unit_index + 1)
+                        spawn.id = "unit_00" + str(_unit_manager.last_unit_index + 1)
                         spawn.faction = hover_node.faction
                         spawn.position = hover_node.position
                         get_tree().root.add_child(spawn)
                         hover_node.property.set_property("resource", resource - 1)
+                        _unit_manager._register_unit(spawn, spawn.id)
                         return
             
                 if event.pressed:
@@ -59,11 +63,10 @@ func _input(event):
 
             MOUSE_BUTTON_RIGHT:
                 if event.pressed and selected_nodes:
-                    var destination = current_mouse_position
+                    var destination = _skirmish_selectable_tile_map.get_current_hovered_tile_center()
                     
                     for node in selected_nodes:
                         if node:
-                            print(node.id)
                             node.property.set_property("destination", destination)
                         
     last_mouse_position = current_mouse_position
@@ -81,6 +84,12 @@ func _select_units_in_rect(rect: Rect2):
     if !is_multi_select:
         selected_nodes.clear()
     
-    for unit in UnitManager.registered_units.values():
+    for unit in _unit_manager.registered_units.values():
         if rect.has_point(unit.global_position):
             selected_nodes[unit] = true
+
+func _unit_manager_register(unit_manager: UnitManager) -> void:
+  _unit_manager = unit_manager
+
+func _skirmish_selectable_tile_map_register(map: SkirmishSelectableTileMap) -> void:
+  _skirmish_selectable_tile_map = map
