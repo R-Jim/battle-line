@@ -13,6 +13,8 @@ func _ready() -> void:
     var objective = Objective.new()
     objective.set_type(objective_type)
     _objectives.append(objective)
+  
+  GameMaster._register_faction_commander(_faction, self)
 
 func _process(_delta):
   var pending_objectives = _objectives.filter(_is_objective_pending)
@@ -22,11 +24,13 @@ func _process(_delta):
 
 func _process_objective(objective: Objective) -> void:
   if objective.get_type() == "capture":
-    if StructureManager.registered_structures.values().filter(_is_castle).size() > 0 and StructureManager.registered_structures.values().filter(_is_castle_enemy).size() == 0:
+    if StructureManager.registered_structures.values().filter(_is_castle).size() > 0 and StructureManager.registered_structures.values().filter(func(n): return _is_castle(n) && _is_enemy(n)).size() == 0:
       objective.mark_complete()
   return
 
 func command_units() -> void:
+  commandable_units = commandable_units.filter(func(unit): return unit != null)
+
   var pending_objectives = _objectives.filter(_is_objective_pending)
   if pending_objectives.size() == 0:
     return
@@ -36,7 +40,7 @@ func command_units() -> void:
     _command_units_capture()
   
 func _command_units_capture() -> void:
-  var enemy_castles = StructureManager.registered_structures.values().filter(_is_castle_enemy)
+  var enemy_castles = StructureManager.registered_structures.values().filter(func(n): return _is_castle(n) && _is_enemy(n))
   if enemy_castles.size() == 0:
     return
 
@@ -51,5 +55,8 @@ func _is_objective_pending(objective: Objective) -> bool:
 func _is_castle(structure: Node) -> bool:
   return structure is Castle
 
-func _is_castle_enemy(structure: Node) -> bool:
-  return structure is Castle && structure.property.get_property("faction") * _faction == -1
+func _is_enemy(structure: Node) -> bool:
+  return structure.property.get_property("faction") * _faction == -1
+
+func is_completed() -> bool:
+  return _objectives.filter(_is_objective_pending).size() == 0

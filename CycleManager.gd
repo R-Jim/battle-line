@@ -8,8 +8,6 @@ extends Node
 var phases = [&"Strategic", &"Combat"]
 var currentPhaseIndex = -1
 
-@onready var enemy_commander: Commander = $EnemyCommander
-
 func _process(_delta: float) -> void:
     if currentPhaseIndex == -1:
         print("start strategic")
@@ -42,7 +40,6 @@ func _combat_timer() -> Timer:
     return timer
     
 func _strategic_start_cycle():
-    enemy_commander.command_units()
     UnitManager._toggle_move_unit(true)
 
 func _strategic_end_cycle():

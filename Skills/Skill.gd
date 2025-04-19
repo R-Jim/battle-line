@@ -6,7 +6,6 @@ class_name Skill
 @export var _source: Node
 @export_enum(&"Strategic", &"Combat") var _phase: String
 var _targets: Dictionary[String, Node] = {}  # Tracks unit properties
-@onready var _hitbox = $CollisionShape2D
 
 func _ready():
     if _range == 0:
@@ -15,13 +14,12 @@ func _ready():
         push_warning("Action not set")
     if _source == null:
         push_warning("Source not set")
-    if _hitbox == null:
+    if $CollisionShape2D == null:
         push_warning("Hitbox not found")
     
     self.area_entered.connect(_on_area_entered)
     self.area_exited.connect(_on_area_exited)
-    _hitbox["scale"] = Vector2(_range, _range)
-
+    scale = Vector2(_range, float(_range)/2)
 func _on_area_entered(_area: Area2D):
     return
 

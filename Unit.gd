@@ -18,7 +18,7 @@ class_name Unit
 @onready var state_machine = animation_tree["parameters/playback"]
 
 var push_velocity: Vector2 = Vector2.ZERO
-var max_velocity = 5
+var max_velocity = speed
 var push_decay: float = 180.0
 var remove_destination_timer: Timer
 
@@ -56,7 +56,7 @@ func _physics_process(delta):
         remove_destination_timer.paused = true
     else:
         remove_destination_timer.paused = false
-
+    
     # Movement toward destination
     var destination = property.get_property("destination")
     if destination != Vector2.ZERO && property.get_property("is_move"):
@@ -85,7 +85,7 @@ func _physics_process(delta):
     if velocity == Vector2.ZERO:
         return
 
-    velocity.limit_length(max_velocity)
+    velocity = velocity.limit_length(max_velocity)
     # Move and check collisions
     move_and_slide()
 

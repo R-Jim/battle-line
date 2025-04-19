@@ -193,6 +193,8 @@ shape = SubResource("CapsuleShape2D_ctwoc")
 debug_color = Color(0, 0.751532, 0.539796, 0.42)
 
 [node name="SkillMelee" type="Area2D" parent="." node_paths=PackedStringArray("_source")]
+position = Vector2(0, 12)
+scale = Vector2(8, 4)
 script = ExtResource("3_1l5s1")
 _range = 8
 _action = "attack"
@@ -200,11 +202,12 @@ _source = NodePath("..")
 _phase = "Combat"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SkillMelee"]
-scale = Vector2(8, 8)
 shape = SubResource("CircleShape2D_nxogm")
 debug_color = Color(0, 0.6, 0.701961, 0.176471)
 
 [node name="SkillCaptureCastle" type="Area2D" parent="." node_paths=PackedStringArray("_source")]
+position = Vector2(0, 12)
+scale = Vector2(6, 3)
 script = ExtResource("4_w7p7v")
 _range = 6
 _action = "capture"
@@ -212,7 +215,6 @@ _source = NodePath("..")
 _phase = "Combat"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SkillCaptureCastle"]
-scale = Vector2(6, 6)
 shape = SubResource("CircleShape2D_nxogm")
 debug_color = Color(0.641848, 0.52437, 5.77569e-07, 0.176471)
 
@@ -245,7 +247,8 @@ scale = Vector2(0.0970588, 0.0794118)
 texture = ExtResource("6_7safk")
 
 [node name="Collision" type="CollisionShape2D" parent="."]
-scale = Vector2(3, 3)
+position = Vector2(0, 12)
+scale = Vector2(2, 2)
 shape = SubResource("CircleShape2D_1sk4h")
 debug_color = Color(1, 1, 1, 0.180392)
 
