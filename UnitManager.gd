@@ -37,7 +37,8 @@ func _register_unit(unit: Node, unit_id: String):
     print("registered unit:", unit.id)
 
 func _process_unit_health():
-    for unit_id in registered_units:
+    var tmp = registered_units.duplicate()
+    for unit_id in tmp:
         if registered_units[unit_id].property.get_property("health") <= 0:
             var unit = registered_units[unit_id]
             registered_units.erase(unit_id)

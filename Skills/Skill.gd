@@ -35,15 +35,15 @@ func _get_target_effects(_target_id: String) -> Dictionary:
     return {}
     
 func _notifi_source():
-    if _source == null || not _source.has_method("_receive_action_noti")  || _targets.size() == 0:
+    if _source == null || not _source.has_method("_receive_action_noti")  || _get_targets().size() == 0:
         return
 
     _source._receive_action_noti(_action, false)
 
 func _notifi_targets():
-    for target_id in _targets:
-        if _targets[target_id].has_method("_receive_action_noti"):
-            _targets[target_id]._receive_action_noti(_action, true)
+    for target_id in _get_targets():
+        if _get_targets()[target_id].has_method("_receive_action_noti"):
+            _get_targets()[target_id]._receive_action_noti(_action, true)
             
 func _get_phase() -> StringName:
     return _phase

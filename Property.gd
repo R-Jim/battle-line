@@ -31,3 +31,6 @@ func set_property(property: StringName, value: Variant):
 
 func add_pending_property(property: Dictionary):
     _pending_properties.append(property)
+
+func get_pending_properties() -> Array[Dictionary]:
+    return _pending_properties.duplicate()

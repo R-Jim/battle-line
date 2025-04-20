@@ -1,11 +1,12 @@
-[gd_scene load_steps=30 format=3 uid="uid://xxan7kbsj7vp"]
+[gd_scene load_steps=31 format=3 uid="uid://xxan7kbsj7vp"]
 
 [ext_resource type="Script" uid="uid://byvgjo8griexj" path="res://Unit.gd" id="1_oan3q"]
 [ext_resource type="Script" uid="uid://cupqrbonpqjcf" path="res://Selectable.gd" id="2_xqtjl"]
 [ext_resource type="Script" uid="uid://d3stps3jmc8nq" path="res://Skills/Combat/SkillMelee.gd" id="3_ogwlw"]
-[ext_resource type="Script" uid="uid://cfjr0h0t8rul3" path="res://Units/SkillSacrifice.gd" id="4_oan3q"]
 [ext_resource type="Script" uid="uid://bjmljbot2yp32" path="res://Skills/Combat/SkillCaptureCastle.gd" id="4_tld0s"]
+[ext_resource type="Script" uid="uid://cfjr0h0t8rul3" path="res://Skills/Combat/SkillSacrifice.gd" id="4_xqtjl"]
 [ext_resource type="Texture2D" uid="uid://bmv65laq3lxq8" path="res://Sprites/MiniThief.png" id="5_oan3q"]
+[ext_resource type="Script" uid="uid://dvleo6nrh24i6" path="res://Skills/Combat/SkillDetonate.gd" id="5_ogwlw"]
 [ext_resource type="Texture2D" uid="uid://cn8xhc12f71rd" path="res://Sprites/flag.png" id="6_lrfvy"]
 [ext_resource type="Script" uid="uid://b73v1ig6e1l5p" path="res://Property.gd" id="7_gftc5"]
 
@@ -214,14 +215,28 @@ debug_color = Color(0.641848, 0.52437, 5.77569e-07, 0.176471)
 [node name="SkillSacrifice" type="Area2D" parent="." node_paths=PackedStringArray("_source")]
 position = Vector2(0, 12)
 scale = Vector2(6, 3)
-script = ExtResource("4_oan3q")
-_action = "die"
+script = ExtResource("4_xqtjl")
+_action = "sacrifice"
 _source = NodePath("..")
 _phase = "Combat"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SkillSacrifice"]
 shape = SubResource("CircleShape2D_nxogm")
-debug_color = Color(0.641848, 0.52437, 5.77569e-07, 0.176471)
+debug_color = Color(0.923819, 0.173943, 0.538559, 0.176471)
+
+[node name="SkillDetonate" type="Area2D" parent="." node_paths=PackedStringArray("_source")]
+position = Vector2(0, 12)
+scale = Vector2(6, 3)
+script = ExtResource("5_ogwlw")
+_detonate_timer_property = "sacrifice_unit_timer"
+_range = 30
+_action = "attack"
+_source = NodePath("..")
+_phase = "Combat"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SkillDetonate"]
+shape = SubResource("CircleShape2D_nxogm")
+debug_color = Color(0.923819, 0.173943, 0.538559, 0.176471)
 
 [node name="SkillMelee" type="Area2D" parent="." node_paths=PackedStringArray("_source")]
 position = Vector2(0, 12)
