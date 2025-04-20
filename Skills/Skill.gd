@@ -20,6 +20,7 @@ func _ready():
     self.area_entered.connect(_on_area_entered)
     self.area_exited.connect(_on_area_exited)
     scale = Vector2(_range, float(_range)/2)
+
 func _on_area_entered(_area: Area2D):
     return
 

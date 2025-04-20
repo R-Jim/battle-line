@@ -17,6 +17,8 @@ class_name Unit
 @onready var animation_tree = $AnimationTree
 @onready var state_machine = animation_tree["parameters/playback"]
 
+var _current_zone: ZonePart
+
 var push_velocity: Vector2 = Vector2.ZERO
 var max_velocity = speed
 var push_decay: float = 180.0
@@ -129,3 +131,6 @@ func _remove():
 
 func _remove_destination():
     property.set_property("destination", Vector2.ZERO)
+
+func _register_zone(zone: ZonePart):
+  _current_zone = zone
