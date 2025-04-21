@@ -13,11 +13,12 @@ func _on_area_entered(area: Area2D):
 func _get_target_effects(_target_id: String) -> Dictionary:
     if _source.property.get_property("sacrifice_unit_timer") > 0:
       return {
-        "sacrifice_unit_timer": -1,
+        "sacrifice_unit_timer": - 1,
+        "corruption": 5,
       }
 
     return {
-      "health": -_source.property.get_property("health") * 100,
+      "health": - _source.property.get_property("health") * 100,
     }
 
 func _get_targets() -> Dictionary:

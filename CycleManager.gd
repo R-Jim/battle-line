@@ -49,11 +49,13 @@ func _strategic_start_cycle():
 
 func _strategic_end_cycle():
     _unit_manager._toggle_move_unit(false)
+    _unit_manager._process_unit_skills(phases[currentPhaseIndex])
+    _structure_manager._process_structure_skills(phases[currentPhaseIndex])
     currentPhaseIndex = 1 # transition to combat phase
 
 func _combat_end_cycle():
-    _unit_manager._process_unit_skills(&"Combat")
-    _structure_manager._process_structure_skills(&"Combat")
+    _unit_manager._process_unit_skills(phases[currentPhaseIndex])
+    _structure_manager._process_structure_skills(phases[currentPhaseIndex])
     _unit_manager._process_unit_properties()
     _structure_manager._process_structure_properties()
     _unit_manager._process_unit_health()

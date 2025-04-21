@@ -16,7 +16,7 @@ func commit_pending_properties():
                 else:
                     push_error("append_properties: Cannot modify non-numeric property: " + property)
             else:
-                push_error("append_properties: Property does not exist in: " + property)
+                _properties[property] = update[property]
     _pending_properties = []
 
 func get_property(property: StringName) -> Variant:

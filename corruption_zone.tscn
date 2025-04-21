@@ -1,0 +1,32 @@
+[gd_scene load_steps=6 format=3 uid="uid://joptdecs26x0"]
+
+[ext_resource type="Script" uid="uid://cfl0lqnstt16s" path="res://CorruptionZone.gd" id="1_0vj0c"]
+[ext_resource type="Script" uid="uid://dkwhuttgae0qe" path="res://Skills/Strategic/SkillConsumeCorruption.gd" id="1_kcgw8"]
+[ext_resource type="Script" uid="uid://b73v1ig6e1l5p" path="res://Property.gd" id="3_kokpo"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_73fnb"]
+size = Vector2(405, 675)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_uvnai"]
+
+[node name="CorruptionZone" type="Area2D"]
+script = ExtResource("1_0vj0c")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1540, 1322)
+scale = Vector2(8, 4)
+shape = SubResource("RectangleShape2D_73fnb")
+debug_color = Color(0, 0.643137, 0.286275, 0.054902)
+
+[node name="SkillUpdateCorruption" type="Area2D" parent="." node_paths=PackedStringArray("_source")]
+position = Vector2(0, 12)
+scale = Vector2(8, 4)
+script = ExtResource("1_kcgw8")
+_source = NodePath("..")
+_phase = "Strategic"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SkillUpdateCorruption"]
+shape = SubResource("CircleShape2D_uvnai")
+
+[node name="Property" type="Node" parent="."]
+script = ExtResource("3_kokpo")

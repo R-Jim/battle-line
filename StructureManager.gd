@@ -1,12 +1,12 @@
 extends Node
 class_name StructureManager
 
-var registered_structures: Dictionary[String, Castle] = {}  
+var registered_structures: Dictionary[String, Node] = {}  
 
 func _ready():
   var childs = get_children()
   for child in childs:
-    if child is Castle:
+    if child is Castle || child is Zone:
       registered_structures[child.id] = child
       print("registered structure:", child.id)
 
@@ -22,13 +22,10 @@ func _process_structure_skills(phase: StringName):
                     
             skill._notifi_source()
             skill._notifi_targets()
-    
-func _register(structure: Castle, id: String):
-    registered_structures[id] = structure
 
 func _process_structures_health():
     for id in registered_structures:
-        if registered_structures[id].property.get_property("health") <= 0:
+        if registered_structures[id] is Castle and registered_structures[id].property.get_property("health") <= 0:
             var structure = registered_structures[id]
             registered_structures.erase(id)
             structure._remove()
