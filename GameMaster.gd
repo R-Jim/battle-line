@@ -5,6 +5,7 @@ var _process_commanders_timer: Timer
 
 func _register_faction_commander(faction: int, commander: Commander):
   faction_commanders[faction] = commander
+  print("registered commander for faction:", faction)
 
 func _ready() -> void:
   _process_commanders_timer = Timer.new()
@@ -17,6 +18,7 @@ func _ready() -> void:
 func _process_commanders():
   for faction in faction_commanders:
     var commander = faction_commanders[faction]
+    commander.deploy_units()
     commander.command_units()
     if commander.is_completed():
       print("commander is completed for faction:", faction)

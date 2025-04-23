@@ -1,3 +1,3 @@
 extends Node
 
-@onready var _selectable_tilemap = $SelectableTilemap
+@onready var _selectable_tilemap = $SelectableTileMap

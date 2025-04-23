@@ -46,8 +46,8 @@ func _input(event):
                         spawn.id = "unit_00" + str(_unit_manager.last_unit_index + 1)
                         spawn.faction = hover_node.faction
                         spawn.position = hover_node.position
-                        get_tree().root.add_child(spawn)
                         hover_node.property.set_property("resource", resource - 1)
+                        _unit_manager.add_child(spawn)
                         _unit_manager._register_unit(spawn, spawn.id)
                         return
             

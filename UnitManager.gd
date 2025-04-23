@@ -48,3 +48,6 @@ func _process_unit_health():
 func _toggle_move_unit(toggle: bool):
     for unit_id in registered_units:
         registered_units[unit_id].property.set_property("is_move", toggle)
+
+func get_units() -> Array[Unit]:
+  return registered_units.values()

@@ -22,10 +22,13 @@ debug_color = Color(0, 0.643137, 0.286275, 0.054902)
 position = Vector2(0, 12)
 scale = Vector2(8, 4)
 script = ExtResource("1_kcgw8")
+_range = -1
+_action = "corruption"
 _source = NodePath("..")
 _phase = "Strategic"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SkillUpdateCorruption"]
+visible = false
 shape = SubResource("CircleShape2D_uvnai")
 
 [node name="Property" type="Node" parent="."]

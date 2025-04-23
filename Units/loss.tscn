@@ -216,6 +216,7 @@ debug_color = Color(0.641848, 0.52437, 5.77569e-07, 0.176471)
 position = Vector2(0, 12)
 scale = Vector2(6, 3)
 script = ExtResource("4_xqtjl")
+_range = -1
 _action = "sacrifice"
 _source = NodePath("..")
 _phase = "Combat"
