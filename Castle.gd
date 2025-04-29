@@ -10,7 +10,11 @@ class_name Castle
 @onready var health_bar = $HealthBar
 
 func _ready():
-    property.new_property({"health": max_health, "faction": faction, "resource": max_resource})
+    property.new_property({
+        "health": PropertyStruct.new(max_health, max_health),
+        "faction": PropertyStruct.new(faction),
+        "resource": PropertyStruct.new(max_resource, max_resource),
+    })
     update_health_bar()
 
 func _process(_delta: float) -> void:

@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://njlf6uqtl1p2" path="res://Sprites/castle.png" id="1_xtwgx"]
 [ext_resource type="Script" uid="uid://cupqrbonpqjcf" path="res://Selectable.gd" id="3_t33uu"]
 [ext_resource type="Script" uid="uid://d2u7sgcijj81f" path="res://Skills/Combat/SkillResourceGenerate.gd" id="4_t33uu"]
-[ext_resource type="Script" uid="uid://b73v1ig6e1l5p" path="res://Property.gd" id="5_231t4"]
+[ext_resource type="Script" uid="uid://b73v1ig6e1l5p" path="res://Property/Property.gd" id="5_b1xji"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_vm22h"]
 
@@ -52,4 +52,4 @@ shape = SubResource("CircleShape2D_231t4")
 debug_color = Color(0, 0.6, 0.701961, 0.176471)
 
 [node name="Property" type="Node" parent="."]
-script = ExtResource("5_231t4")
+script = ExtResource("5_b1xji")

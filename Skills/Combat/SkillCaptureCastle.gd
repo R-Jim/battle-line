@@ -7,7 +7,7 @@ func _on_area_entered(area: Area2D):
     var caslte: Castle = area.source
 
     if _source.property.get_property("faction") * caslte.property.get_property("faction") < 0:
-        _targets[area.source.id] = area.source
+        _targets[area.source.id] = caslte
 
 func _on_area_exited(area: Area2D):
     if "source" not in area or area.source is not Castle:

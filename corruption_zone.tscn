@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cfl0lqnstt16s" path="res://CorruptionZone.gd" id="1_0vj0c"]
 [ext_resource type="Script" uid="uid://dkwhuttgae0qe" path="res://Skills/Strategic/SkillConsumeCorruption.gd" id="1_kcgw8"]
-[ext_resource type="Script" uid="uid://b73v1ig6e1l5p" path="res://Property.gd" id="3_kokpo"]
+[ext_resource type="Script" uid="uid://b73v1ig6e1l5p" path="res://Property/Property.gd" id="3_0vj0c"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_73fnb"]
 size = Vector2(405, 675)
@@ -11,6 +11,7 @@ size = Vector2(405, 675)
 
 [node name="CorruptionZone" type="Area2D"]
 script = ExtResource("1_0vj0c")
+corruption_amount = null
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(1540, 1322)
@@ -32,4 +33,4 @@ visible = false
 shape = SubResource("CircleShape2D_uvnai")
 
 [node name="Property" type="Node" parent="."]
-script = ExtResource("3_kokpo")
+script = ExtResource("3_0vj0c")

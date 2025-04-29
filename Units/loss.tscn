@@ -8,7 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://bmv65laq3lxq8" path="res://Sprites/MiniThief.png" id="5_oan3q"]
 [ext_resource type="Script" uid="uid://dvleo6nrh24i6" path="res://Skills/Combat/SkillDetonate.gd" id="5_ogwlw"]
 [ext_resource type="Texture2D" uid="uid://cn8xhc12f71rd" path="res://Sprites/flag.png" id="6_lrfvy"]
-[ext_resource type="Script" uid="uid://b73v1ig6e1l5p" path="res://Property.gd" id="7_gftc5"]
+[ext_resource type="Script" uid="uid://b73v1ig6e1l5p" path="res://Property/Property.gd" id="9_ogwlw"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ctwoc"]
 radius = 31.0
@@ -36,23 +36,6 @@ tracks/0/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_1sk4h"]
 _data = {
 &"RESET": SubResource("Animation_davkp")
-}
-
-[sub_resource type="Animation" id="Animation_xqtjl"]
-length = 0.7
-loop_mode = 1
-step = 0.1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame_coords")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 1,
-"values": [Vector2i(0, 0), Vector2i(1, 0), Vector2i(2, 0), Vector2i(3, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_ogwlw"]
@@ -99,6 +82,23 @@ tracks/1/keys = {
 "args": [],
 "method": &"queue_free"
 }]
+}
+
+[sub_resource type="Animation" id="Animation_xqtjl"]
+length = 0.7
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 0), Vector2i(1, 0), Vector2i(2, 0), Vector2i(3, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_lhgy5"]
@@ -286,4 +286,4 @@ shape = SubResource("CircleShape2D_1sk4h")
 debug_color = Color(1, 1, 1, 0.180392)
 
 [node name="Property" type="Node" parent="."]
-script = ExtResource("7_gftc5")
+script = ExtResource("9_ogwlw")

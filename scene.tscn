@@ -43,7 +43,7 @@ id = "unit_001"
 script = ExtResource("7_xlvrw")
 
 [node name="PlayerCastle" parent="CycleManager/StructureManager" instance=ExtResource("4_u3cyc")]
-position = Vector2(991, 117)
+position = Vector2(1042, 332)
 id = "caslte_001"
 
 [node name="EnemyCastle" parent="CycleManager/StructureManager" instance=ExtResource("4_u3cyc")]

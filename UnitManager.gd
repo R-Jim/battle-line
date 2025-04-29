@@ -14,12 +14,15 @@ func _ready():
 
 func _process_unit_skills(phase: StringName):
     for unit_id in registered_units:
+        registered_units[unit_id].property.start_section()
+
+    for unit_id in registered_units:
         for skill in registered_units[unit_id]._get_skills(phase):
             var targets = skill._get_targets()
             for target_id in targets:
                 var property_updates = skill._get_target_effects(target_id)
                 var target = targets[target_id]
-                target.property.add_pending_property(property_updates)
+                target.property.add_pending_update(property_updates)
 
             skill._notifi_source()
             skill._notifi_targets()
@@ -27,7 +30,8 @@ func _process_unit_skills(phase: StringName):
 
 func _process_unit_properties():
     for unit_id in registered_units:
-        registered_units[unit_id].property.commit_pending_properties()
+        registered_units[unit_id].property.commit_pending_updates()
+        registered_units[unit_id].property.commit_session()
     return
 
 func _register_unit(unit: Node, unit_id: String):

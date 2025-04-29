@@ -1,7 +1,7 @@
 extends Skill
 
 var timer: Timer
-@export var _sacrifice_unit_timer: float = 3
+@export var _sacrifice_unit_timer: int = 3
 
 func _on_area_entered(area: Area2D):
     if "source" not in area:

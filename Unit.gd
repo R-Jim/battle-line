@@ -23,7 +23,15 @@ var push_decay: float = 180.0
 var remove_destination_timer: Timer
 
 func _ready():
-    property.new_property({"health": max_health, "attack": max_attack, "speed": speed, "push_strength": 3, "faction": faction, "destination": Vector2.ZERO, "is_move": false})
+    property.new_property({
+        "health": PropertyStruct.new(max_health, max_health),
+        "attack": PropertyStruct.new(max_attack),
+        "speed": PropertyStruct.new(speed),
+        "push_strength": PropertyStruct.new(3),
+        "faction": PropertyStruct.new(faction),
+        "destination": PropertyStruct.new(Vector2.ZERO),
+        "is_move": PropertyStruct.new(false),
+    })
     
     if property.get_property("faction") > 0:
         sprite["flip_h"] = true
