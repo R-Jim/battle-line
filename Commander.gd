@@ -11,6 +11,7 @@ var _objectives: Array[Objective] = []
 @export var commander_points: int
 @onready var _deployable = $Deployable
 var commandable_units: Array[Unit] = []
+var commandable_structures: Array[Castle] = []
 
 func _ready() -> void:
   for objective_type in _objective_types:
@@ -21,6 +22,10 @@ func _ready() -> void:
   for unit in _unit_manager.get_units():
     if unit.property.get_property("faction") == _faction:
       commandable_units.append(unit)
+    
+  for structure in _structure_manager.get_structures():
+    if structure.property.get_property("faction") == _faction:
+      commandable_structures.append(structure)
 
   GameMaster._register_faction_commander(_faction, self)
 
@@ -80,7 +85,11 @@ func deploy_units() -> void:
     spawn.set_process(true)
     spawn.set_physics_process(true)
     spawn.id = "unit_00" + str(_unit_manager.last_unit_index + 1)
-    spawn.position = Vector2(400, 200)
+    if commandable_structures.size() == 0:
+        spawn.position = Vector2(0, 300)
+    else:
+        spawn.position = commandable_structures[0].position + Vector2(50, 0)
+        
     commandable_units.append(spawn)
     _unit_manager.add_child(spawn)
     _unit_manager._register_unit(spawn, spawn.id)

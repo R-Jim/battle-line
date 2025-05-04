@@ -20,6 +20,11 @@ config/icon="res://icon.svg"
 PlayerManager="*res://PlayerManager.gd"
 GameMaster="*res://GameMaster.gd"
 
+[display]
+
+window/size/viewport_width=1800
+window/size/viewport_height=600
+
 [physics]
 
 3d/default_gravity=0.0

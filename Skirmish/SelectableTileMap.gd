@@ -15,12 +15,12 @@ func _process(_delta):
         hovered_tile = new_tile
         queue_redraw()  # Only redraw when the hovered tile changes
 
-func _draw():
-    if hovered_tile.x >= 0 and hovered_tile.y >= 0:
-        var rect_pos = Vector2(hovered_tile) * cell_size
-        var rect = Rect2(rect_pos, cell_size)
-        draw_rect(rect, Color(1, 1, 0, 0.3))  # Filled
-        draw_rect(rect, Color(1, 1, 0), false, 2.0)  # Outline
+#func _draw():
+    #if hovered_tile.x >= 0 and hovered_tile.y >= 0:
+        #var rect_pos = Vector2(hovered_tile) * cell_size
+        #var rect = Rect2(rect_pos, cell_size)
+        #draw_rect(rect, Color(1, 1, 0, 0.3))  # Filled
+        #draw_rect(rect, Color(1, 1, 0), false, 2.0)  # Outline
 
 func get_current_hovered_tile_center() -> Vector2:
   return Vector2(hovered_tile) * cell_size + cell_size/2 # to tile center

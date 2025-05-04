@@ -38,3 +38,7 @@ func _process_structure_properties():
         registered_structures[id].property.commit_pending_updates()
         registered_structures[id].property.commit_session()
     return
+
+
+func get_structures() -> Array[Node]:
+  return registered_structures.values()

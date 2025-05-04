@@ -1,7 +1,7 @@
 extends Node
 
-@export var strategic_cycle_time: float = 5.0  # Cycle duration in seconds
-@export var combat_cycle_time: float = 5.0  # Cycle duration in seconds
+@export var strategic_cycle_time: float = 1.0  # Cycle duration in seconds
+@export var combat_cycle_time: float = 1.0  # Cycle duration in seconds
 
 @onready var strategic_timer: Timer = _strategic_timer()
 @onready var combat_timer: Timer = _combat_timer()

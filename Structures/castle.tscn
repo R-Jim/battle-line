@@ -1,8 +1,8 @@
 [gd_scene load_steps=8 format=3 uid="uid://dasoh2hw436d3"]
 
-[ext_resource type="Script" uid="uid://btu16nkg7c6gh" path="res://Castle.gd" id="1_1gkcl"]
+[ext_resource type="Script" uid="uid://btu16nkg7c6gh" path="res://Structures/Castle.gd" id="1_1gkcl"]
 [ext_resource type="Texture2D" uid="uid://njlf6uqtl1p2" path="res://Sprites/castle.png" id="1_xtwgx"]
-[ext_resource type="Script" uid="uid://cupqrbonpqjcf" path="res://Selectable.gd" id="3_t33uu"]
+[ext_resource type="Script" uid="uid://cupqrbonpqjcf" path="res://Skirmish/Selectable.gd" id="3_t33uu"]
 [ext_resource type="Script" uid="uid://d2u7sgcijj81f" path="res://Skills/Combat/SkillResourceGenerate.gd" id="4_t33uu"]
 [ext_resource type="Script" uid="uid://b73v1ig6e1l5p" path="res://Property/Property.gd" id="5_b1xji"]
 

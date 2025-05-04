@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://joptdecs26x0"]
 
-[ext_resource type="Script" uid="uid://cfl0lqnstt16s" path="res://CorruptionZone.gd" id="1_0vj0c"]
+[ext_resource type="Script" uid="uid://cfl0lqnstt16s" path="res://Skirmish/CorruptionZone.gd" id="1_0vj0c"]
 [ext_resource type="Script" uid="uid://dkwhuttgae0qe" path="res://Skills/Strategic/SkillConsumeCorruption.gd" id="1_kcgw8"]
 [ext_resource type="Script" uid="uid://b73v1ig6e1l5p" path="res://Property/Property.gd" id="3_0vj0c"]
 

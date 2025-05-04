@@ -3,7 +3,7 @@ extends Node2D
 var selected_nodes: Dictionary
 var hover_node: Node2D
 var is_multi_select := false
-var deploy_unit = preload("res://Units/unit.tscn")
+var deploy_unit = preload("res://Units/footman.tscn")
 
 var start_pos: Vector2
 var end_pos: Vector2
@@ -85,7 +85,7 @@ func _select_units_in_rect(rect: Rect2):
         selected_nodes.clear()
     
     for unit in _unit_manager.registered_units.values():
-        if rect.has_point(unit.global_position):
+        if rect.has_point(unit.global_position) and unit.property.get_property("faction") == 1:
             selected_nodes[unit] = true
 
 func _unit_manager_register(unit_manager: UnitManager) -> void:

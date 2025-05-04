@@ -1,0 +1,71 @@
+[gd_scene load_steps=12 format=3 uid="uid://vxjjorsl3diw"]
+
+[ext_resource type="Script" uid="uid://cjmt8blais5fm" path="res://Skirmish/Skirmish.gd" id="1_xnsaj"]
+[ext_resource type="Script" uid="uid://73omd8dgkp17" path="res://Skirmish/CycleManager.gd" id="2_wsfh0"]
+[ext_resource type="Script" uid="uid://0r1kvq2r0ecr" path="res://UnitManager.gd" id="3_dj824"]
+[ext_resource type="PackedScene" uid="uid://d12cdk8004rqb" path="res://Units/footman.tscn" id="4_eqr5n"]
+[ext_resource type="PackedScene" uid="uid://xxan7kbsj7vp" path="res://Units/loss.tscn" id="5_je3fr"]
+[ext_resource type="Script" uid="uid://b6p48687rgesd" path="res://StructureManager.gd" id="6_3qpws"]
+[ext_resource type="PackedScene" uid="uid://dasoh2hw436d3" path="res://Structures/castle.tscn" id="7_q1qij"]
+[ext_resource type="PackedScene" uid="uid://joptdecs26x0" path="res://Skirmish/corruption_zone.tscn" id="8_o1ncl"]
+[ext_resource type="Script" uid="uid://be7oj8c0tpvxi" path="res://Skirmish/SelectableTileMap.gd" id="9_7wr64"]
+[ext_resource type="Script" uid="uid://utcxv0jhaf54" path="res://Commander.gd" id="10_1t0n8"]
+[ext_resource type="Script" uid="uid://5lvtccaaml01" path="res://Deployable.gd" id="11_7ojd2"]
+
+[node name="SkirmishMap" type="Node"]
+script = ExtResource("1_xnsaj")
+
+[node name="CycleManager" type="Node" parent="."]
+script = ExtResource("2_wsfh0")
+
+[node name="UnitManager" type="Node" parent="CycleManager"]
+script = ExtResource("3_dj824")
+
+[node name="PlayerUnit" parent="CycleManager/UnitManager" instance=ExtResource("4_eqr5n")]
+position = Vector2(1044, 273)
+id = "unit_002"
+max_attack = 50
+
+[node name="PlayerUnit2" parent="CycleManager/UnitManager" instance=ExtResource("4_eqr5n")]
+position = Vector2(1042, 191)
+id = "unit_003"
+
+[node name="PlayerUnit3" parent="CycleManager/UnitManager" instance=ExtResource("4_eqr5n")]
+position = Vector2(1043, 360)
+id = "unit_004"
+
+[node name="Loss" parent="CycleManager/UnitManager" instance=ExtResource("5_je3fr")]
+position = Vector2(583, 309)
+id = "unit_001"
+
+[node name="StructureManager" type="Node" parent="CycleManager"]
+script = ExtResource("6_3qpws")
+
+[node name="PlayerCastle" parent="CycleManager/StructureManager" instance=ExtResource("7_q1qij")]
+position = Vector2(1628, 303)
+id = "caslte_001"
+
+[node name="EnemyCastle" parent="CycleManager/StructureManager" instance=ExtResource("7_q1qij")]
+position = Vector2(106, 322)
+id = "caslte_002"
+max_health = 100
+faction = -1
+
+[node name="CorruptionZone" parent="CycleManager/StructureManager" instance=ExtResource("8_o1ncl")]
+
+[node name="SelectableTileMap" type="Node2D" parent="."]
+script = ExtResource("9_7wr64")
+
+[node name="EnemyCommander" type="Node" parent="." node_paths=PackedStringArray("_unit_manager", "_structure_manager")]
+script = ExtResource("10_1t0n8")
+_unit_manager = NodePath("../CycleManager/UnitManager")
+_structure_manager = NodePath("../CycleManager/StructureManager")
+_faction = -1
+_objective_types = Array[String](["capture"])
+commander_points = 5
+
+[node name="Deployable" type="Node" parent="EnemyCommander" node_paths=PackedStringArray("_deployable_units")]
+script = ExtResource("11_7ojd2")
+_deployable_units = [NodePath("Loss")]
+
+[node name="Loss" parent="EnemyCommander/Deployable" instance=ExtResource("5_je3fr")]
