@@ -10,7 +10,6 @@ func _ready():
     if child is Unit:
       _register_unit(child, child.id)
   
-  PlayerManager._unit_manager_register(self)
 
 func _process_unit_skills(phase: StringName):
     for unit_id in registered_units:

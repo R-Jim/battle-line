@@ -11,14 +11,14 @@ config_version=5
 [application]
 
 config/name="Battle Line"
-run/main_scene="uid://vxjjorsl3diw"
+run/main_scene="uid://gyhbrvuya34u"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
 
-PlayerManager="*res://PlayerManager.gd"
 GameMaster="*res://GameMaster.gd"
+Player="*res://Player.gd"
 
 [display]
 

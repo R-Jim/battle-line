@@ -8,6 +8,7 @@ class_name Castle
 @onready var property: Property = $Property
 
 @onready var health_bar = $HealthBar
+@onready var selectable = $Selectable
 
 func _ready():
     property.new_property({

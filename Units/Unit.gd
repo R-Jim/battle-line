@@ -16,6 +16,7 @@ class_name Unit
 @onready var animation_player = $AnimationPlayer
 @onready var animation_tree = $AnimationTree
 @onready var state_machine = animation_tree["parameters/playback"]
+@onready var selectable = $Selectable
 
 var push_velocity: Vector2 = Vector2.ZERO
 var max_velocity = speed
