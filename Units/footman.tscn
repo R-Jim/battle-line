@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://d12cdk8004rqb"]
+[gd_scene load_steps=29 format=3 uid="uid://d12cdk8004rqb"]
 
 [ext_resource type="Script" uid="uid://byvgjo8griexj" path="res://Units/Unit.gd" id="1_51yig"]
 [ext_resource type="Script" uid="uid://cupqrbonpqjcf" path="res://Skirmish/Selectable.gd" id="2_msjom"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://dp2jpx6krcd2q" path="res://Sprites/MiniSwordMan.png" id="5_qcwm7"]
 [ext_resource type="Texture2D" uid="uid://cn8xhc12f71rd" path="res://Sprites/flag.png" id="6_co0f8"]
 [ext_resource type="Script" uid="uid://b73v1ig6e1l5p" path="res://Property/Property.gd" id="7_a6ovx"]
+[ext_resource type="Script" uid="uid://doi37j651ts67" path="res://Units/Command.gd" id="7_msjom"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ctwoc"]
 radius = 31.0
@@ -234,12 +235,6 @@ anim_player = NodePath("../AnimationPlayer")
 parameters/conditions/is_idle = false
 parameters/conditions/is_moving = false
 
-[node name="Flag" type="Sprite2D" parent="."]
-visible = false
-position = Vector2(52, 43)
-scale = Vector2(0.0970588, 0.0794118)
-texture = ExtResource("6_co0f8")
-
 [node name="Collision" type="CollisionShape2D" parent="."]
 visible = false
 position = Vector2(0, 12)
@@ -249,3 +244,12 @@ debug_color = Color(1, 1, 1, 0.180392)
 
 [node name="Property" type="Node" parent="."]
 script = ExtResource("7_a6ovx")
+
+[node name="Command" type="Node2D" parent="." node_paths=PackedStringArray("source")]
+script = ExtResource("7_msjom")
+source = NodePath("..")
+
+[node name="Flag" type="Sprite2D" parent="Command"]
+visible = false
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("6_co0f8")

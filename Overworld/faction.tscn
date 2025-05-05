@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://b8bxh6w4cy0eq"]
 
-[ext_resource type="Script" uid="uid://bkf3lkokmey35" path="res://Faction.gd" id="1_kxjkk"]
+[ext_resource type="Script" uid="uid://bkf3lkokmey35" path="res://Overworld/Faction.gd" id="1_kxjkk"]
 
 [node name="Faction" type="Node2D"]
 script = ExtResource("1_kxjkk")

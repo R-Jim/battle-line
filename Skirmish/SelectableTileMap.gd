@@ -1,12 +1,12 @@
 extends Node2D
-class_name SkirmishSelectableTileMap
+class_name SelectableTileMap
 
 var cell_size = Vector2(64, 64)  # Change to your grid size
 var hovered_tile: Vector2i = Vector2i(-1, -1)
 @export var _player_manager: Node 
 
 func _ready():
-  _player_manager._skirmish_selectable_tile_map_register(self)
+  _player_manager._selectable_tile_map_register(self)
 
 func _process(_delta):
     var mouse_pos = get_local_mouse_position()

@@ -5,7 +5,7 @@ var selected_units: Dictionary[Unit, bool]
 
 @export var _unit_manager: UnitManager
 @export var _structure_manager: StructureManager
-var _skirmish_selectable_tile_map: SkirmishSelectableTileMap
+var _skirmish_selectable_tile_map: SelectableTileMap
 
 
 func _input(event):
@@ -34,9 +34,9 @@ func _input(event):
                     
                     for unit:Unit in _unit_manager.registered_units.values():
                         if unit.selectable.is_selected() and unit.property.get_property("faction") == 1:
-                            unit.property.set_property("destination", destination)
-                        
+                            unit.command.is_move = true
+                            unit.command.destination = destination
 
 
-func _skirmish_selectable_tile_map_register(map: SkirmishSelectableTileMap) -> void:
+func _selectable_tile_map_register(map: SelectableTileMap) -> void:
   _skirmish_selectable_tile_map = map

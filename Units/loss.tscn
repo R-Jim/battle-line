@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://xxan7kbsj7vp"]
+[gd_scene load_steps=34 format=3 uid="uid://xxan7kbsj7vp"]
 
 [ext_resource type="Script" uid="uid://byvgjo8griexj" path="res://Units/Unit.gd" id="1_oan3q"]
 [ext_resource type="Script" uid="uid://cupqrbonpqjcf" path="res://Skirmish/Selectable.gd" id="2_xqtjl"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" uid="uid://dvleo6nrh24i6" path="res://Skills/Combat/SkillDetonate.gd" id="5_ogwlw"]
 [ext_resource type="Texture2D" uid="uid://cn8xhc12f71rd" path="res://Sprites/flag.png" id="6_lrfvy"]
 [ext_resource type="Script" uid="uid://b73v1ig6e1l5p" path="res://Property/Property.gd" id="9_ogwlw"]
+[ext_resource type="Script" uid="uid://doi37j651ts67" path="res://Units/Command.gd" id="9_tld0s"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ctwoc"]
 radius = 31.0
@@ -281,12 +282,6 @@ anim_player = NodePath("../AnimationPlayer")
 parameters/conditions/is_idle = false
 parameters/conditions/is_moving = false
 
-[node name="Flag" type="Sprite2D" parent="."]
-visible = false
-position = Vector2(52, 43)
-scale = Vector2(0.0970588, 0.0794118)
-texture = ExtResource("6_lrfvy")
-
 [node name="Collision" type="CollisionShape2D" parent="."]
 visible = false
 position = Vector2(0, 12)
@@ -296,3 +291,13 @@ debug_color = Color(1, 1, 1, 0.180392)
 
 [node name="Property" type="Node" parent="."]
 script = ExtResource("9_ogwlw")
+
+[node name="Command" type="Node2D" parent="." node_paths=PackedStringArray("source")]
+visible = false
+script = ExtResource("9_tld0s")
+source = NodePath("..")
+
+[node name="Flag" type="Sprite2D" parent="Command"]
+visible = false
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("6_lrfvy")

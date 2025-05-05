@@ -1,0 +1,80 @@
+[gd_scene load_steps=11 format=3 uid="uid://gyhbrvuya34u"]
+
+[ext_resource type="Script" uid="uid://bf20v3cyhib01" path="res://Overworld/Overworld.gd" id="1_6jwp1"]
+[ext_resource type="PackedScene" uid="uid://bo1w6nyb6a6gk" path="res://Overworld/region.tscn" id="2_v726c"]
+[ext_resource type="PackedScene" uid="uid://b8bxh6w4cy0eq" path="res://Overworld/faction.tscn" id="3_nyb65"]
+[ext_resource type="PackedScene" uid="uid://bk2gev4a3gsgq" path="res://Overworld/squad.tscn" id="4_824ie"]
+[ext_resource type="PackedScene" uid="uid://d12cdk8004rqb" path="res://Units/footman.tscn" id="4_yv805"]
+[ext_resource type="Texture2D" uid="uid://dp2jpx6krcd2q" path="res://Sprites/MiniSwordMan.png" id="5_h2pad"]
+[ext_resource type="PackedScene" uid="uid://xxan7kbsj7vp" path="res://Units/loss.tscn" id="5_r0nop"]
+[ext_resource type="Texture2D" uid="uid://bmv65laq3lxq8" path="res://Sprites/MiniThief.png" id="6_hob5j"]
+[ext_resource type="Script" uid="uid://cqoklv47pk3w0" path="res://Overworld/PlayerManager.gd" id="9_r0nop"]
+[ext_resource type="Script" uid="uid://be7oj8c0tpvxi" path="res://Skirmish/SelectableTileMap.gd" id="10_4uj07"]
+
+[node name="Overworld" type="Node2D"]
+script = ExtResource("1_6jwp1")
+
+[node name="Region" parent="." node_paths=PackedStringArray("travserables") instance=ExtResource("2_v726c")]
+position = Vector2(1572, 327)
+travserables = [NodePath("../Region2")]
+
+[node name="Region2" parent="." node_paths=PackedStringArray("travserables") instance=ExtResource("2_v726c")]
+position = Vector2(884, 307)
+travserables = [NodePath("../Region"), NodePath("../Region3")]
+
+[node name="Region3" parent="." node_paths=PackedStringArray("travserables") instance=ExtResource("2_v726c")]
+position = Vector2(249, 306)
+travserables = [NodePath("../Region2")]
+
+[node name="Skirmish" type="Node2D" parent="."]
+
+[node name="PlayerFaction" parent="." node_paths=PackedStringArray("controlled_regions") instance=ExtResource("3_nyb65")]
+controlled_regions = [NodePath("../Region"), NodePath("../Region2")]
+
+[node name="EnemyFaction" parent="." node_paths=PackedStringArray("controlled_regions") instance=ExtResource("3_nyb65")]
+faction = -1
+controlled_regions = [NodePath("../Region3")]
+
+[node name="Units" type="Node2D" parent="."]
+visible = false
+
+[node name="Footman" parent="Units" instance=ExtResource("4_yv805")]
+
+[node name="Loss" parent="Units" instance=ExtResource("5_r0nop")]
+
+[node name="Squads" type="Node2D" parent="."]
+
+[node name="FootmanSquad" parent="Squads" node_paths=PackedStringArray("units") instance=ExtResource("4_824ie")]
+position = Vector2(1284, 373)
+squad_faction = 1
+units = [NodePath("../../Units/Footman")]
+
+[node name="Sprite2D" parent="Squads/FootmanSquad" index="0"]
+scale = Vector2(3, 3)
+texture = ExtResource("5_h2pad")
+offset = Vector2(0, -12)
+hframes = 6
+vframes = 6
+
+[node name="LossSquad" parent="Squads" node_paths=PackedStringArray("units") instance=ExtResource("4_824ie")]
+position = Vector2(1066, 350)
+squad_faction = -1
+units = [NodePath("../../Units/Loss")]
+
+[node name="Sprite2D" parent="Squads/LossSquad" index="0"]
+scale = Vector2(3, 3)
+texture = ExtResource("6_hob5j")
+offset = Vector2(0, -13)
+hframes = 12
+vframes = 8
+
+[node name="PlayerManager" type="Node" parent="." node_paths=PackedStringArray("player_squards")]
+script = ExtResource("9_r0nop")
+player_squards = [NodePath("../Squads/FootmanSquad")]
+
+[node name="SelectableTileMap" type="Node2D" parent="." node_paths=PackedStringArray("_player_manager")]
+script = ExtResource("10_4uj07")
+_player_manager = NodePath("../PlayerManager")
+
+[editable path="Squads/FootmanSquad"]
+[editable path="Squads/LossSquad"]

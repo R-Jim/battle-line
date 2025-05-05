@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bo1w6nyb6a6gk"]
 
-[ext_resource type="Script" uid="uid://bpftnu8sgx4nk" path="res://Region.gd" id="1_33eaq"]
+[ext_resource type="Script" uid="uid://bpftnu8sgx4nk" path="res://Overworld/Region.gd" id="1_33eaq"]
 [ext_resource type="Texture2D" uid="uid://njlf6uqtl1p2" path="res://Sprites/castle.png" id="1_rtl5y"]
 
 [node name="Region" type="Node2D"]

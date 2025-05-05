@@ -11,7 +11,6 @@ class_name Unit
 
 @onready var health_bar = $HealthBar
 @onready var sprite = $Sprite2D
-@onready var waypoint_flag = $Flag
 
 @onready var animation_player = $AnimationPlayer
 @onready var animation_tree = $AnimationTree
@@ -19,9 +18,9 @@ class_name Unit
 @onready var selectable = $Selectable
 
 var push_velocity: Vector2 = Vector2.ZERO
+var destination: Vector2
 var max_velocity = speed
 var push_decay: float = 180.0
-var remove_destination_timer: Timer
 
 func _ready():
     property.new_property({
@@ -30,7 +29,6 @@ func _ready():
         "speed": PropertyStruct.new(speed),
         "push_strength": PropertyStruct.new(3),
         "faction": PropertyStruct.new(faction),
-        "destination": PropertyStruct.new(Vector2.ZERO),
         "is_move": PropertyStruct.new(false),
     })
     
@@ -39,10 +37,7 @@ func _ready():
     
 
     update_health_bar()
-    remove_destination_timer = Timer.new()
-    remove_destination_timer.one_shot = true
-    remove_destination_timer.timeout.connect(_remove_destination)
-    add_child(remove_destination_timer)
+
 
 func _process(_delta: float) -> void:
     update_health_bar()
@@ -59,27 +54,17 @@ func _process(_delta: float) -> void:
 
 func _physics_process(delta):
     velocity = Vector2.ZERO
-    if !property.get_property("is_move"):
-        remove_destination_timer.paused = true
-    else:
-        remove_destination_timer.paused = false
     
     # Movement toward destination
-    var destination = property.get_property("destination")
     if destination != Vector2.ZERO && property.get_property("is_move"):
         var direction = (destination - global_position).normalized()
         var distance = speed * delta
 
         if global_position.distance_to(destination) > distance:
             velocity = direction * speed
-            @warning_ignore("integer_division")
-            var expected_traverse_time = ceil(global_position.distance_to(destination)/(speed/5)) + 2
-            if remove_destination_timer.is_stopped() or remove_destination_timer.time_left > expected_traverse_time:
-                remove_destination_timer.start(expected_traverse_time)
-            
         else:
             global_position = destination
-            property.set_property("destination", Vector2.ZERO)
+            destination = Vector2.ZERO
 
     # Apply push velocity
     if push_velocity.length() > 0.1:
@@ -108,17 +93,6 @@ func _physics_process(delta):
 func apply_push(force: Vector2):
     push_velocity += force
 
-func _draw() -> void:
-    var destination = property.get_property("destination")
-    
-    if destination != Vector2.ZERO:
-        waypoint_flag["visible"] = true
-        waypoint_flag["global_position"] = destination
-        draw_dashed_line(sprite.position, waypoint_flag.position, Color.BLUE, 3.0, 5.0)
-    else:
-        waypoint_flag["visible"] = false
-
-
 func _receive_action_noti(action: String, _isTarget: bool):
     state_machine.travel(action)
 
@@ -135,6 +109,3 @@ func _get_skills(phase: StringName) -> Array[Skill]:
 
 func _remove():
     state_machine.travel("die")
-
-func _remove_destination():
-    property.set_property("destination", Vector2.ZERO)

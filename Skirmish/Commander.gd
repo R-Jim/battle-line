@@ -59,7 +59,8 @@ func _command_units_capture() -> void:
 
   var castle = enemy_castles[0]
   for unit in commandable_units:
-    unit.property.set_property("destination", castle.position)
+    unit.command.is_move = true
+    unit.command.destination = castle.position
 
 
 func _is_objective_pending(objective: Objective) -> bool:
