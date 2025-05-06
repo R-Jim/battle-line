@@ -8,8 +8,7 @@ class_name Commander
 @export_enum(&"capture", &"attack") var _objective_types: Array[String] = []
 var _objectives: Array[Objective] = []
 
-@export var commander_points: int
-@onready var _deployable = $Deployable
+@export var deployable_units: Array[Unit]
 var commandable_units: Array[Unit] = []
 var commandable_structures: Array[Castle] = []
 
@@ -76,23 +75,17 @@ func is_completed() -> bool:
   return _objectives.filter(_is_objective_pending).size() == 0
 
 func deploy_units() -> void:
-  if !_deployable || commander_points < 1:
-    return
-  
-  var deployable_units = _deployable.get_deployable()
-  for unit in deployable_units:
-    var spawn = unit.duplicate()
-    spawn.set_visible(true)
-    spawn.set_process(true)
-    spawn.set_physics_process(true)
-    spawn.id = "unit_00" + str(_unit_manager.last_unit_index + 1)
-    if commandable_structures.size() == 0:
-        spawn.position = Vector2(0, 300)
-    else:
-        spawn.position = commandable_structures[0].position + Vector2(50, 0)
+  while deployable_units.size() > 0:
+    var unit = deployable_units[0]
+    if unit.get_parent():
+        unit.get_parent().remove_child(unit)
         
-    commandable_units.append(spawn)
-    _unit_manager.add_child(spawn)
-    _unit_manager._register_unit(spawn, spawn.id)
-
-    commander_points -= 1
+    if commandable_structures.size() == 0:
+        unit.position = Vector2(0, 300)
+    else:
+        unit.position = commandable_structures[0].position + Vector2(50, 0)
+        
+    commandable_units.append(unit)
+    _unit_manager.add_child(unit)
+    _unit_manager._register_unit(unit, unit.id)
+    deployable_units.remove_at(0)

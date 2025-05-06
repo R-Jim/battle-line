@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://vxjjorsl3diw"]
+[gd_scene load_steps=12 format=3 uid="uid://vxjjorsl3diw"]
 
 [ext_resource type="Script" uid="uid://cjmt8blais5fm" path="res://Skirmish/Skirmish.gd" id="1_xnsaj"]
 [ext_resource type="Script" uid="uid://73omd8dgkp17" path="res://Skirmish/CycleManager.gd" id="2_wsfh0"]
@@ -10,7 +10,6 @@
 [ext_resource type="PackedScene" uid="uid://joptdecs26x0" path="res://Skirmish/corruption_zone.tscn" id="8_o1ncl"]
 [ext_resource type="Script" uid="uid://be7oj8c0tpvxi" path="res://Skirmish/SelectableTileMap.gd" id="9_7wr64"]
 [ext_resource type="Script" uid="uid://utcxv0jhaf54" path="res://Skirmish/Commander.gd" id="10_1t0n8"]
-[ext_resource type="Script" uid="uid://5lvtccaaml01" path="res://Skirmish/Deployable.gd" id="11_7ojd2"]
 [ext_resource type="Script" uid="uid://xrog4mdb765m" path="res://Skirmish/PlayerManager.gd" id="12_wsfh0"]
 
 [node name="SkirmishMap" type="Node2D"]
@@ -54,19 +53,16 @@ faction = -1
 
 [node name="CorruptionZone" parent="CycleManager/StructureManager" instance=ExtResource("8_o1ncl")]
 
-[node name="EnemyCommander" type="Node" parent="." node_paths=PackedStringArray("_unit_manager", "_structure_manager")]
+[node name="EnemyCommander" type="Node" parent="." node_paths=PackedStringArray("_unit_manager", "_structure_manager", "deployable_units")]
 script = ExtResource("10_1t0n8")
 _unit_manager = NodePath("../CycleManager/UnitManager")
 _structure_manager = NodePath("../CycleManager/StructureManager")
 _faction = -1
 _objective_types = Array[String](["capture"])
-commander_points = 5
+deployable_units = [NodePath("Loss")]
 
-[node name="Deployable" type="Node" parent="EnemyCommander" node_paths=PackedStringArray("_deployable_units")]
-script = ExtResource("11_7ojd2")
-_deployable_units = [NodePath("Loss")]
-
-[node name="Loss" parent="EnemyCommander/Deployable" instance=ExtResource("5_je3fr")]
+[node name="Loss" parent="EnemyCommander" instance=ExtResource("5_je3fr")]
+id = "unit_007"
 
 [node name="PlayerManager" type="Node2D" parent="." node_paths=PackedStringArray("_unit_manager", "_structure_manager")]
 script = ExtResource("12_wsfh0")

@@ -16,6 +16,7 @@ class_name Unit
 @onready var animation_tree = $AnimationTree
 @onready var state_machine = animation_tree["parameters/playback"]
 @onready var selectable = $Selectable
+@onready var command = $Command
 
 var push_velocity: Vector2 = Vector2.ZERO
 var destination: Vector2
@@ -43,7 +44,6 @@ func _process(_delta: float) -> void:
     update_health_bar()
     queue_redraw()
 
-    var destination = property.get_property("destination")
     if destination == Vector2.ZERO || !property.get_property("is_move"):
         animation_tree["parameters/conditions/is_moving"] = false
         animation_tree["parameters/conditions/is_idle"] = true

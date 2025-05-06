@@ -18,7 +18,7 @@ func _ready():
     remove_destination_timer.timeout.connect(_remove_destination)
     add_child(remove_destination_timer)
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
     if is_pause:
         remove_destination_timer.paused = true
         return

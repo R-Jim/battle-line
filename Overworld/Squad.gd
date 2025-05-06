@@ -28,7 +28,7 @@ func _ready():
     skirmish_area.connect("area_exited", Callable(self, "_on_area_exited"))
 
 # Called every frame
-func _process(delta):
+func _process(_delta):
     check_for_skirmish()
     
 
