@@ -4,12 +4,13 @@ class_name UnitManager
 var registered_units: Dictionary[String, Unit] = {}  # Tracks units
 var last_unit_index = 0
 
-func _ready():
-  var childs = get_children()
-  for child in childs:
-    if child is Unit:
-      _register_unit(child, child.id)
   
+func _process(_delta: float) -> void:
+    var childs = get_children()
+    for child in childs:
+        if child is Unit and not registered_units.has(child.id):
+            _register_unit(child, child.id)
+
 
 func _process_unit_skills(phase: StringName):
     for unit_id in registered_units:

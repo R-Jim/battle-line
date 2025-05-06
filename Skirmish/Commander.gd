@@ -87,5 +87,7 @@ func deploy_units() -> void:
         
     commandable_units.append(unit)
     _unit_manager.add_child(unit)
-    _unit_manager._register_unit(unit, unit.id)
     deployable_units.remove_at(0)
+
+func get_faction() -> int:
+    return _faction

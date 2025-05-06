@@ -64,6 +64,13 @@ deployable_units = [NodePath("Loss")]
 [node name="Loss" parent="EnemyCommander" instance=ExtResource("5_je3fr")]
 id = "unit_007"
 
+[node name="PlayerCommander" type="Node" parent="." node_paths=PackedStringArray("_unit_manager", "_structure_manager")]
+script = ExtResource("10_1t0n8")
+_unit_manager = NodePath("../CycleManager/UnitManager")
+_structure_manager = NodePath("../CycleManager/StructureManager")
+_faction = 1
+_objective_types = Array[String](["capture"])
+
 [node name="PlayerManager" type="Node2D" parent="." node_paths=PackedStringArray("_unit_manager", "_structure_manager")]
 script = ExtResource("12_wsfh0")
 _unit_manager = NodePath("../CycleManager/UnitManager")

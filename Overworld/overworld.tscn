@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://gyhbrvuya34u"]
+[gd_scene load_steps=12 format=3 uid="uid://gyhbrvuya34u"]
 
 [ext_resource type="Script" uid="uid://bf20v3cyhib01" path="res://Overworld/Overworld.gd" id="1_6jwp1"]
 [ext_resource type="PackedScene" uid="uid://bo1w6nyb6a6gk" path="res://Overworld/region.tscn" id="2_v726c"]
@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://bmv65laq3lxq8" path="res://Sprites/MiniThief.png" id="6_hob5j"]
 [ext_resource type="Script" uid="uid://cqoklv47pk3w0" path="res://Overworld/PlayerManager.gd" id="9_r0nop"]
 [ext_resource type="Script" uid="uid://be7oj8c0tpvxi" path="res://Skirmish/SelectableTileMap.gd" id="10_4uj07"]
+[ext_resource type="Script" uid="uid://1qyi0fxdxp0" path="res://Overworld/Skirmishes.gd" id="11_5wvds"]
 
 [node name="Overworld" type="Node2D"]
 script = ExtResource("1_6jwp1")
@@ -46,7 +47,7 @@ visible = false
 
 [node name="FootmanSquad" parent="Squads" node_paths=PackedStringArray("units") instance=ExtResource("4_824ie")]
 position = Vector2(1284, 373)
-squad_faction = 1
+_faction = 1
 units = [NodePath("../../Units/Footman")]
 
 [node name="Sprite2D" parent="Squads/FootmanSquad" index="0"]
@@ -58,7 +59,7 @@ vframes = 6
 
 [node name="LossSquad" parent="Squads" node_paths=PackedStringArray("units") instance=ExtResource("4_824ie")]
 position = Vector2(1066, 350)
-squad_faction = -1
+_faction = -1
 units = [NodePath("../../Units/Loss")]
 
 [node name="Sprite2D" parent="Squads/LossSquad" index="0"]
@@ -75,6 +76,10 @@ player_squards = [NodePath("../Squads/FootmanSquad")]
 [node name="SelectableTileMap" type="Node2D" parent="." node_paths=PackedStringArray("_player_manager")]
 script = ExtResource("10_4uj07")
 _player_manager = NodePath("../PlayerManager")
+
+[node name="Skirmishes" type="Node2D" parent="." node_paths=PackedStringArray("squards_manager")]
+script = ExtResource("11_5wvds")
+squards_manager = NodePath("../Squads")
 
 [editable path="Squads/FootmanSquad"]
 [editable path="Squads/LossSquad"]

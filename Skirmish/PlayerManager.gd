@@ -25,7 +25,6 @@ func _input(event):
                                 spawn.position = structure.position - Vector2(100, 0)
                                 structure.property.set_property("resource", resource - 1)
                                 _unit_manager.add_child(spawn)
-                                _unit_manager._register_unit(spawn, spawn.id)
                                 return
 
             MOUSE_BUTTON_RIGHT:

@@ -2,7 +2,7 @@ extends CharacterBody2D
 class_name Squad
 
 # Export variables for configuration
-@export var squad_faction: int = 0
+@export var _faction: int = 0
 @export var units: Array[Unit] = []
 
 # Preloaded node references
@@ -115,12 +115,12 @@ func skirmish():
     print("Squad " + name + " is in a skirmish with:")
     
     for squad in nearby_squads:
-        print("- " + squad.name + " (Faction: " + str(squad.squad_faction) + ")")
+        print("- " + squad.name + " (Faction: " + str(squad.get_faction()) + ")")
     
     # Example battle logic
     var hostile_squads = []
     for squad in nearby_squads:
-        if squad.squad_faction * squad_faction < 0:
+        if squad.get_faction() * _faction < 0:
             hostile_squads.append(squad)
     
     if hostile_squads.size() > 0:
@@ -129,4 +129,6 @@ func skirmish():
     else:
         print("All squads are friendly or neutral. No combat.")
 
-# Visual representation handled by UI
+
+func get_faction() -> int:
+    return _faction
