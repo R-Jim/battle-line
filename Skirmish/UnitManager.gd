@@ -10,6 +10,10 @@ func _process(_delta: float) -> void:
     for child in childs:
         if child is Unit and not registered_units.has(child.id):
             _register_unit(child, child.id)
+    
+    for unit_id in registered_units:
+        if not registered_units[unit_id]:
+            registered_units.erase(unit_id)
 
 
 func _process_unit_skills(phase: StringName):

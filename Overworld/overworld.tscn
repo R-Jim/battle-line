@@ -40,8 +40,10 @@ controlled_regions = [NodePath("../Region3")]
 visible = false
 
 [node name="Footman" parent="Units" instance=ExtResource("4_yv805")]
+id = "unit_011"
 
 [node name="Loss" parent="Units" instance=ExtResource("5_r0nop")]
+id = "unit_012"
 
 [node name="Squads" type="Node2D" parent="."]
 

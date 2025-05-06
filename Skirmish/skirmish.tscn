@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://vxjjorsl3diw"]
+[gd_scene load_steps=11 format=3 uid="uid://vxjjorsl3diw"]
 
 [ext_resource type="Script" uid="uid://cjmt8blais5fm" path="res://Skirmish/Skirmish.gd" id="1_xnsaj"]
 [ext_resource type="Script" uid="uid://73omd8dgkp17" path="res://Skirmish/CycleManager.gd" id="2_wsfh0"]
@@ -9,7 +9,6 @@
 [ext_resource type="PackedScene" uid="uid://dasoh2hw436d3" path="res://Structures/castle.tscn" id="7_q1qij"]
 [ext_resource type="PackedScene" uid="uid://joptdecs26x0" path="res://Skirmish/corruption_zone.tscn" id="8_o1ncl"]
 [ext_resource type="Script" uid="uid://be7oj8c0tpvxi" path="res://Skirmish/SelectableTileMap.gd" id="9_7wr64"]
-[ext_resource type="Script" uid="uid://utcxv0jhaf54" path="res://Skirmish/Commander.gd" id="10_1t0n8"]
 [ext_resource type="Script" uid="uid://xrog4mdb765m" path="res://Skirmish/PlayerManager.gd" id="12_wsfh0"]
 
 [node name="SkirmishMap" type="Node2D"]
@@ -52,24 +51,6 @@ max_health = 100
 faction = -1
 
 [node name="CorruptionZone" parent="CycleManager/StructureManager" instance=ExtResource("8_o1ncl")]
-
-[node name="EnemyCommander" type="Node" parent="." node_paths=PackedStringArray("_unit_manager", "_structure_manager", "deployable_units")]
-script = ExtResource("10_1t0n8")
-_unit_manager = NodePath("../CycleManager/UnitManager")
-_structure_manager = NodePath("../CycleManager/StructureManager")
-_faction = -1
-_objective_types = Array[String](["capture"])
-deployable_units = [NodePath("Loss")]
-
-[node name="Loss" parent="EnemyCommander" instance=ExtResource("5_je3fr")]
-id = "unit_007"
-
-[node name="PlayerCommander" type="Node" parent="." node_paths=PackedStringArray("_unit_manager", "_structure_manager")]
-script = ExtResource("10_1t0n8")
-_unit_manager = NodePath("../CycleManager/UnitManager")
-_structure_manager = NodePath("../CycleManager/StructureManager")
-_faction = 1
-_objective_types = Array[String](["capture"])
 
 [node name="PlayerManager" type="Node2D" parent="." node_paths=PackedStringArray("_unit_manager", "_structure_manager")]
 script = ExtResource("12_wsfh0")
