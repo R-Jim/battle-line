@@ -1,6 +1,7 @@
 extends Node2D
 
 @export var source: Unit
+@export var default_visible: bool
 
 @onready var waypoint_flag = $Flag
 
@@ -42,7 +43,7 @@ func _process(_delta: float) -> void:
         
 
 func _draw() -> void:
-    if destination != Vector2.ZERO:
+    if destination != Vector2.ZERO and default_visible:
         waypoint_flag["visible"] = true
         waypoint_flag["global_position"] = destination
         draw_dashed_line(self.position, waypoint_flag.position, command_color, 3.0, 5.0)

@@ -5,7 +5,7 @@ class_name Commander
 @export var _structure_manager: StructureManager
 
 @export var _faction: int
-@export_enum(&"capture", &"attack") var _objective_types: Array[String] = [&"capture"]
+@export_enum(&"capture", &"attack") var _objective_types: Array[String] = [&"attack"]
 var _objectives: Array[Objective] = []
 
 @export var deployable_units: Array[Unit]
@@ -43,13 +43,16 @@ func _process_objective(objective: Objective) -> void:
   return
 
 func command_units() -> void:
-  var pending_objectives = _objectives.filter(_is_objective_pending)
-  if pending_objectives.size() == 0:
-    return
+    var pending_objectives = _objectives.filter(_is_objective_pending)
+    if pending_objectives.size() == 0:
+        return
 
-  var objective = pending_objectives[0]
-  if objective.get_type() == "capture":
-    _command_units_capture()
+    var objective = pending_objectives[0]
+    if objective.get_type() == "capture":
+        _command_units_capture()
+    elif objective.get_type() == "attack":
+        _command_units_attack()
+        
   
 func _command_units_capture() -> void:
   var enemy_castles = _structure_manager.registered_structures.values().filter(func(n): return _is_castle(n) && _is_enemy(n))
@@ -60,6 +63,11 @@ func _command_units_capture() -> void:
   for unit in commandable_units:
     unit.command.is_move = true
     unit.command.destination = castle.position
+
+func _command_units_attack() -> void:
+  for unit in commandable_units:
+    unit.command.is_move = true
+    unit.command.destination = Vector2(600, 300)
 
 
 func _is_objective_pending(objective: Objective) -> bool:
