@@ -1,10 +1,8 @@
-[gd_scene load_steps=11 format=3 uid="uid://vxjjorsl3diw"]
+[gd_scene load_steps=9 format=3 uid="uid://vxjjorsl3diw"]
 
 [ext_resource type="Script" uid="uid://cjmt8blais5fm" path="res://Skirmish/Skirmish.gd" id="1_xnsaj"]
 [ext_resource type="Script" uid="uid://73omd8dgkp17" path="res://Skirmish/CycleManager.gd" id="2_wsfh0"]
 [ext_resource type="Script" uid="uid://0r1kvq2r0ecr" path="res://Skirmish/UnitManager.gd" id="3_dj824"]
-[ext_resource type="PackedScene" uid="uid://d12cdk8004rqb" path="res://Units/footman.tscn" id="4_eqr5n"]
-[ext_resource type="PackedScene" uid="uid://xxan7kbsj7vp" path="res://Units/loss.tscn" id="5_je3fr"]
 [ext_resource type="Script" uid="uid://b6p48687rgesd" path="res://Skirmish/StructureManager.gd" id="6_3qpws"]
 [ext_resource type="PackedScene" uid="uid://dasoh2hw436d3" path="res://Structures/castle.tscn" id="7_q1qij"]
 [ext_resource type="PackedScene" uid="uid://joptdecs26x0" path="res://Skirmish/corruption_zone.tscn" id="8_o1ncl"]
@@ -19,23 +17,6 @@ script = ExtResource("2_wsfh0")
 
 [node name="UnitManager" type="Node2D" parent="CycleManager"]
 script = ExtResource("3_dj824")
-
-[node name="PlayerUnit" parent="CycleManager/UnitManager" instance=ExtResource("4_eqr5n")]
-position = Vector2(1044, 273)
-id = "unit_002"
-max_attack = 50
-
-[node name="PlayerUnit2" parent="CycleManager/UnitManager" instance=ExtResource("4_eqr5n")]
-position = Vector2(1042, 191)
-id = "unit_003"
-
-[node name="PlayerUnit3" parent="CycleManager/UnitManager" instance=ExtResource("4_eqr5n")]
-position = Vector2(1043, 360)
-id = "unit_004"
-
-[node name="Loss" parent="CycleManager/UnitManager" instance=ExtResource("5_je3fr")]
-position = Vector2(583, 309)
-id = "unit_001"
 
 [node name="StructureManager" type="Node2D" parent="CycleManager"]
 script = ExtResource("6_3qpws")

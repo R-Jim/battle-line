@@ -8,11 +8,11 @@ var last_unit_index = 0
 func _process(_delta: float) -> void:
     var childs = get_children()
     for child in childs:
-        if child is Unit and not registered_units.has(child.id):
+        if child is Unit and not registered_units.has(child.id) and child.property.get_property("health") > 0:
             _register_unit(child, child.id)
     
     for unit_id in registered_units:
-        if not registered_units[unit_id]:
+        if not registered_units[unit_id] or registered_units[unit_id].get_parent() != self:
             registered_units.erase(unit_id)
 
 
@@ -38,6 +38,7 @@ func _process_unit_properties():
         registered_units[unit_id].property.commit_session()
     return
 
+
 func _register_unit(unit: Node, unit_id: String):
     registered_units[unit_id] = unit
     last_unit_index+=1
@@ -49,8 +50,8 @@ func _process_unit_health():
     for unit_id in tmp:
         if registered_units[unit_id].property.get_property("health") <= 0:
             var unit = registered_units[unit_id]
-            registered_units.erase(unit_id)
             unit._remove()
+            registered_units.erase(unit_id)
 
 
 func _toggle_move_unit(toggle: bool):

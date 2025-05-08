@@ -15,6 +15,7 @@ class_name Squad
 # Variables for tracking nearby squads
 var nearby_squads = []
 var destination: Vector2
+var is_skirmish_ready: bool
 var in_skirmish = false
 var push_velocity: Vector2 = Vector2.ZERO
 var max_velocity = speed
@@ -29,6 +30,12 @@ func _ready():
 
 # Called every frame
 func _process(_delta):
+    is_skirmish_ready = false
+    for unit in units:
+        if unit.property.get_property("health") > 0:
+            is_skirmish_ready = true
+            break
+       
     check_for_skirmish()
     
 
@@ -93,6 +100,9 @@ func _on_area_exited(area):
 
 # Check if conditions for skirmish are met
 func check_for_skirmish():
+    if not is_skirmish_ready:
+        return
+
     # If 2 or more squads (including this one) are in range, start skirmish
     if nearby_squads.size() >= 1 and not in_skirmish:
         start_skirmish()

@@ -18,6 +18,10 @@ func _ready() -> void:
 func _process_commanders():
   for faction in faction_commanders:
     var commander = faction_commanders[faction]
+    if not commander:
+        faction_commanders.erase(faction)
+        continue
+    
     commander.deploy_units()
     commander.command_units()
     if commander.is_completed():

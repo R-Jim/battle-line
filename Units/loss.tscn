@@ -81,7 +81,7 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1),
 "values": [{
 "args": [],
-"method": &"queue_free"
+"method": &"remove_from_parent"
 }]
 }
 
@@ -224,7 +224,7 @@ debug_color = Color(0.641848, 0.52437, 5.77569e-07, 0.176471)
 position = Vector2(0, 12)
 scale = Vector2(6, 3)
 script = ExtResource("4_xqtjl")
-_sacrifice_unit_timer = 30
+_sacrifice_unit_timer = 15
 _range = -1
 _action = "sacrifice"
 _source = NodePath("..")

@@ -109,3 +109,7 @@ func _get_skills(phase: StringName) -> Array[Skill]:
 
 func _remove():
     state_machine.travel("die")
+
+func remove_from_parent():
+    if get_parent():
+        get_parent().remove_child(self)
