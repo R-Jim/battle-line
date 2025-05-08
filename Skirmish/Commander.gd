@@ -1,6 +1,8 @@
 extends Node
 class_name Commander
 
+@onready var skirmish: Skirmish = get_parent()
+
 @export var _unit_manager: UnitManager
 @export var _structure_manager: StructureManager
 
@@ -84,14 +86,16 @@ func is_completed() -> bool:
 
 func deploy_units() -> void:
   while deployable_units.size() > 0:
+    var zone = skirmish.get_available_deployment_zone(_faction)
+  
+    if not zone:
+        continue
+    
     var unit = deployable_units[0]
     if unit.get_parent():
         unit.get_parent().remove_child(unit)
         
-    if commandable_structures.size() == 0:
-        unit.position = Vector2(0, -300)
-    else:
-        unit.position = commandable_structures.keys()[0].position + (Vector2(0, 100))
+    unit.position = zone.global_position
         
     commandable_units[unit] = true
     _unit_manager.add_child(unit)

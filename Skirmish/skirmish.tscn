@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://vxjjorsl3diw"]
+[gd_scene load_steps=11 format=3 uid="uid://vxjjorsl3diw"]
 
 [ext_resource type="Script" uid="uid://cjmt8blais5fm" path="res://Skirmish/Skirmish.gd" id="1_xnsaj"]
 [ext_resource type="Script" uid="uid://73omd8dgkp17" path="res://Skirmish/CycleManager.gd" id="2_wsfh0"]
@@ -6,11 +6,16 @@
 [ext_resource type="Script" uid="uid://b6p48687rgesd" path="res://Skirmish/StructureManager.gd" id="6_3qpws"]
 [ext_resource type="PackedScene" uid="uid://dasoh2hw436d3" path="res://Structures/castle.tscn" id="7_q1qij"]
 [ext_resource type="PackedScene" uid="uid://joptdecs26x0" path="res://Skirmish/corruption_zone.tscn" id="8_o1ncl"]
+[ext_resource type="Script" uid="uid://6jw15ao07jkv" path="res://Skirmish/DeploymentZone.gd" id="9_7jbn7"]
 [ext_resource type="Script" uid="uid://be7oj8c0tpvxi" path="res://Skirmish/SelectableTileMap.gd" id="9_7wr64"]
 [ext_resource type="Script" uid="uid://xrog4mdb765m" path="res://Skirmish/PlayerManager.gd" id="12_wsfh0"]
 
-[node name="SkirmishMap" type="Node2D"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_yrb86"]
+
+[node name="SkirmishMap" type="Node2D" node_paths=PackedStringArray("faction_minus_one_zones", "faction_one_zones")]
 script = ExtResource("1_xnsaj")
+faction_minus_one_zones = [NodePath("EnemyDeploymentZone")]
+faction_one_zones = [NodePath("PlayerDeploymentZone")]
 
 [node name="CycleManager" type="Node2D" parent="."]
 script = ExtResource("2_wsfh0")
@@ -41,3 +46,23 @@ _structure_manager = NodePath("../CycleManager/StructureManager")
 [node name="SelectableTileMap" type="Node2D" parent="." node_paths=PackedStringArray("_player_manager")]
 script = ExtResource("9_7wr64")
 _player_manager = NodePath("../PlayerManager")
+
+[node name="EnemyDeploymentZone" type="Area2D" parent="."]
+position = Vector2(107, 482)
+script = ExtResource("9_7jbn7")
+faction = -1
+metadata/_custom_type_script = "uid://6jw15ao07jkv"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyDeploymentZone"]
+scale = Vector2(4, 4)
+shape = SubResource("CircleShape2D_yrb86")
+
+[node name="PlayerDeploymentZone" type="Area2D" parent="."]
+position = Vector2(1583, 468)
+script = ExtResource("9_7jbn7")
+faction = 1
+metadata/_custom_type_script = "uid://6jw15ao07jkv"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDeploymentZone"]
+scale = Vector2(4, 4)
+shape = SubResource("CircleShape2D_yrb86")
