@@ -27,6 +27,10 @@ func _ready():
     # Connect signals
     skirmish_area.connect("area_entered", Callable(self, "_on_area_entered"))
     skirmish_area.connect("area_exited", Callable(self, "_on_area_exited"))
+    
+    for unit in units:
+        if unit.get_parent():
+            unit.get_parent().remove_child(unit)
 
 # Called every frame
 func _process(_delta):

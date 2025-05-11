@@ -62,7 +62,6 @@ func squad_join(squad: Squad):
 func squad_return(squad: Squad):
     for unit: Unit in squad.units:
         _unit_manager.remove_child(unit)
-        squad.add_child(unit)
     
 func is_skirmish_complete() -> bool:
     return _is_skirmish_completed

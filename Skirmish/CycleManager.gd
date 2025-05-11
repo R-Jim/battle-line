@@ -58,6 +58,6 @@ func _combat_end_cycle():
     _structure_manager._process_structure_skills(phases[currentPhaseIndex])
     _unit_manager._process_unit_properties()
     _structure_manager._process_structure_properties()
-    _unit_manager._process_unit_health()
+    _unit_manager._process_unit_removal()
     _structure_manager._process_structures_health()
     currentPhaseIndex = -1 # transition to start of strategic phase

@@ -68,8 +68,21 @@ func _command_units_capture() -> void:
 
 func _command_units_attack() -> void:
   for unit in commandable_units:
-    unit.command.is_move = true
-    unit.command.destination = Vector2(600, 300)
+    var shortest_distance
+    var nearest_enemy: Unit
+    for target_unit in _unit_manager.registered_units.values():
+        if unit == target_unit or unit.faction * target_unit.faction > 0:
+            continue
+            
+        var distance = unit.global_position.distance_to(target_unit.global_position)
+        if !nearest_enemy or distance < shortest_distance:
+            shortest_distance = distance
+            nearest_enemy = target_unit
+            continue
+        
+    if nearest_enemy:
+        unit.command.is_move = true
+        unit.command.destination = nearest_enemy.global_position
 
 
 func _is_objective_pending(objective: Objective) -> bool:
@@ -90,15 +103,12 @@ func deploy_units() -> void:
   
     if not zone:
         continue
-    
+
     var unit = deployable_units[0]
-    if unit.get_parent():
-        unit.get_parent().remove_child(unit)
-        
     unit.position = zone.global_position
-        
     commandable_units[unit] = true
-    _unit_manager.add_child(unit)
+        
+    _unit_manager.add_unit(unit)
     deployable_units.remove_at(0)
 
 func get_faction() -> int:

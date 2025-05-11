@@ -22,6 +22,8 @@ var push_velocity: Vector2 = Vector2.ZERO
 var destination: Vector2
 var max_velocity = speed
 var push_decay: float = 180.0
+var is_removing: bool
+var is_removable: bool
 
 func _ready():
     property.new_property({
@@ -36,7 +38,6 @@ func _ready():
     if property.get_property("faction") > 0:
         sprite["flip_h"] = true
     
-
     update_health_bar()
 
 
@@ -49,7 +50,15 @@ func _process(_delta: float) -> void:
         animation_tree["parameters/conditions/is_idle"] = true
     else:  # No destination set
         animation_tree["parameters/conditions/is_moving"] = true
-        animation_tree["parameters/conditions/is_idle"] = false		
+        animation_tree["parameters/conditions/is_idle"] = false	
+    
+    if is_removing and state_machine.get_current_node() == "End":
+        is_removable = true
+        
+    if property.get_property("health") <= 0 and not is_removing:
+        is_removing = true
+        state_machine.travel("die")
+    
 
 
 func _physics_process(delta):
@@ -101,15 +110,11 @@ func update_health_bar():
         health_bar.value = float(property.get_property("health")) / max_health * 100
 
 func _get_skills(phase: StringName) -> Array[Skill]:
+    if is_removing:
+        return []
+    
     var skills: Array[Skill] = []
     for child in get_children():
         if child is Skill and child._get_phase() == phase:
             skills.append(child)
     return skills
-
-func _remove():
-    state_machine.travel("die")
-
-func remove_from_parent():
-    if get_parent():
-        get_parent().remove_child(self)

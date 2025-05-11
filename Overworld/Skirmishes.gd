@@ -6,7 +6,7 @@ const skirmish_scene = preload("res://Skirmish/skirmish.tscn")
 var _squard_skirmishes: Dictionary[Squad, Skirmish] = {}
 var _skirmishes: Array[Skirmish] = []
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
     var squards: Array[Squad] = []
     for child in squards_manager.get_children():
         if child is Squad:
