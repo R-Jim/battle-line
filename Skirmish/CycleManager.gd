@@ -11,19 +11,14 @@ extends Node
 
 
 var phases = [&"Strategic", &"Combat"]
-var currentPhaseIndex = -1
 
 func _process(_delta: float) -> void:
-    if currentPhaseIndex == -1:
+    if strategic_timer.is_stopped():
         _strategic_start_cycle()
         strategic_timer.start()	
-        currentPhaseIndex = 0
-        return
         
-    if currentPhaseIndex == 1:
-        if combat_timer.is_stopped():
-            combat_timer.start()
-        return
+    if combat_timer.is_stopped():
+        combat_timer.start()
     
     
 func _strategic_timer() -> Timer:
@@ -47,15 +42,13 @@ func _strategic_start_cycle():
 
 func _strategic_end_cycle():
     _unit_manager._toggle_move_unit(false)
-    _unit_manager._process_unit_skills(phases[currentPhaseIndex])
-    _structure_manager._process_structure_skills(phases[currentPhaseIndex])
-    currentPhaseIndex = 1 # transition to combat phase
+    _unit_manager._process_unit_skills(&"Strategic")
+    _structure_manager._process_structure_skills(&"Strategic")
 
 func _combat_end_cycle():
-    _unit_manager._process_unit_skills(phases[currentPhaseIndex])
-    _structure_manager._process_structure_skills(phases[currentPhaseIndex])
+    _unit_manager._process_unit_skills(&"Combat")
+    _structure_manager._process_structure_skills(&"Combat")
     _unit_manager._process_unit_properties()
     _structure_manager._process_structure_properties()
     _unit_manager._process_unit_removal()
     _structure_manager._process_structures_health()
-    currentPhaseIndex = -1 # transition to start of strategic phase

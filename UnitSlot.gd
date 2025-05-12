@@ -12,8 +12,8 @@ func _process(delta: float) -> void:
     if not _unit:
         _unit_health_bar.visible = false
         _unit_sprite.texture = null
-        _unit_sprite.hframes = 0
-        _unit_sprite.vframes = 0
+        _unit_sprite.hframes = 1
+        _unit_sprite.vframes = 1
         return
 
     _unit_health_bar.visible = true
