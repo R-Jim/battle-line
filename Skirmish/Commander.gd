@@ -98,18 +98,23 @@ func is_completed() -> bool:
   return _objectives.filter(_is_objective_pending).size() == 0
 
 func deploy_units() -> void:
-  while deployable_units.size() > 0:
-    var zone = skirmish.get_available_deployment_zone(_faction)
-  
-    if not zone:
-        continue
+    if deployable_units.size() <= 0:
+        return  
+    
+    var zones: Array[DeploymentZone] = skirmish.get_available_deployment_zones(_faction)
 
-    var unit = deployable_units[0]
-    unit.position = zone.global_position
-    commandable_units[unit] = true
-        
-    _unit_manager.add_unit(unit)
-    deployable_units.remove_at(0)
+    if zones.size() <= 0:
+        return
+
+    while zones.size() > 0:
+        var zone = zones.pop_front()
+        var unit = deployable_units.pop_front()
+        if not unit:
+            return
+        unit.position = zone.global_position
+        commandable_units[unit] = true
+        _unit_manager.add_unit(unit)
+            
 
 func get_faction() -> int:
     return _faction

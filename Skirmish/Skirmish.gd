@@ -69,13 +69,14 @@ func is_skirmish_complete() -> bool:
 func _skirmish_complete():
     _is_skirmish_completed = true
 
-func get_available_deployment_zone(faction: int) -> DeploymentZone:
+func get_available_deployment_zones(faction: int) -> Array[DeploymentZone]:
   if not faction in deployment_zones:
-    return null
-    
+    return []
+
+  var deployable_zones: Array[DeploymentZone] = []
   var zones = deployment_zones[faction]
   for zone in zones:
     if not zone.is_occupied():
-      return zone
+      deployable_zones.append(zone)
   
-  return null
+  return deployable_zones
