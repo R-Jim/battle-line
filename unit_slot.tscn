@@ -1,0 +1,22 @@
+[gd_scene load_steps=2 format=3 uid="uid://c57d6r61rtti5"]
+
+[ext_resource type="Script" uid="uid://wk603g068fg7" path="res://UnitSlot.gd" id="1_g4ca8"]
+
+[node name="Slot0" type="Panel"]
+offset_left = 31.0
+offset_top = 104.0
+offset_right = 140.0
+offset_bottom = 211.0
+script = ExtResource("1_g4ca8")
+
+[node name="UnitSprite" type="Sprite2D" parent="."]
+position = Vector2(55, 29)
+scale = Vector2(3, 3)
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+layout_mode = 0
+offset_left = 26.0
+offset_top = 92.0
+offset_right = 86.0
+offset_bottom = 99.0
+show_percentage = false

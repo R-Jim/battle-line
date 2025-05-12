@@ -15,7 +15,6 @@ var currentPhaseIndex = -1
 
 func _process(_delta: float) -> void:
     if currentPhaseIndex == -1:
-        print("start strategic")
         _strategic_start_cycle()
         strategic_timer.start()	
         currentPhaseIndex = 0
@@ -23,7 +22,6 @@ func _process(_delta: float) -> void:
         
     if currentPhaseIndex == 1:
         if combat_timer.is_stopped():
-            print("start combat")
             combat_timer.start()
         return
     

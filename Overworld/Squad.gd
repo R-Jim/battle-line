@@ -24,9 +24,10 @@ var push_strength = 10
 
 # Called when the node enters the scene tree
 func _ready():
-    # Connect signals
-    skirmish_area.connect("area_entered", Callable(self, "_on_area_entered"))
-    skirmish_area.connect("area_exited", Callable(self, "_on_area_exited"))
+    if skirmish_area: 
+        # Connect signals
+        skirmish_area.connect("area_entered", Callable(self, "_on_area_entered"))
+        skirmish_area.connect("area_exited", Callable(self, "_on_area_exited"))
     
     for unit in units:
         if unit.get_parent():
