@@ -100,10 +100,7 @@ func _on_area_exited(area):
     if parent is Squad:
         if nearby_squads.has(parent):
             nearby_squads.erase(parent)
-            
-    # If we're no longer in range of any squads, end skirmish
-    if nearby_squads.size() < 1 and in_skirmish:
-        end_skirmish()
+
 
 # Check if conditions for skirmish are met
 func check_for_skirmish():
@@ -117,15 +114,9 @@ func check_for_skirmish():
 # Start skirmish between squads
 func start_skirmish():
     in_skirmish = true
-    print("Skirmish started between " + str(nearby_squads.size() + 1) + " squads")
-    
     # Call skirmish function
     skirmish()
 
-# End skirmish
-func end_skirmish():
-    in_skirmish = false
-    print("Skirmish ended")
 
 # Skirmish logic - override this in child classes for custom behavior
 func skirmish():
