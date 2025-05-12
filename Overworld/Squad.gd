@@ -46,6 +46,8 @@ func _process(_delta):
 
 func _physics_process(delta):
     velocity = Vector2.ZERO
+    if in_skirmish:
+        return
     
     # Movement toward destination
     if destination != Vector2.ZERO:
