@@ -2,6 +2,7 @@ extends Node2D
 
 @export var squards_manager: Node2D
 @export var skirmish_map_container: Node2D
+@export var skirmish_map_viewer: SubViewport
 const skirmish_map_scene = preload("res://Skirmish/skirmish.tscn")
 const skirmish_scene = preload("res://Overworld/skirmish.tscn")
 
@@ -28,7 +29,7 @@ func _process(_delta: float) -> void:
         var skirmish: Skirmish
         if not _squard_skirmishes.has(squad):
             skirmish = skirmish_map_scene.instantiate()
-            skirmish_map_container.add_child(skirmish)
+            skirmish_map_viewer.add_child(skirmish)
             _skirmishes.append(skirmish)
             
             var skirmish_zone = skirmish_scene.instantiate()

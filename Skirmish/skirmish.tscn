@@ -11,9 +11,12 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_yrb86"]
 
 [node name="SkirmishMap" type="Node2D" node_paths=PackedStringArray("faction_minus_one_zones", "faction_one_zones")]
+position = Vector2(0, 1)
 script = ExtResource("1_xnsaj")
 faction_minus_one_zones = [NodePath("EnemyDeploymentZone")]
 faction_one_zones = [NodePath("PlayerDeploymentZone"), NodePath("PlayerDeploymentZone2"), NodePath("PlayerDeploymentZone3")]
+metadata/_edit_horizontal_guides_ = [600.0]
+metadata/_edit_vertical_guides_ = [1200.0]
 
 [node name="CycleManager" type="Node2D" parent="."]
 script = ExtResource("2_wsfh0")
@@ -34,7 +37,7 @@ script = ExtResource("9_7wr64")
 _player_manager = NodePath("../PlayerManager")
 
 [node name="EnemyDeploymentZone" type="Area2D" parent="."]
-position = Vector2(72, 420)
+position = Vector2(96, 301)
 script = ExtResource("9_7jbn7")
 metadata/_custom_type_script = "uid://6jw15ao07jkv"
 
@@ -43,7 +46,7 @@ scale = Vector2(4, 4)
 shape = SubResource("CircleShape2D_yrb86")
 
 [node name="PlayerDeploymentZone" type="Area2D" parent="."]
-position = Vector2(1082, 420)
+position = Vector2(1106, 301)
 script = ExtResource("9_7jbn7")
 metadata/_custom_type_script = "uid://6jw15ao07jkv"
 
@@ -52,7 +55,7 @@ scale = Vector2(4, 4)
 shape = SubResource("CircleShape2D_yrb86")
 
 [node name="PlayerDeploymentZone2" type="Area2D" parent="."]
-position = Vector2(1083, 549)
+position = Vector2(1107, 430)
 script = ExtResource("9_7jbn7")
 metadata/_custom_type_script = "uid://6jw15ao07jkv"
 
@@ -61,7 +64,7 @@ scale = Vector2(4, 4)
 shape = SubResource("CircleShape2D_yrb86")
 
 [node name="PlayerDeploymentZone3" type="Area2D" parent="."]
-position = Vector2(1082, 294)
+position = Vector2(1106, 175)
 script = ExtResource("9_7jbn7")
 metadata/_custom_type_script = "uid://6jw15ao07jkv"
 
