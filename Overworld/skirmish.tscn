@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://b8tpjbl2f5ry0"]
+
+[ext_resource type="Script" uid="uid://6bumr1kenjh1" path="res://Overworld/Skirmish.gd" id="1_pd3ci"]
+[ext_resource type="Texture2D" uid="uid://bfdww3gcrjgfr" path="res://Sprites/Terrain/Desert1.png" id="2_vqxle"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_dfst4"]
+
+[node name="Skirmish" type="Node2D"]
+script = ExtResource("1_pd3ci")
+
+[node name="Area2D" type="Area2D" parent="."]
+scale = Vector2(3, 3)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_dfst4")
+debug_color = Color(0.428793, 0.593789, 0.285778, 0.42)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_vqxle")
+hframes = 4
+vframes = 3
+frame = 10

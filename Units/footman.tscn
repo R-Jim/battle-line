@@ -154,6 +154,7 @@ graph_offset = Vector2(-47.1172, 42.4875)
 [node name="Footman" type="CharacterBody2D"]
 motion_mode = 1
 script = ExtResource("1_51yig")
+speed = 80
 
 [node name="HealthBar" type="ProgressBar" parent="."]
 offset_left = -26.0

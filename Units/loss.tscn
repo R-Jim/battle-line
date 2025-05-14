@@ -172,7 +172,6 @@ graph_offset = Vector2(73.5776, 3.86251)
 motion_mode = 1
 script = ExtResource("1_oan3q")
 max_health = 50
-speed = 20
 faction = -1
 
 [node name="HealthBar" type="ProgressBar" parent="."]

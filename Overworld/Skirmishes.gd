@@ -1,10 +1,13 @@
 extends Node2D
 
 @export var squards_manager: Node2D
-const skirmish_scene = preload("res://Skirmish/skirmish.tscn")
+@export var skirmish_map_container: Node2D
+const skirmish_map_scene = preload("res://Skirmish/skirmish.tscn")
+const skirmish_scene = preload("res://Overworld/skirmish.tscn")
 
 var _squard_skirmishes: Dictionary[Squad, Skirmish] = {}
 var _skirmishes: Array[Skirmish] = []
+var _skirmish_to_zone: Dictionary[Skirmish, Node2D] = {}
 
 func _process(_delta: float) -> void:
     var squards: Array[Squad] = []
@@ -30,11 +33,16 @@ func _process(_delta: float) -> void:
 
         var skirmish: Skirmish
         if not _squard_skirmishes.has(squad):
-            skirmish = skirmish_scene.instantiate()
-            add_child(skirmish)
+            skirmish = skirmish_map_scene.instantiate()
+            skirmish_map_container.add_child(skirmish)
             _skirmishes.append(skirmish)
             skirmish.squad_join(squad)
             _squard_skirmishes[squad] = skirmish
+            
+            var skirmish_zone = skirmish_scene.instantiate()
+            skirmish_zone.squads.append(squad)
+            add_child(skirmish_zone)
+            _skirmish_to_zone[skirmish] = skirmish_zone
         else:
             skirmish = _squard_skirmishes[squad]
             
@@ -42,8 +50,11 @@ func _process(_delta: float) -> void:
             if not _squard_skirmishes.has(engaged_squad) and engaged_squad.is_skirmish_ready:
                 skirmish.squad_join(engaged_squad)
                 _squard_skirmishes[engaged_squad] = skirmish
+                _skirmish_to_zone[skirmish].squads.append(engaged_squad)
 
     
     for skirmish:Skirmish in _skirmishes:     
         if skirmish and skirmish.is_skirmish_complete():
             skirmish.queue_free()
+            _skirmish_to_zone[skirmish].queue_free()
+            _skirmish_to_zone.erase(skirmish)

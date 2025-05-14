@@ -147,17 +147,27 @@ player_squards = [NodePath("../Squads/FootmanSquad")]
 script = ExtResource("10_4uj07")
 _player_manager = NodePath("../PlayerManager")
 
-[node name="Skirmishes" type="Node2D" parent="." node_paths=PackedStringArray("squards_manager")]
+[node name="Skirmishes" type="Node2D" parent="." node_paths=PackedStringArray("squards_manager", "skirmish_map_container")]
 script = ExtResource("11_5wvds")
 squards_manager = NodePath("../Squads")
+skirmish_map_container = NodePath("../SkirmishMapContainer")
+
+[node name="SkirmishMapContainer" type="Node2D" parent="."]
 
 [node name="SelectedSquadOverview" type="PanelContainer" parent="." node_paths=PackedStringArray("squards")]
 top_level = true
 clip_contents = true
-offset_left = 1508.0
-offset_top = 546.0
-offset_right = 1787.0
-offset_bottom = 883.0
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -296.0
+offset_top = -348.0
+offset_right = -17.0
+offset_bottom = -11.0
+grow_horizontal = 0
+grow_vertical = 0
 script = ExtResource("13_05cw3")
 squards = NodePath("../Squads")
 
