@@ -13,7 +13,7 @@ class_name Squad
 @export var speed: int = 20
 
 # Variables for tracking nearby squads
-var nearby_squads = []
+var nearby_hostile_squads = []
 var destination: Vector2
 var is_skirmish_ready: bool
 var in_skirmish = false
@@ -40,8 +40,6 @@ func _process(_delta):
         if unit.property.get_property("health") > 0:
             is_skirmish_ready = true
             break
-       
-    check_for_skirmish()
     
 
 func _physics_process(delta):
@@ -90,52 +88,15 @@ func apply_push(force: Vector2):
 # When another area enters this squad's detection range
 func _on_area_entered(area):
     var parent = area.get_parent()
-    if parent is Squad and parent != self:
-        if not nearby_squads.has(parent):
-            nearby_squads.append(parent)
+    if parent is Squad and parent != self and parent._faction * _faction < 0:
+        nearby_hostile_squads.append(parent)
 
 # When another area exits this squad's detection range
 func _on_area_exited(area):
     var parent = area.get_parent()
     if parent is Squad:
-        if nearby_squads.has(parent):
-            nearby_squads.erase(parent)
-
-
-# Check if conditions for skirmish are met
-func check_for_skirmish():
-    if not is_skirmish_ready:
-        return
-
-    # If 2 or more squads (including this one) are in range, start skirmish
-    if nearby_squads.size() >= 1 and not in_skirmish:
-        start_skirmish()
-
-# Start skirmish between squads
-func start_skirmish():
-    in_skirmish = true
-    # Call skirmish function
-    skirmish()
-
-
-# Skirmish logic - override this in child classes for custom behavior
-func skirmish():
-    print("Squad " + name + " is in a skirmish with:")
-    
-    for squad in nearby_squads:
-        print("- " + squad.name + " (Faction: " + str(squad.get_faction()) + ")")
-    
-    # Example battle logic
-    var hostile_squads = []
-    for squad in nearby_squads:
-        if squad.get_faction() * _faction < 0:
-            hostile_squads.append(squad)
-    
-    if hostile_squads.size() > 0:
-        print(name + " engaging hostile squads!")
-        # Implement battle logic here
-    else:
-        print("All squads are friendly or neutral. No combat.")
+        if nearby_hostile_squads.has(parent):
+            nearby_hostile_squads.erase(parent)
 
 
 func get_faction() -> int:

@@ -58,12 +58,14 @@ func squad_join(squad: Squad):
     var commander = commanders[squad.get_faction()]
     commander.deployable_units.append_array(squad.units)
     squad.visible = false
+    squad.in_skirmish = true
     print("squad joined")
 
 func squad_return(squad: Squad):
     for unit: Unit in squad.units:
         _unit_manager.remove_child(unit)
     squad.visible = true
+    squad.in_skirmish = false
     
 func is_skirmish_complete() -> bool:
     return _is_skirmish_completed

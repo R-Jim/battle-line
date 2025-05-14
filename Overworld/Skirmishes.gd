@@ -14,21 +14,15 @@ func _process(_delta: float) -> void:
     for child in squards_manager.get_children():
         if child is Squad:
             squards.append(child)
+
     
     for squad in squards:
-        if not squad.in_skirmish or not squad.is_skirmish_ready:
+        var is_squad_engaged = squad.is_skirmish_ready and squad.nearby_hostile_squads.filter(func(hostile_squad: Squad): return hostile_squad.is_skirmish_ready).size() > 0
+        if squad.in_skirmish and not is_squad_engaged:
+            squad_leave_skirmish(squad)
+            print("squad[", squad.name, "] returns from skirmish")
             continue
-        
-        var engaged_squad_in_skirmish_count = 0
-        for engaged_squad: Squad in squad.nearby_squads:
-            if engaged_squad.is_skirmish_ready:
-                engaged_squad_in_skirmish_count += 1
-            
-        if engaged_squad_in_skirmish_count == 0:
-            if not squad.is_skirmish_ready or engaged_squad_in_skirmish_count == 0 and _squard_skirmishes.has(squad):
-                _squard_skirmishes[squad].squad_return(squad)
-                _squard_skirmishes.erase(squad)
-                print("squad[", squad.name, "] returns from skirmish")
+        elif not is_squad_engaged:
             continue
 
         var skirmish: Skirmish
@@ -36,25 +30,33 @@ func _process(_delta: float) -> void:
             skirmish = skirmish_map_scene.instantiate()
             skirmish_map_container.add_child(skirmish)
             _skirmishes.append(skirmish)
-            skirmish.squad_join(squad)
-            _squard_skirmishes[squad] = skirmish
             
             var skirmish_zone = skirmish_scene.instantiate()
-            skirmish_zone.squads.append(squad)
             add_child(skirmish_zone)
             _skirmish_to_zone[skirmish] = skirmish_zone
+            squad_join_skirmish(squad, skirmish)
         else:
             skirmish = _squard_skirmishes[squad]
             
-        for engaged_squad: Squad in squad.nearby_squads:
+        for engaged_squad: Squad in squad.nearby_hostile_squads:
             if not _squard_skirmishes.has(engaged_squad) and engaged_squad.is_skirmish_ready:
-                skirmish.squad_join(engaged_squad)
-                _squard_skirmishes[engaged_squad] = skirmish
-                _skirmish_to_zone[skirmish].squads.append(engaged_squad)
+                squad_join_skirmish(engaged_squad, skirmish)
 
     
     for skirmish:Skirmish in _skirmishes:     
         if skirmish and skirmish.is_skirmish_complete():
-            skirmish.queue_free()
-            _skirmish_to_zone[skirmish].queue_free()
+            var skirmish_zone = _skirmish_to_zone[skirmish]
             _skirmish_to_zone.erase(skirmish)
+            skirmish.free()
+            skirmish_zone.free()
+
+func squad_join_skirmish(squad: Squad, skirmish: Skirmish):
+    skirmish.squad_join(squad)
+    _squard_skirmishes[squad] = skirmish
+    _skirmish_to_zone[skirmish].squads[squad] = true
+
+func squad_leave_skirmish(squad):
+    var skirmish = _squard_skirmishes[squad]
+    skirmish.squad_return(squad)
+    _squard_skirmishes.erase(squad)
+    _skirmish_to_zone[skirmish].squads.erase(squad)   
