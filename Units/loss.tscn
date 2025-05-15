@@ -1,9 +1,8 @@
-[gd_scene load_steps=34 format=3 uid="uid://xxan7kbsj7vp"]
+[gd_scene load_steps=33 format=3 uid="uid://xxan7kbsj7vp"]
 
 [ext_resource type="Script" uid="uid://byvgjo8griexj" path="res://Units/Unit.gd" id="1_oan3q"]
 [ext_resource type="Script" uid="uid://cupqrbonpqjcf" path="res://Skirmish/Selectable.gd" id="2_xqtjl"]
 [ext_resource type="Script" uid="uid://d3stps3jmc8nq" path="res://Skills/Combat/SkillMelee.gd" id="3_ogwlw"]
-[ext_resource type="Script" uid="uid://bjmljbot2yp32" path="res://Skills/Combat/SkillCaptureCastle.gd" id="4_tld0s"]
 [ext_resource type="Script" uid="uid://cfjr0h0t8rul3" path="res://Skills/Combat/SkillSacrifice.gd" id="4_xqtjl"]
 [ext_resource type="Texture2D" uid="uid://bmv65laq3lxq8" path="res://Sprites/MiniThief.png" id="5_oan3q"]
 [ext_resource type="Script" uid="uid://dvleo6nrh24i6" path="res://Skills/Combat/SkillDetonate.gd" id="5_ogwlw"]
@@ -191,19 +190,6 @@ visible = false
 position = Vector2(-4, 14)
 shape = SubResource("CapsuleShape2D_ctwoc")
 debug_color = Color(0, 0.751532, 0.539796, 0.42)
-
-[node name="SkillCaptureCastle" type="Area2D" parent="." node_paths=PackedStringArray("_source")]
-position = Vector2(0, 12)
-scale = Vector2(6, 3)
-script = ExtResource("4_tld0s")
-_range = 6
-_action = "capture"
-_source = NodePath("..")
-_phase = "Combat"
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="SkillCaptureCastle"]
-shape = SubResource("CircleShape2D_nxogm")
-debug_color = Color(0.641848, 0.52437, 5.77569e-07, 0.176471)
 
 [node name="SkillSacrifice" type="Area2D" parent="." node_paths=PackedStringArray("_source")]
 position = Vector2(0, 12)

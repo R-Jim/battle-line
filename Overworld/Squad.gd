@@ -40,7 +40,8 @@ func _process(_delta):
         if unit.property.get_property("health") > 0:
             is_skirmish_ready = true
             break
-    
+    if not is_skirmish_ready:
+        get_parent().remove_child(self)
 
 func _physics_process(delta):
     velocity = Vector2.ZERO

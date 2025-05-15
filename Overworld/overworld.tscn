@@ -93,12 +93,14 @@ travserables = [NodePath("../Region2")]
 
 [node name="Skirmish" type="Node2D" parent="."]
 
-[node name="PlayerFaction" parent="." node_paths=PackedStringArray("controlled_regions") instance=ExtResource("3_nyb65")]
+[node name="PlayerFaction" parent="." node_paths=PackedStringArray("controlled_regions", "squards") instance=ExtResource("3_nyb65")]
 controlled_regions = [NodePath("../Region"), NodePath("../Region2")]
+squards = [NodePath("../Squads/FootmanSquad")]
 
-[node name="EnemyFaction" parent="." node_paths=PackedStringArray("controlled_regions") instance=ExtResource("3_nyb65")]
+[node name="EnemyFaction" parent="." node_paths=PackedStringArray("controlled_regions", "squards") instance=ExtResource("3_nyb65")]
 faction = -1
 controlled_regions = [NodePath("../Region3")]
+squards = [NodePath("../Squads/LossSquad")]
 
 [node name="Units" type="Node2D" parent="."]
 visible = false
