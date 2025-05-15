@@ -9,7 +9,7 @@ func _register_faction_commander(faction: int, commander: Commander):
 
 func _ready() -> void:
   _process_commanders_timer = Timer.new()
-  _process_commanders_timer.wait_time = 5.0
+  _process_commanders_timer.wait_time = 2.0
   _process_commanders_timer.one_shot = false
   _process_commanders_timer.autostart = true
   _process_commanders_timer.timeout.connect(_process_commanders)
