@@ -11,7 +11,7 @@ func _input(event):
         match event.button_index:
             MOUSE_BUTTON_RIGHT:
                 if event.pressed:
-                    var destination = _overworld_selectable_tile_map.get_current_hovered_tile_center()
+                    var destination = current_mouse_position
                     
                     for squad:Squad in player_squards:
                         if squad.selectable.is_selected():
