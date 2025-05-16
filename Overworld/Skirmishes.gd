@@ -29,9 +29,7 @@ func _process(_delta: float) -> void:
         var skirmish: Skirmish
         if not _squard_skirmishes.has(squad):
             skirmish = skirmish_map_scene.instantiate()
-            skirmish_map_viewer.add_child(skirmish)
             _skirmishes.append(skirmish)
-            
             var skirmish_zone = skirmish_scene.instantiate()
             add_child(skirmish_zone)
             _skirmish_to_zone[skirmish] = skirmish_zone
@@ -42,6 +40,9 @@ func _process(_delta: float) -> void:
         for engaged_squad: Squad in squad.nearby_hostile_squads:
             if not _squard_skirmishes.has(engaged_squad) and engaged_squad.is_skirmish_ready:
                 squad_join_skirmish(engaged_squad, skirmish)
+        
+        if not skirmish.get_parent():
+            skirmish_map_viewer.add_child(skirmish)
 
     
     for skirmish:Skirmish in _skirmishes:     

@@ -17,30 +17,25 @@ const default_commander = preload("res://Skirmish/Commander.gd")
 var commanders: Dictionary[int, Commander] = {}
 
 var _is_skirmish_completed: bool
-var skirmish_complete_timer: Timer
 
 func _ready() -> void:
-    skirmish_complete_timer = Timer.new()
-    skirmish_complete_timer.one_shot = true
-    skirmish_complete_timer.timeout.connect(_skirmish_complete)
-    add_child(skirmish_complete_timer)
-
     deployment_zones = {
         -1: faction_minus_one_zones,
         1: faction_one_zones
     }
     
+    for commander: Commander in commanders.values():
+        commander._unit_manager = _unit_manager
+        commander._structure_manager = _structure_manger
+    
 func _process(delta: float) -> void:
     if _unit_manager.registered_units.size() == 0:
-        if skirmish_complete_timer.is_stopped():
-            skirmish_complete_timer.start(10)
-    else:
-        if not skirmish_complete_timer.is_stopped():
-            skirmish_complete_timer.stop()
+        for commander: Commander in commanders.values():
+            if commander.deployable_units.size() > 0:
+                return
+        _is_skirmish_completed = true
 
 func commander_register(commander: Commander):
-    commander._unit_manager = _unit_manager
-    commander._structure_manager = _structure_manger
     commanders[commander.get_faction()] = commander
     add_child(commander)
 
@@ -71,9 +66,6 @@ func squad_return(squad: Squad):
     
 func is_skirmish_complete() -> bool:
     return _is_skirmish_completed
-
-func _skirmish_complete():
-    _is_skirmish_completed = true
 
 func get_available_deployment_zones(faction: int) -> Array[DeploymentZone]:
   if not faction in deployment_zones:
