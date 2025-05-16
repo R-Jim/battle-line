@@ -8,10 +8,11 @@
 clip_contents = true
 anchors_preset = -1
 anchor_left = -0.004
-anchor_right = 0.155
-anchor_bottom = 0.374
-offset_left = 7.2
-offset_bottom = 0.399994
+anchor_right = 0.267
+anchor_bottom = 0.296
+offset_left = 7.68
+offset_right = -0.640015
+offset_bottom = 0.320007
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_exd5p")
@@ -23,36 +24,51 @@ metadata/_custom_type_script = "uid://curro60ib6cvv"
 [node name="SquadName" type="RichTextLabel" parent="."]
 layout_mode = 1
 anchors_preset = -1
-offset_left = 22.0
-offset_top = 19.0
-offset_right = 257.0
-offset_bottom = 63.0
+offset_left = 24.0
+offset_top = 240.0
+offset_right = 216.0
+offset_bottom = 288.0
 text = "Squad
 "
 horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Units" type="Node2D" parent="."]
 
 [node name="Slot0" parent="Units" instance=ExtResource("3_a4wnr")]
-offset_left = 20.0
-offset_top = 79.0
-offset_right = 129.0
-offset_bottom = 186.0
+offset_left = 248.0
+offset_top = 56.0
+offset_right = 357.0
+offset_bottom = 163.0
 
 [node name="Slot1" parent="Units" instance=ExtResource("3_a4wnr")]
-offset_left = 152.0
-offset_top = 79.0
-offset_right = 261.0
-offset_bottom = 186.0
+offset_left = 380.0
+offset_top = 56.0
+offset_right = 489.0
+offset_bottom = 163.0
 
 [node name="Slot2" parent="Units" instance=ExtResource("3_a4wnr")]
-offset_left = 20.0
-offset_top = 209.0
-offset_right = 129.0
-offset_bottom = 316.0
+offset_left = 248.0
+offset_top = 186.0
+offset_right = 357.0
+offset_bottom = 293.0
 
 [node name="Slot3" parent="Units" instance=ExtResource("3_a4wnr")]
-offset_left = 152.0
-offset_top = 211.0
-offset_right = 261.0
-offset_bottom = 318.0
+offset_left = 380.0
+offset_top = 188.0
+offset_right = 489.0
+offset_bottom = 295.0
+
+[node name="CommanderUnit" parent="." instance=ExtResource("3_a4wnr")]
+offset_left = 24.0
+offset_top = 56.0
+offset_right = 224.0
+offset_bottom = 240.0
+
+[node name="Movement" type="ProgressBar" parent="."]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 21.0
+offset_right = 488.0
+offset_bottom = 40.0
+show_percentage = false

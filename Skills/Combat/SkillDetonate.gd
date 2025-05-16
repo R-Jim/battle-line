@@ -25,6 +25,6 @@ func _get_target_effects(_target_id: String) -> Dictionary:
 
 func _get_targets() -> Dictionary:
     var current_timer = _source.property.get_property(_detonate_timer_property)
-    if current_timer <= 0:
+    if current_timer and current_timer <= 0:
       return _targets
     return {}

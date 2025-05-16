@@ -12,6 +12,9 @@ func _on_area_entered(area: Area2D):
 
 func _get_target_effects(_target_id: String) -> Dictionary:
     var timer = _source.property.get_property("sacrifice_unit_timer")
+    if not timer: 
+        return {}
+    
     if timer > 0:
       return {
         "sacrifice_unit_timer": - 1,
