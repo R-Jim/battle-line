@@ -5,6 +5,7 @@ extends Panel
 
 @onready var unit_slots: Array = [$Units/Slot0, $Units/Slot1, $Units/Slot2, $Units/Slot3]
 @onready var commander_unit_slot = $CommanderUnit
+@onready var movement_bar = $Movement
 
 func _ready() -> void:
     if not _squad:
@@ -30,4 +31,8 @@ func set_squad(squad: Squad) -> void:
             unit_slot.set_unit(squad.units[slot_index])
         
     
-    
+func _process(delta: float) -> void:
+    if not _squad:
+        return
+        
+    movement_bar.value = _squad.max_movement/(_squad.speed * 3) * 100 

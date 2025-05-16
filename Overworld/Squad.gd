@@ -22,6 +22,7 @@ var push_velocity: Vector2 = Vector2.ZERO
 var max_velocity = speed
 var push_decay: float = 180.0
 var push_strength = 10
+var max_movement = 0
 
 # Called when the node enters the scene tree
 func _ready():
@@ -51,7 +52,7 @@ func _process(_delta):
 
 func _physics_process(delta):
     velocity = Vector2.ZERO
-    if in_skirmish:
+    if in_skirmish or max_movement <= 0:
         return
     
     # Movement toward destination
@@ -61,6 +62,7 @@ func _physics_process(delta):
 
         if global_position.distance_to(destination) > distance:
             velocity = direction * speed
+            max_movement -= distance
         else:
             global_position = destination
             destination = Vector2.ZERO
@@ -108,3 +110,6 @@ func _on_area_exited(area):
 
 func get_faction() -> int:
     return _faction
+
+func reset_movement() -> void:
+    max_movement = speed * 3

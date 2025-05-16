@@ -64,6 +64,7 @@ offset_left = 24.0
 offset_top = 56.0
 offset_right = 224.0
 offset_bottom = 240.0
+pivot_offset = Vector2(136, 184)
 
 [node name="Movement" type="ProgressBar" parent="."]
 layout_mode = 0
