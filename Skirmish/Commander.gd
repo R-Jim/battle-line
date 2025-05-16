@@ -111,6 +111,7 @@ func deploy_units() -> void:
         var unit = deployable_units.pop_front()
         if not unit:
             return
+        print("deploy, ", unit.name)
         unit.position = zone.global_position
         commandable_units[unit] = true
         _unit_manager.add_unit(unit)

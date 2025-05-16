@@ -9,6 +9,7 @@ class_name Squad
 @onready var skirmish_area = $SkirmishArea
 @onready var selectable = $Selectable
 @onready var command = $Command
+@export var commander_unit: Unit
 
 @export var speed: int = 20
 
@@ -32,6 +33,11 @@ func _ready():
     for unit in units:
         if unit.get_parent():
             unit.get_parent().remove_child(unit)
+    
+    if commander_unit:
+        if commander_unit.get_parent():
+            commander_unit.get_parent().remove_child(commander_unit)
+
 
 # Called every frame
 func _process(_delta):

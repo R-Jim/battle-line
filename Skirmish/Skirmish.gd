@@ -43,7 +43,6 @@ func commander_register(commander: Commander):
     commander._structure_manager = _structure_manger
     commanders[commander.get_faction()] = commander
     add_child(commander)
-    print("commander joined")
 
 
 func squad_join(squad: Squad):
@@ -56,14 +55,17 @@ func squad_join(squad: Squad):
 
     
     var commander = commanders[squad.get_faction()]
+    if squad.commander_unit:
+        commander.deployable_units.append(squad.commander_unit)
     commander.deployable_units.append_array(squad.units)
     squad.visible = false
     squad.in_skirmish = true
-    print("squad joined")
 
 func squad_return(squad: Squad):
     for unit: Unit in squad.units:
         _unit_manager.remove_child(unit)
+    if squad.commander_unit:
+        _unit_manager.remove_child(squad.commander_unit)
     squad.visible = true
     squad.in_skirmish = false
     

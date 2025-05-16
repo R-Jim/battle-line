@@ -1,9 +1,8 @@
-[gd_scene load_steps=29 format=3 uid="uid://d12cdk8004rqb"]
+[gd_scene load_steps=28 format=3 uid="uid://d12cdk8004rqb"]
 
 [ext_resource type="Script" uid="uid://byvgjo8griexj" path="res://Units/Unit.gd" id="1_51yig"]
 [ext_resource type="Script" uid="uid://cupqrbonpqjcf" path="res://Skirmish/Selectable.gd" id="2_msjom"]
 [ext_resource type="Script" uid="uid://d3stps3jmc8nq" path="res://Skills/Combat/SkillMelee.gd" id="3_vliep"]
-[ext_resource type="Script" uid="uid://bjmljbot2yp32" path="res://Skills/Combat/SkillCaptureCastle.gd" id="4_sicn3"]
 [ext_resource type="Texture2D" uid="uid://dp2jpx6krcd2q" path="res://Sprites/MiniSwordMan.png" id="5_qcwm7"]
 [ext_resource type="Texture2D" uid="uid://cn8xhc12f71rd" path="res://Sprites/flag.png" id="6_co0f8"]
 [ext_resource type="Script" uid="uid://b73v1ig6e1l5p" path="res://Property/Property.gd" id="7_a6ovx"]
@@ -186,19 +185,6 @@ _phase = "Combat"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SkillMelee"]
 shape = SubResource("CircleShape2D_nxogm")
 debug_color = Color(0, 0.6, 0.701961, 0.176471)
-
-[node name="SkillCaptureCastle" type="Area2D" parent="." node_paths=PackedStringArray("_source")]
-position = Vector2(0, 12)
-scale = Vector2(6, 3)
-script = ExtResource("4_sicn3")
-_range = 6
-_action = "capture"
-_source = NodePath("..")
-_phase = "Combat"
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="SkillCaptureCastle"]
-shape = SubResource("CircleShape2D_nxogm")
-debug_color = Color(0.641848, 0.52437, 5.77569e-07, 0.176471)
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(3, 3)
