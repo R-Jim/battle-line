@@ -37,6 +37,7 @@ func set_property(property: StringName, value: Variant):
         _properties[property] = PropertyStruct.new(value)
 
 
+
 func add_pending_update(property: Dictionary):
     _pending_updates.append(property)
 
@@ -50,3 +51,6 @@ func start_session() -> void:
 
 func commit_session() -> void:
     _properties = _pending_properties.duplicate()
+    
+func get_current_properties() -> Dictionary:
+    return _properties.duplicate()

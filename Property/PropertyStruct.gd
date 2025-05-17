@@ -26,5 +26,5 @@ func set_value(value: Variant):
   if typeof(value) != typeof(_current):
     push_error("PropertyStruct: Cannot set value of different type")
     return
-
+    
   _current = value

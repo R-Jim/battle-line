@@ -60,6 +60,7 @@ offset_right = 489.0
 offset_bottom = 295.0
 
 [node name="CommanderUnit" parent="." instance=ExtResource("3_a4wnr")]
+layout_mode = 0
 offset_left = 24.0
 offset_top = 56.0
 offset_right = 224.0
