@@ -6,9 +6,15 @@ extends TileMapLayer
 @export var neutral_color: Color = Color(0.5, 0.5, 0.5)
 @export var player_color: Color = Color(0, 0, 1)
 @export var enemy_color: Color = Color(1, 0, 0)
+@export var influencers: Array[Node] = []
+var influencers_node_map: Dictionary[Node, Node] = {}
 
 # Node that contains all influencer nodes
 @onready var influencers_node = $Influencers
+const influencer_scene = preload("res://Overworld/influencer.tscn")
+
+@onready var overlay_layer = $Overlay
+
 
 # Dictionary to store calculated influence values: {Vector2i position: int value}
 var influence_map = {}
@@ -41,6 +47,37 @@ func _ready():
     # Initial calculation
     calculate_influence()
     update_visuals()
+    
+
+func _process(delta: float) -> void:
+    influencers = influencers.filter(func(n): return n)
+    
+    for influencer in influencers:
+        if influencers_node_map.has(influencer):
+            continue
+
+        var influencer_node = influencer_scene.instantiate()
+        influencer_node.influence_strength = influencer.influence_strength
+        influencers_node_map[influencer] = influencer_node
+        influencers_node.add_child(influencer_node)
+
+    var is_update_influence = false
+    for influencer in influencers_node_map:
+        if not influencer:
+            is_update_influence = true
+            influencers_node_map.erase(influencer)
+            continue
+            
+        var influencer_node = influencers_node_map[influencer]
+        if influencer_node.position == influencer.position:
+            continue
+
+        influencer_node.position = influencer.position    
+        is_update_influence = true
+    
+    if is_update_influence:
+        update_influence()
+
 
 # Call this when influencers are added/removed/changed
 func update_influence():
@@ -95,7 +132,10 @@ func calculate_influence():
 
 func update_visuals():
     # Clear existing visuals
-    clear()
+    for child in overlay_layer.get_children():
+        overlay_layer.remove_child(child)
+        child.queue_free()
+
     
     # Update visuals based on influence map
     for tile_pos in influence_map:
@@ -124,7 +164,7 @@ func update_visuals():
         overlay.text = str(influence_value)
         overlay.position = map_to_local(tile_pos)
         overlay.size = Vector2(32, 32)
-        add_child(overlay)
+        overlay_layer.add_child(overlay)
 
 # Helper method to get influence value at a position
 func get_influence_at(position: Vector2i) -> int:

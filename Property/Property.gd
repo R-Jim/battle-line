@@ -44,7 +44,7 @@ func get_pending_updates() -> Array[Dictionary]:
     return _pending_updates.duplicate()
 
 
-func start_section() -> void:
+func start_session() -> void:
     _pending_properties = _properties.duplicate()
 
 

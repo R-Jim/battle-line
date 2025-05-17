@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=4 uid="uid://gyhbrvuya34u"]
+[gd_scene load_steps=17 format=4 uid="uid://gyhbrvuya34u"]
 
 [ext_resource type="Script" uid="uid://bf20v3cyhib01" path="res://Overworld/Overworld.gd" id="1_6jwp1"]
 [ext_resource type="PackedScene" uid="uid://b8bxh6w4cy0eq" path="res://Overworld/faction.tscn" id="3_nyb65"]
@@ -13,6 +13,7 @@
 [ext_resource type="Texture2D" uid="uid://bfdww3gcrjgfr" path="res://Sprites/Terrain/Desert1.png" id="12_4bmk4"]
 [ext_resource type="PackedScene" uid="uid://7kevi3rg4pri" path="res://squad_card.tscn" id="13_0wios"]
 [ext_resource type="Script" uid="uid://cce0mobr1nq3a" path="res://Overworld/SelectedSquadOverview.gd" id="13_05cw3"]
+[ext_resource type="PackedScene" uid="uid://dptcp5e0873gx" path="res://Overworld/influence_tile_map.tscn" id="14_05cw3"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_0wios"]
 texture = ExtResource("12_4bmk4")
@@ -245,7 +246,11 @@ squards = NodePath("../Squads")
 [node name="SquadCard" parent="SelectedSquadOverview" instance=ExtResource("13_0wios")]
 layout_mode = 2
 
+[node name="InfluenceTileMap" parent="." node_paths=PackedStringArray("influencers") instance=ExtResource("14_05cw3")]
+influencers = [NodePath("../Squads/FootmanSquad")]
+
 [editable path="Squads/FootmanSquad"]
 [editable path="Squads/LossSquad"]
 [editable path="Squads/LossSquad2"]
 [editable path="Squads/LossSquad3"]
+[editable path="InfluenceTileMap"]

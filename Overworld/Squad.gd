@@ -24,6 +24,9 @@ var push_decay: float = 180.0
 var push_strength = 10
 var max_movement = 0
 
+# Variables for influence
+@export var influence_strength = 5
+
 # Called when the node enters the scene tree
 func _ready():
     if skirmish_area: 

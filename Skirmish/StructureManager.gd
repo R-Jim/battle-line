@@ -12,7 +12,7 @@ func _ready():
 
 func _process_structure_skills(phase: StringName):
     for structure_id in registered_structures:
-        registered_structures[structure_id].property.start_section()
+        registered_structures[structure_id].property.start_session()
 
     for structure_id in registered_structures:
         for skill in registered_structures[structure_id]._get_skills(phase):

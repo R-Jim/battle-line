@@ -1,11 +1,12 @@
-[gd_scene load_steps=4 format=3 uid="uid://dptcp5e0873gx"]
+[gd_scene load_steps=5 format=3 uid="uid://dptcp5e0873gx"]
 
 [ext_resource type="Script" uid="uid://bx073vtxavnmt" path="res://Overworld/InfluenceTileMap.gd" id="1_t70im"]
 [ext_resource type="Script" uid="uid://drim4032cuq2l" path="res://Overworld/Influence.gd" id="2_cyn2w"]
+[ext_resource type="PackedScene" uid="uid://bvlpljieo0c3k" path="res://Overworld/influencer.tscn" id="2_ew4fc"]
 
 [sub_resource type="TileSet" id="TileSet_t70im"]
 tile_shape = 3
-tile_size = Vector2i(32, 32)
+tile_size = Vector2i(64, 64)
 
 [node name="InfluenceTileMap" type="TileMapLayer"]
 tile_set = SubResource("TileSet_t70im")
@@ -13,10 +14,8 @@ script = ExtResource("1_t70im")
 
 [node name="Influencers" type="Node" parent="."]
 
-[node name="PlayerNode" type="Node2D" parent="Influencers"]
+[node name="PlayerNode" parent="Influencers" instance=ExtResource("2_ew4fc")]
 position = Vector2(272, 160)
-script = ExtResource("2_cyn2w")
-influence_strength = 2
 
 [node name="PlayerNode2" type="Node2D" parent="Influencers"]
 position = Vector2(272, 200)
@@ -26,3 +25,5 @@ script = ExtResource("2_cyn2w")
 position = Vector2(232, 160)
 script = ExtResource("2_cyn2w")
 influence_strength = -2
+
+[node name="Overlay" type="Node2D" parent="."]

@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://bvlpljieo0c3k"]
+
+[ext_resource type="Script" uid="uid://drim4032cuq2l" path="res://Overworld/Influence.gd" id="1_7si57"]
+
+[node name="PlayerNode" type="Node2D"]
+script = ExtResource("1_7si57")
+influence_strength = 2

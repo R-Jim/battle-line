@@ -18,7 +18,7 @@ func _process(_delta: float) -> void:
 
 func _process_unit_skills(phase: StringName):
     for unit_id in registered_units:
-        registered_units[unit_id].property.start_section()
+        registered_units[unit_id].property.start_session()
 
     for unit_id in registered_units:
         for skill in registered_units[unit_id]._get_skills(phase):
