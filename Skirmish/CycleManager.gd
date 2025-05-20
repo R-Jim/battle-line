@@ -42,8 +42,9 @@ func _strategic_start_cycle():
 
 func _strategic_end_cycle():
     _unit_manager._toggle_move_unit(false)
-    _unit_manager._process_unit_skills(&"Strategic")
-    _structure_manager._process_structure_skills(&"Strategic")
+    # TODO: Fix duplicate start/end session
+    #_unit_manager._process_unit_skills(&"Strategic")
+    #_structure_manager._process_structure_skills(&"Strategic")
 
 func _combat_end_cycle():
     _unit_manager._process_unit_skills(&"Combat")

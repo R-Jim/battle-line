@@ -1,56 +1,31 @@
-[gd_scene load_steps=5 format=3 uid="uid://gvb6lxwfemhk"]
+[gd_scene load_steps=6 format=3 uid="uid://gvb6lxwfemhk"]
 
-[ext_resource type="PackedScene" uid="uid://bk2gev4a3gsgq" path="res://Overworld/squad.tscn" id="1_27qdf"]
-[ext_resource type="Texture2D" uid="uid://dp2jpx6krcd2q" path="res://Sprites/MiniSwordMan.png" id="2_r0imh"]
-[ext_resource type="Script" uid="uid://dnw2yt0nvug1p" path="res://Buff/OverworldUnitBuff.gd" id="3_j68bs"]
+[ext_resource type="Script" uid="uid://73omd8dgkp17" path="res://Skirmish/CycleManager.gd" id="1_j68bs"]
+[ext_resource type="Script" uid="uid://0r1kvq2r0ecr" path="res://Skirmish/UnitManager.gd" id="2_noa40"]
+[ext_resource type="Script" uid="uid://d1o3tacej3no1" path="res://Effect/Effect.gd" id="4_3e21y"]
 [ext_resource type="PackedScene" uid="uid://d12cdk8004rqb" path="res://Units/footman.tscn" id="4_j68bs"]
+[ext_resource type="Script" uid="uid://b6p48687rgesd" path="res://Skirmish/StructureManager.gd" id="5_4lcjr"]
 
 [node name="Node" type="Node"]
 
-[node name="Units" type="Node2D" parent="."]
-visible = false
+[node name="CycleManager" type="Node2D" parent="."]
+script = ExtResource("1_j68bs")
 
-[node name="FootmanCommander" parent="Units" instance=ExtResource("4_j68bs")]
-id = "unit_010"
-max_health = 200
-max_attack = 40
-speed = 220
+[node name="UnitManager" type="Node2D" parent="CycleManager"]
+script = ExtResource("2_noa40")
 
-[node name="Footman1" parent="Units" instance=ExtResource("4_j68bs")]
+[node name="Footman1" parent="CycleManager/UnitManager" instance=ExtResource("4_j68bs")]
 id = "unit_011"
 max_health = 50
 
-[node name="Footman2" parent="Units" instance=ExtResource("4_j68bs")]
-id = "unit_012"
+[node name="HealingEffect" type="Node2D" parent="CycleManager/UnitManager/Footman1"]
+script = ExtResource("4_3e21y")
+_property_name = "health_recovery"
+value_expression_string = "10"
 
-[node name="Footman3" parent="Units" instance=ExtResource("4_j68bs")]
-id = "unit_013"
-
-[node name="FootmanSquad" parent="." node_paths=PackedStringArray("units", "commander_unit") instance=ExtResource("1_27qdf")]
-position = Vector2(1386, 308)
-_faction = 1
-units = [NodePath("../Units/Footman1"), NodePath("../Units/Footman2"), NodePath("../Units/Footman3")]
-commander_unit = NodePath("../Units/FootmanCommander")
-
-[node name="Sprite2D" parent="FootmanSquad" index="0"]
-scale = Vector2(3, 3)
-texture = ExtResource("2_r0imh")
-offset = Vector2(0, -12)
-hframes = 6
-vframes = 6
-
-[node name="HealingBuff" type="Node2D" parent="." node_paths=PackedStringArray("squad")]
-script = ExtResource("3_j68bs")
-property_name = "health"
-value_expression_string = "5"
-squad = NodePath("../FootmanSquad")
-
-[node name="ActivationTimer" type="Timer" parent="HealingBuff"]
-wait_time = 5.0
-autostart = true
-
-[node name="RemovalTimer" type="Timer" parent="HealingBuff"]
+[node name="RemovalTimer" type="Timer" parent="CycleManager/UnitManager/Footman1/HealingEffect"]
 wait_time = 11.0
 autostart = true
 
-[editable path="FootmanSquad"]
+[node name="StructureManager" type="Node2D" parent="CycleManager"]
+script = ExtResource("5_4lcjr")
