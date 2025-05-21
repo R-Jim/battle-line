@@ -1,31 +1,85 @@
-[gd_scene load_steps=6 format=3 uid="uid://gvb6lxwfemhk"]
+[gd_scene load_steps=9 format=3 uid="uid://gvb6lxwfemhk"]
 
-[ext_resource type="Script" uid="uid://73omd8dgkp17" path="res://Skirmish/CycleManager.gd" id="1_j68bs"]
-[ext_resource type="Script" uid="uid://0r1kvq2r0ecr" path="res://Skirmish/UnitManager.gd" id="2_noa40"]
-[ext_resource type="Script" uid="uid://d1o3tacej3no1" path="res://Effect/Effect.gd" id="4_3e21y"]
+[ext_resource type="PackedScene" uid="uid://bk2gev4a3gsgq" path="res://Overworld/squad.tscn" id="1_27qdf"]
+[ext_resource type="Texture2D" uid="uid://dp2jpx6krcd2q" path="res://Sprites/MiniSwordMan.png" id="2_r0imh"]
+[ext_resource type="Script" uid="uid://d1o3tacej3no1" path="res://Effect/UnitEffect.gd" id="4_3e21y"]
 [ext_resource type="PackedScene" uid="uid://d12cdk8004rqb" path="res://Units/footman.tscn" id="4_j68bs"]
-[ext_resource type="Script" uid="uid://b6p48687rgesd" path="res://Skirmish/StructureManager.gd" id="5_4lcjr"]
+[ext_resource type="Script" uid="uid://dc0yma5eab882" path="res://Effect/OverworldEffectZone.gd" id="5_3e21y"]
+[ext_resource type="PackedScene" uid="uid://xxan7kbsj7vp" path="res://Units/loss.tscn" id="5_noa40"]
+[ext_resource type="Script" uid="uid://bhn5n40myd3nl" path="res://Effect/SquadEffect.gd" id="6_3e21y"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_r0imh"]
 
 [node name="Node" type="Node"]
 
-[node name="CycleManager" type="Node2D" parent="."]
-script = ExtResource("1_j68bs")
+[node name="Units" type="Node2D" parent="."]
+visible = false
 
-[node name="UnitManager" type="Node2D" parent="CycleManager"]
-script = ExtResource("2_noa40")
+[node name="FootmanCommander" parent="Units" instance=ExtResource("4_j68bs")]
+id = "unit_010"
+max_health = 200
+max_attack = 40
+speed = 220
 
-[node name="Footman1" parent="CycleManager/UnitManager" instance=ExtResource("4_j68bs")]
+[node name="Footman1" parent="Units" instance=ExtResource("4_j68bs")]
 id = "unit_011"
-max_health = 50
 
-[node name="HealingEffect" type="Node2D" parent="CycleManager/UnitManager/Footman1"]
+[node name="Footman2" parent="Units" instance=ExtResource("4_j68bs")]
+id = "unit_012"
+
+[node name="Footman3" parent="Units" instance=ExtResource("4_j68bs")]
+id = "unit_013"
+
+[node name="Loss1" parent="Units" instance=ExtResource("5_noa40")]
+id = "unit_014"
+
+[node name="Loss2" parent="Units" instance=ExtResource("5_noa40")]
+id = "unit_015"
+
+[node name="Loss3" parent="Units" instance=ExtResource("5_noa40")]
+id = "unit_016"
+
+[node name="Loss4" parent="Units" instance=ExtResource("5_noa40")]
+id = "unit_017"
+
+[node name="Loss5" parent="Units" instance=ExtResource("5_noa40")]
+id = "unit_018"
+
+[node name="Loss6" parent="Units" instance=ExtResource("5_noa40")]
+id = "unit_019"
+
+[node name="Squads" type="Node2D" parent="."]
+position = Vector2(0, -1)
+
+[node name="FootmanSquad" parent="Squads" node_paths=PackedStringArray("commander_unit") instance=ExtResource("1_27qdf")]
+position = Vector2(1386, 308)
+_faction = 1
+commander_unit = NodePath("../../Units/FootmanCommander")
+
+[node name="Sprite2D" parent="Squads/FootmanSquad" index="0"]
+scale = Vector2(3, 3)
+texture = ExtResource("2_r0imh")
+offset = Vector2(0, -12)
+hframes = 6
+vframes = 6
+
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2(1152, 320)
+script = ExtResource("5_3e21y")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, 1)
+scale = Vector2(100, 100)
+shape = SubResource("CircleShape2D_r0imh")
+
+[node name="SquadEffect" type="Node" parent="Area2D"]
+script = ExtResource("6_3e21y")
+metadata/_custom_type_script = "uid://bhn5n40myd3nl"
+
+[node name="HealthRecoveryEffect" type="Node" parent="Area2D/SquadEffect"]
 script = ExtResource("4_3e21y")
 _property_name = "health_recovery"
 value_expression_string = "10"
+metadata/_custom_type_script = "uid://d1o3tacej3no1"
 
-[node name="RemovalTimer" type="Timer" parent="CycleManager/UnitManager/Footman1/HealingEffect"]
-wait_time = 11.0
-autostart = true
-
-[node name="StructureManager" type="Node2D" parent="CycleManager"]
-script = ExtResource("5_4lcjr")
+[editable path="Squads/FootmanSquad"]

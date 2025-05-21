@@ -3,7 +3,7 @@ class_name Squad
 
 # Export variables for configuration
 @export var _faction: int = 0
-@export var units: Array[Unit] = []
+@export var _units: Array[Unit] = []
 
 # Preloaded node references
 @onready var skirmish_area = $SkirmishArea
@@ -27,26 +27,25 @@ var max_movement = 0
 # Variables for influence
 @export var influence_strength = 5
 
+var _squad_effects: Dictionary[SquadEffect, bool] = {}
+
 # Called when the node enters the scene tree
 func _ready():
     if skirmish_area: 
         # Connect signals
         skirmish_area.connect("area_entered", Callable(self, "_on_area_entered"))
         skirmish_area.connect("area_exited", Callable(self, "_on_area_exited"))
-    
-    for unit in units:
-        if unit.get_parent():
-            unit.get_parent().remove_child(unit)
-    
-    if commander_unit:
-        if commander_unit.get_parent():
-            commander_unit.get_parent().remove_child(commander_unit)
+
+
+    for child in get_children():
+        if child is SquadEffect:
+            add_effect(child)
 
 
 # Called every frame
 func _process(_delta):
     is_skirmish_ready = false
-    for unit in units:
+    for unit in _units:
         if unit.property.get_property("health") > 0:
             is_skirmish_ready = true
             break
@@ -116,3 +115,26 @@ func get_faction() -> int:
 
 func reset_movement() -> void:
     max_movement = speed * 3
+
+func add_effect(effect: SquadEffect) -> void:
+    _squad_effects[effect] = true
+    add_child(effect)
+    var unit_effects = effect.get_unit_effects()
+    if unit_effects.size() == 0:
+        return
+    
+    for unit in _units:
+        for unit_effect in unit_effects:
+            var ue = unit_effect.duplicate()
+            unit.add_child(ue)
+    if commander_unit:
+        for unit_effect in unit_effects:
+            var ue = unit_effect.duplicate()
+            commander_unit.add_child(ue)
+
+func get_units() -> Array[Unit]:
+    var units = _units.duplicate()
+    if commander_unit:
+        units.push_front(commander_unit)
+    
+    return units

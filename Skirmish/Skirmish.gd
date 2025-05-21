@@ -50,17 +50,13 @@ func squad_join(squad: Squad):
 
     
     var commander = commanders[squad.get_faction()]
-    if squad.commander_unit:
-        commander.deployable_units.append(squad.commander_unit)
-    commander.deployable_units.append_array(squad.units)
+    commander.deployable_units.append_array(squad.get_units())
     squad.visible = false
     squad.in_skirmish = true
 
 func squad_return(squad: Squad):
-    for unit: Unit in squad.units:
+    for unit: Unit in squad.get_units():
         _unit_manager.remove_child(unit)
-    if squad.commander_unit:
-        _unit_manager.remove_child(squad.commander_unit)
     squad.visible = true
     squad.in_skirmish = false
     

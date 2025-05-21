@@ -23,6 +23,5 @@ static func map_properties(properties: Dictionary) -> Dictionary:
         for map_property_name in property_map[property_name]:
             var modifier = property_map[property_name][map_property_name]
             mapped_property[map_property_name].add_current(value * modifier)
-            print(map_property_name, " add ", value*modifier)
             
     return mapped_property

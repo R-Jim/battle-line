@@ -25,10 +25,10 @@ func set_squad(squad: Squad) -> void:
     
     for slot_index in range(unit_slots.size()):
         var unit_slot = unit_slots[slot_index]
-        if slot_index >= squad.units.size():
+        if slot_index >= squad._units.size():
             unit_slot.set_unit(null)    
         else:
-            unit_slot.set_unit(squad.units[slot_index])
+            unit_slot.set_unit(squad._units[slot_index])
         
     
 func _process(delta: float) -> void:

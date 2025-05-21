@@ -3,8 +3,6 @@ extends Node2D
 @onready var squads = $Squads
 var overworld_timer: Timer
 
-var skirmishs: Array[Skirmish] = []
-
 func _ready() -> void:
     overworld_timer = Timer.new()
     overworld_timer.wait_time = 5
@@ -17,4 +15,9 @@ func _draw() -> void:
 
 func overworld_cronjob() -> void:
     for squad:Squad in squads.get_children():
+        if squad.in_skirmish:
+            continue
         squad.reset_movement()
+        for unit: Unit in squad.get_units():
+            unit.property.start_session()
+            unit.property.commit_session()

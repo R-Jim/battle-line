@@ -3,6 +3,7 @@ extends Node2D
 @export var squards_manager: Node2D
 @export var skirmish_map_container: Node2D
 @export var skirmish_map_viewer: SubViewport
+@export var units_manager: Node2D
 const skirmish_map_scene = preload("res://Skirmish/skirmish.tscn")
 const skirmish_scene = preload("res://Overworld/skirmish.tscn")
 
@@ -57,8 +58,10 @@ func squad_join_skirmish(squad: Squad, skirmish: Skirmish):
     _squard_skirmishes[squad] = skirmish
     _skirmish_to_zone[skirmish].squads[squad] = true
 
-func squad_leave_skirmish(squad):
+func squad_leave_skirmish(squad: Squad):
     var skirmish = _squard_skirmishes[squad]
     skirmish.squad_return(squad)
     _squard_skirmishes.erase(squad)
-    _skirmish_to_zone[skirmish].squads.erase(squad)   
+    _skirmish_to_zone[skirmish].squads.erase(squad)
+    for unit in squad.get_units():
+        units_manager.add_child(unit)

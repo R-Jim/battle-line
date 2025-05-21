@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=4 uid="uid://gyhbrvuya34u"]
+[gd_scene load_steps=19 format=4 uid="uid://gyhbrvuya34u"]
 
 [ext_resource type="Script" uid="uid://bf20v3cyhib01" path="res://Overworld/Overworld.gd" id="1_6jwp1"]
 [ext_resource type="PackedScene" uid="uid://b8bxh6w4cy0eq" path="res://Overworld/faction.tscn" id="3_nyb65"]
@@ -7,7 +7,9 @@
 [ext_resource type="Texture2D" uid="uid://dp2jpx6krcd2q" path="res://Sprites/MiniSwordMan.png" id="5_h2pad"]
 [ext_resource type="PackedScene" uid="uid://xxan7kbsj7vp" path="res://Units/loss.tscn" id="5_r0nop"]
 [ext_resource type="Texture2D" uid="uid://bmv65laq3lxq8" path="res://Sprites/MiniThief.png" id="6_hob5j"]
+[ext_resource type="Script" uid="uid://bhn5n40myd3nl" path="res://Effect/SquadEffect.gd" id="8_0ispa"]
 [ext_resource type="Script" uid="uid://cqoklv47pk3w0" path="res://Overworld/PlayerManager.gd" id="9_r0nop"]
+[ext_resource type="Script" uid="uid://d1o3tacej3no1" path="res://Effect/UnitEffect.gd" id="9_y8kkq"]
 [ext_resource type="Script" uid="uid://be7oj8c0tpvxi" path="res://Skirmish/SelectableTileMap.gd" id="10_4uj07"]
 [ext_resource type="Script" uid="uid://1qyi0fxdxp0" path="res://Overworld/Skirmishes.gd" id="11_5wvds"]
 [ext_resource type="Texture2D" uid="uid://bfdww3gcrjgfr" path="res://Sprites/Terrain/Desert1.png" id="12_4bmk4"]
@@ -127,10 +129,10 @@ id = "unit_019"
 [node name="Squads" type="Node2D" parent="."]
 position = Vector2(0, -1)
 
-[node name="FootmanSquad" parent="Squads" node_paths=PackedStringArray("units", "commander_unit") instance=ExtResource("4_824ie")]
+[node name="FootmanSquad" parent="Squads" node_paths=PackedStringArray("_units", "commander_unit") instance=ExtResource("4_824ie")]
 position = Vector2(1386, 308)
 _faction = 1
-units = [NodePath("../../Units/Footman1"), NodePath("../../Units/Footman2"), NodePath("../../Units/Footman3")]
+_units = [NodePath("../../Units/Footman1"), NodePath("../../Units/Footman2"), NodePath("../../Units/Footman3")]
 commander_unit = NodePath("../../Units/FootmanCommander")
 
 [node name="Sprite2D" parent="Squads/FootmanSquad" index="0"]
@@ -140,10 +142,20 @@ offset = Vector2(0, -12)
 hframes = 6
 vframes = 6
 
-[node name="LossSquad" parent="Squads" node_paths=PackedStringArray("units") instance=ExtResource("4_824ie")]
+[node name="SquadEffect" type="Node" parent="Squads/FootmanSquad"]
+script = ExtResource("8_0ispa")
+metadata/_custom_type_script = "uid://bhn5n40myd3nl"
+
+[node name="HealthRecoveryEffect" type="Node" parent="Squads/FootmanSquad/SquadEffect"]
+script = ExtResource("9_y8kkq")
+_property_name = "health_recovery"
+value_expression_string = "10"
+metadata/_custom_type_script = "uid://d1o3tacej3no1"
+
+[node name="LossSquad" parent="Squads" node_paths=PackedStringArray("_units") instance=ExtResource("4_824ie")]
 position = Vector2(1012, 309)
 _faction = -1
-units = [NodePath("../../Units/Loss1"), NodePath("../../Units/Loss2")]
+_units = [NodePath("../../Units/Loss1"), NodePath("../../Units/Loss2")]
 
 [node name="Sprite2D" parent="Squads/LossSquad" index="0"]
 scale = Vector2(3, 3)
@@ -152,10 +164,10 @@ offset = Vector2(0, -13)
 hframes = 12
 vframes = 8
 
-[node name="LossSquad2" parent="Squads" node_paths=PackedStringArray("units") instance=ExtResource("4_824ie")]
+[node name="LossSquad2" parent="Squads" node_paths=PackedStringArray("_units") instance=ExtResource("4_824ie")]
 position = Vector2(768, 553)
 _faction = -1
-units = [NodePath("../../Units/Loss3"), NodePath("../../Units/Loss4")]
+_units = [NodePath("../../Units/Loss3")]
 
 [node name="Sprite2D" parent="Squads/LossSquad2" index="0"]
 scale = Vector2(3, 3)
@@ -164,10 +176,10 @@ offset = Vector2(0, -13)
 hframes = 12
 vframes = 8
 
-[node name="LossSquad3" parent="Squads" node_paths=PackedStringArray("units") instance=ExtResource("4_824ie")]
+[node name="LossSquad3" parent="Squads" node_paths=PackedStringArray("_units") instance=ExtResource("4_824ie")]
 position = Vector2(768, 305)
 _faction = -1
-units = [NodePath("../../Units/Loss5"), NodePath("../../Units/Loss6")]
+_units = [NodePath("../../Units/Loss4"), NodePath("../../Units/Loss5"), NodePath("../../Units/Loss6")]
 
 [node name="Sprite2D" parent="Squads/LossSquad3" index="0"]
 scale = Vector2(3, 3)
@@ -184,11 +196,12 @@ player_squards = [NodePath("../Squads/FootmanSquad")]
 script = ExtResource("10_4uj07")
 _player_manager = NodePath("../PlayerManager")
 
-[node name="Skirmishes" type="Node2D" parent="." node_paths=PackedStringArray("squards_manager", "skirmish_map_container", "skirmish_map_viewer")]
+[node name="Skirmishes" type="Node2D" parent="." node_paths=PackedStringArray("squards_manager", "skirmish_map_container", "skirmish_map_viewer", "units_manager")]
 script = ExtResource("11_5wvds")
 squards_manager = NodePath("../Squads")
 skirmish_map_container = NodePath("../SkirmishMapContainer")
 skirmish_map_viewer = NodePath("../SkirmishViewer/SubViewportContainer/SubViewport")
+units_manager = NodePath("../Units")
 
 [node name="SkirmishMapContainer" type="Node2D" parent="."]
 

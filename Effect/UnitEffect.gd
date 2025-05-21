@@ -1,5 +1,5 @@
 extends Node
-class_name Effect
+class_name UnitEffect
 
 @export var _property_name: String
 @export var value_expression_string: String # exp: property["health"].get_current() + 5
@@ -27,7 +27,7 @@ func get_property_name() -> String:
 func get_value(properties):
     if not value_expression:
         return
-    
+
     return value_expression.execute([properties], self)
 
 
