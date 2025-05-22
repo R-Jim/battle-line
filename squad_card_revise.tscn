@@ -1,0 +1,53 @@
+[gd_scene load_steps=4 format=3 uid="uid://dmdwrxut0xvfh"]
+
+[ext_resource type="Script" uid="uid://d23vwr88yeq5a" path="res://SquadCard.gd" id="1_dirfp"]
+[ext_resource type="Script" uid="uid://curro60ib6cvv" path="res://Overworld/Squad.gd" id="2_g1adb"]
+[ext_resource type="PackedScene" uid="uid://c57d6r61rtti5" path="res://unit_slot.tscn" id="3_xi30q"]
+
+[node name="SquadCard" type="Panel"]
+clip_contents = true
+anchors_preset = -1
+anchor_left = -0.004
+anchor_right = 0.208
+anchor_bottom = 0.148
+offset_left = 7.68
+offset_right = 0.639984
+offset_bottom = 0.160004
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_dirfp")
+
+[node name="SampleSquad" type="CharacterBody2D" parent="."]
+position = Vector2(4.76837e-07, 0)
+script = ExtResource("2_g1adb")
+metadata/_custom_type_script = "uid://curro60ib6cvv"
+
+[node name="Units" type="Node2D" parent="."]
+
+[node name="Slot0" parent="Units" instance=ExtResource("3_xi30q")]
+offset_left = 160.0
+offset_top = 40.0
+offset_right = 264.0
+offset_bottom = 144.0
+
+[node name="Slot1" parent="Units" instance=ExtResource("3_xi30q")]
+offset_left = 280.0
+offset_top = 40.0
+offset_right = 384.0
+offset_bottom = 144.0
+
+[node name="CommanderUnit" parent="." instance=ExtResource("3_xi30q")]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 144.0
+offset_bottom = 144.0
+pivot_offset = Vector2(136, 184)
+
+[node name="Movement" type="ProgressBar" parent="."]
+layout_mode = 0
+offset_left = 160.0
+offset_top = 16.0
+offset_right = 384.0
+offset_bottom = 32.0
+show_percentage = false

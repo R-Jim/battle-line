@@ -1,24 +1,20 @@
-[gd_scene load_steps=23 format=4 uid="uid://gyhbrvuya34u"]
+[gd_scene load_steps=18 format=4 uid="uid://gyhbrvuya34u"]
 
 [ext_resource type="Script" uid="uid://bf20v3cyhib01" path="res://Overworld/Overworld.gd" id="1_6jwp1"]
 [ext_resource type="PackedScene" uid="uid://b8bxh6w4cy0eq" path="res://Overworld/faction.tscn" id="3_nyb65"]
 [ext_resource type="PackedScene" uid="uid://bk2gev4a3gsgq" path="res://Overworld/squad.tscn" id="4_824ie"]
 [ext_resource type="PackedScene" uid="uid://d12cdk8004rqb" path="res://Units/footman.tscn" id="4_yv805"]
-[ext_resource type="Texture2D" uid="uid://dp2jpx6krcd2q" path="res://Sprites/MiniSwordMan.png" id="5_h2pad"]
 [ext_resource type="PackedScene" uid="uid://xxan7kbsj7vp" path="res://Units/loss.tscn" id="5_r0nop"]
-[ext_resource type="Texture2D" uid="uid://bmv65laq3lxq8" path="res://Sprites/MiniThief.png" id="6_hob5j"]
-[ext_resource type="Script" uid="uid://bhn5n40myd3nl" path="res://Effect/SquadEffect.gd" id="8_0ispa"]
+[ext_resource type="Texture2D" uid="uid://dvg7wt2cpundu" path="res://Sprites/cadc05d5-1fc4-4fcd-9e5c-9b176531e9a8.png" id="7_2kprj"]
+[ext_resource type="Texture2D" uid="uid://cig2vqe8i5yut" path="res://Sprites/5a8479c9-112f-4c5f-956d-487f887bb6c2.png" id="8_0ispa"]
 [ext_resource type="Script" uid="uid://cqoklv47pk3w0" path="res://Overworld/PlayerManager.gd" id="9_r0nop"]
-[ext_resource type="Script" uid="uid://d1o3tacej3no1" path="res://Effect/UnitEffect.gd" id="9_y8kkq"]
 [ext_resource type="Script" uid="uid://be7oj8c0tpvxi" path="res://Skirmish/SelectableTileMap.gd" id="10_4uj07"]
 [ext_resource type="Script" uid="uid://1qyi0fxdxp0" path="res://Overworld/Skirmishes.gd" id="11_5wvds"]
 [ext_resource type="Texture2D" uid="uid://bfdww3gcrjgfr" path="res://Sprites/Terrain/Desert1.png" id="12_4bmk4"]
 [ext_resource type="PackedScene" uid="uid://7kevi3rg4pri" path="res://squad_card.tscn" id="13_0wios"]
 [ext_resource type="Script" uid="uid://cce0mobr1nq3a" path="res://Overworld/SelectedSquadOverview.gd" id="13_05cw3"]
 [ext_resource type="PackedScene" uid="uid://dptcp5e0873gx" path="res://Overworld/influence_tile_map.tscn" id="14_05cw3"]
-[ext_resource type="Script" uid="uid://p8a56kp2q6oa" path="res://Overworld/Base.gd" id="15_h8npj"]
-[ext_resource type="Script" uid="uid://dc0yma5eab882" path="res://Effect/OverworldEffectZone.gd" id="15_y8kkq"]
-[ext_resource type="Texture2D" uid="uid://njlf6uqtl1p2" path="res://Sprites/castle.png" id="18_am172"]
+[ext_resource type="PackedScene" uid="uid://cpi85b3ywg77g" path="res://Structures/player_camp.tscn" id="15_2kprj"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_0wios"]
 texture = ExtResource("12_4bmk4")
@@ -73,8 +69,6 @@ texture_region_size = Vector2i(32, 32)
 [sub_resource type="TileSet" id="TileSet_5wvds"]
 tile_size = Vector2i(32, 32)
 sources/0 = SubResource("TileSetAtlasSource_0wios")
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_am172"]
 
 [node name="Overworld" type="Node2D"]
 script = ExtResource("1_6jwp1")
@@ -134,56 +128,48 @@ id = "unit_018"
 id = "unit_019"
 
 [node name="Squads" type="Node2D" parent="."]
-position = Vector2(0, -1)
 
 [node name="FootmanSquad" parent="Squads" node_paths=PackedStringArray("_units", "commander_unit") instance=ExtResource("4_824ie")]
-position = Vector2(1386, 308)
+position = Vector2(1072, 441)
 _faction = 1
 _units = [NodePath("../../Units/Footman1"), NodePath("../../Units/Footman2"), NodePath("../../Units/Footman3")]
 commander_unit = NodePath("../../Units/FootmanCommander")
+speed = 30
 
 [node name="Sprite2D" parent="Squads/FootmanSquad" index="0"]
-scale = Vector2(3, 3)
-texture = ExtResource("5_h2pad")
-offset = Vector2(0, -12)
-hframes = 6
-vframes = 6
+scale = Vector2(0.05, 0.05)
+texture = ExtResource("7_2kprj")
+offset = Vector2(0, -350)
 
 [node name="LossSquad" parent="Squads" node_paths=PackedStringArray("_units") instance=ExtResource("4_824ie")]
-position = Vector2(1012, 309)
+position = Vector2(792, 361)
 _faction = -1
 _units = [NodePath("../../Units/Loss1"), NodePath("../../Units/Loss2")]
 
 [node name="Sprite2D" parent="Squads/LossSquad" index="0"]
-scale = Vector2(3, 3)
-texture = ExtResource("6_hob5j")
-offset = Vector2(0, -13)
-hframes = 12
-vframes = 8
+scale = Vector2(0.05, 0.05)
+texture = ExtResource("8_0ispa")
+offset = Vector2(0, -350)
 
 [node name="LossSquad2" parent="Squads" node_paths=PackedStringArray("_units") instance=ExtResource("4_824ie")]
-position = Vector2(768, 553)
+position = Vector2(512, 473)
 _faction = -1
-_units = [NodePath("../../Units/Loss3")]
+_units = [NodePath("../../Units/Loss3"), NodePath("../../Units/Loss4")]
 
 [node name="Sprite2D" parent="Squads/LossSquad2" index="0"]
-scale = Vector2(3, 3)
-texture = ExtResource("6_hob5j")
-offset = Vector2(0, -13)
-hframes = 12
-vframes = 8
+scale = Vector2(0.05, 0.05)
+texture = ExtResource("8_0ispa")
+offset = Vector2(0, -350)
 
 [node name="LossSquad3" parent="Squads" node_paths=PackedStringArray("_units") instance=ExtResource("4_824ie")]
-position = Vector2(768, 305)
+position = Vector2(208, 369)
 _faction = -1
-_units = [NodePath("../../Units/Loss4"), NodePath("../../Units/Loss5"), NodePath("../../Units/Loss6")]
+_units = [NodePath("../../Units/Loss5"), NodePath("../../Units/Loss6")]
 
 [node name="Sprite2D" parent="Squads/LossSquad3" index="0"]
-scale = Vector2(3, 3)
-texture = ExtResource("6_hob5j")
-offset = Vector2(0, -13)
-hframes = 12
-vframes = 8
+scale = Vector2(0.05, 0.05)
+texture = ExtResource("8_0ispa")
+offset = Vector2(0, -350)
 
 [node name="PlayerManager" type="Node" parent="." node_paths=PackedStringArray("player_squards")]
 script = ExtResource("9_r0nop")
@@ -261,33 +247,8 @@ influencers = [NodePath("../Squads/FootmanSquad")]
 
 [node name="Bases" type="Node2D" parent="."]
 
-[node name="PlayerCamp" type="Node2D" parent="Bases"]
-position = Vector2(1216, 512)
-script = ExtResource("15_h8npj")
-_faction = 1
-
-[node name="Area2D" type="Area2D" parent="Bases/PlayerCamp"]
-script = ExtResource("15_y8kkq")
-_faction = 1
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Bases/PlayerCamp/Area2D"]
-scale = Vector2(15, 15)
-shape = SubResource("CircleShape2D_am172")
-debug_color = Color(0.338145, 0.605027, 0.413545, 0.42)
-
-[node name="SquadEffect" type="Node" parent="Bases/PlayerCamp/Area2D"]
-script = ExtResource("8_0ispa")
-metadata/_custom_type_script = "uid://bhn5n40myd3nl"
-
-[node name="HealthRecoveryEffect" type="Node" parent="Bases/PlayerCamp/Area2D/SquadEffect"]
-script = ExtResource("9_y8kkq")
-_property_name = "health_recovery"
-value_expression_string = "10"
-metadata/_custom_type_script = "uid://d1o3tacej3no1"
-
-[node name="Sprite2D" type="Sprite2D" parent="Bases/PlayerCamp"]
-scale = Vector2(0.1, 0.1)
-texture = ExtResource("18_am172")
+[node name="PlayerCamp" parent="Bases" instance=ExtResource("15_2kprj")]
+position = Vector2(1344, 448)
 
 [editable path="Squads/FootmanSquad"]
 [editable path="Squads/LossSquad"]
