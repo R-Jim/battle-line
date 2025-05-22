@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://dc0yma5eab882" path="res://Effect/OverworldEffectZone.gd" id="2_wqa0o"]
 [ext_resource type="Script" uid="uid://bhn5n40myd3nl" path="res://Effect/SquadEffect.gd" id="3_hbtqq"]
 [ext_resource type="Script" uid="uid://d1o3tacej3no1" path="res://Effect/UnitEffect.gd" id="4_pinph"]
-[ext_resource type="Texture2D" uid="uid://njlf6uqtl1p2" path="res://Sprites/castle.png" id="5_ihlx2"]
+[ext_resource type="Texture2D" uid="uid://bqq4a8wf21tae" path="res://Sprites/Base_Camp.webp" id="5_qqj8r"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_am172"]
 
@@ -32,5 +32,5 @@ value_expression_string = "10"
 metadata/_custom_type_script = "uid://d1o3tacej3no1"
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.1, 0.1)
-texture = ExtResource("5_ihlx2")
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("5_qqj8r")
