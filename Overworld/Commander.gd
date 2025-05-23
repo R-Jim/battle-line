@@ -6,7 +6,7 @@ var assign_squad_target_timer: Timer
 var build_structures_timer: Timer
 
 func _ready() -> void:
-    var i: int
+    var i: int = 0
     for targets in targets_steps:
         targets.sort_custom(sort_right_center)
         targets_steps[i] = targets
@@ -46,9 +46,7 @@ func assign_squad_target() -> void:
     squads.sort_custom(sort_right_center)
 
     var is_step_completed: bool
-    var step_number: int = 0
     for targets in targets_steps:
-        step_number += 1
         is_step_completed = true
         for target_node_path in targets:
             var target_base: Base = get_node(target_node_path)

@@ -3,7 +3,7 @@ extends PanelContainer
 @onready var squad_card = $SquadCard
 @export var squards: Node
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
     for squad: Squad in squards.get_children():
         if squad.selectable.is_selected():
             squad_card.set_squad(squad)

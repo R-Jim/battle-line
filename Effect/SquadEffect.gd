@@ -16,7 +16,7 @@ func _ready() -> void:
     var parse_result := value_expression.parse(value_expression_string, [])
     
     if parse_result != OK:
-        push_error("Failed to parse expression: %s" % value_expression_string)
+        push_warning("Failed to parse expression: %s" % value_expression_string)
             
     if has_node("RemovalTimer"):
         _removal_timer = $RemovalTimer

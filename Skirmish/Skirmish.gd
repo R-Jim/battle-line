@@ -1,7 +1,7 @@
 extends Node
 class_name Skirmish
 
-@onready var _selectable_tilemap = $SelectableTileMap
+#@onready var _selectable_tilemap = $SelectableTileMap
 @onready var _unit_manager: UnitManager = $CycleManager/UnitManager
 @onready var _structure_manger: StructureManager = $CycleManager/StructureManager
 
@@ -28,7 +28,7 @@ func _ready() -> void:
         commander._unit_manager = _unit_manager
         commander._structure_manager = _structure_manger
     
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
     if _unit_manager.registered_units.size() == 0:
         for commander: Commander in commanders.values():
             if commander.deployable_units.size() > 0:
@@ -41,15 +41,16 @@ func commander_register(commander: Commander):
 
 
 func squad_join(squad: Squad):
+    var commander: Commander
     if not commanders.has(squad.get_faction()):
         print("no commander for faction:", squad.get_faction())
-        var commander = default_commander.new()
+        commander = default_commander.new()
         commander._faction = squad.get_faction()
         commander.name = "DefaultCommander[%d]" % squad.get_faction()
         commander_register(commander)
+    else:
+        commander = commanders[squad.get_faction()]
 
-    
-    var commander = commanders[squad.get_faction()]
     commander.deployable_units.append_array(squad.get_deployable_units())
     squad.visible = false
     squad.in_skirmish = true

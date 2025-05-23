@@ -5,12 +5,12 @@ var last_squads: Dictionary[Squad, bool]
 
 @onready var skirmish_area = $Area2D
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
     #modify skirmish area base on squad distances:
     if squads.size() == 0:
         return
     
-    var skirmish_position: Vector2
+    var skirmish_position: Vector2 = Vector2.ZERO
     for squad in squads:
         skirmish_position += squad.position
     

@@ -31,7 +31,7 @@ func set_squad(squad: Squad) -> void:
             unit_slot.set_unit(squad._units[slot_index])
         
     
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
     if not _squad:
         return
         

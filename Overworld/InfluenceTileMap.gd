@@ -49,9 +49,8 @@ func _ready():
     update_visuals()
     
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
     var tmp_influencers: Array[Node] = []
-    var i: int = 0
     var is_update_influence = false
     
     for influencer in influencers:
@@ -173,7 +172,7 @@ func update_visuals():
         overlay_layer.add_child(overlay)
 
 # Helper method to get influence value at a position
-func get_influence_at(position: Vector2i, is_global_position: bool = false) -> int:
+func get_influence_at(node_position: Vector2i, is_global_position: bool = false) -> int:
     if is_global_position:
-        position = local_to_map(position)
-    return influence_map.get(position, 0)
+        node_position = local_to_map(node_position)
+    return influence_map.get(node_position, 0)

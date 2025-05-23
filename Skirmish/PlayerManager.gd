@@ -3,8 +3,8 @@ extends Node2D
 var deploy_unit = preload("res://Units/footman.tscn")
 var selected_units: Dictionary[Unit, bool]
 
-@export var _unit_manager: UnitManager
-@export var _structure_manager: StructureManager
+#@export var _unit_manager: UnitManager
+#@export var _structure_manager: StructureManager
 var _skirmish_selectable_tile_map: SelectableTileMap
 
 

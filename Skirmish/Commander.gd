@@ -68,8 +68,8 @@ func _command_units_capture() -> void:
 
 func _command_units_attack() -> void:
   for unit in commandable_units:
-    var shortest_distance
-    var nearest_enemy: Unit
+    var shortest_distance = 0
+    var nearest_enemy: Unit = null
     for target_unit in _unit_manager.registered_units.values():
         if unit == target_unit or unit.faction * target_unit.faction > 0:
             continue
