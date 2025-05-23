@@ -138,3 +138,10 @@ func get_units() -> Array[Unit]:
         units.push_front(commander_unit)
     
     return units
+
+func get_deployable_units() -> Array[Unit]:
+    var units = _units.duplicate()
+    if commander_unit:
+        units.push_front(commander_unit)
+        
+    return units.filter(func(unit: Unit): return unit.property.get_property("health") > 0)

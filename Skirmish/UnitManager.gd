@@ -2,7 +2,6 @@ extends Node
 class_name UnitManager
 
 var registered_units: Dictionary[String, Unit] = {}  # Tracks units
-var last_unit_index = 0
 
   
 func _process(_delta: float) -> void:
@@ -41,8 +40,6 @@ func _process_unit_properties():
 
 func _register_unit(unit: Node, unit_id: String):
     registered_units[unit_id] = unit
-    last_unit_index+=1
-    
     print("registered unit:", unit.id)
 
 func _process_unit_removal():

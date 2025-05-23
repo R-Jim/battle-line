@@ -84,8 +84,6 @@ tile_map_data = PackedByteArray("AAAoABAAAAABAAAAAAAFAAMAAAABAAAAAAAGAAQAAAABAAA
 tile_set = SubResource("TileSet_5wvds")
 y_sort_origin = 1
 
-[node name="Skirmish" type="Node2D" parent="."]
-
 [node name="PlayerFaction" parent="." node_paths=PackedStringArray("squards") instance=ExtResource("3_nyb65")]
 squards = [NodePath("../Squads/FootmanSquad")]
 
@@ -97,7 +95,7 @@ bases = NodePath("../Bases")
 
 [node name="Commander" type="Node" parent="EnemyFaction"]
 script = ExtResource("4_y8kkq")
-targets_steps = Array[Array]([[NodePath("../../Bases/EmptyBase"), NodePath("../../Bases/EmptyBase2")]])
+targets_steps = Array[Array]([[NodePath("../../Bases/EmptyBase"), NodePath("../../Bases/EmptyBase2")], [NodePath("../../Bases/PlayerCampBase")]])
 
 [node name="Units" type="Node2D" parent="."]
 visible = false

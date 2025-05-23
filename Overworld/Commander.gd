@@ -10,6 +10,7 @@ func _ready() -> void:
     for targets in targets_steps:
         targets.sort_custom(sort_right_center)
         targets_steps[i] = targets
+        i += 1
         
     assign_squad_target_timer = Timer.new()
     assign_squad_target_timer.wait_time = 1
@@ -51,7 +52,7 @@ func assign_squad_target() -> void:
         is_step_completed = true
         for target_node_path in targets:
             var target_base: Base = get_node(target_node_path)
-            if target_base._faction != -1:
+            if target_base._faction != get_parent().faction:
                 is_step_completed = false
                 var squad = squads.pop_front()
                 if not squad:
@@ -60,10 +61,11 @@ func assign_squad_target() -> void:
                 squad.command.is_move = true
                 squad.command.destination = target_base.position
             
-        if is_step_completed:
-            if step_number == targets_steps.size():
-                print("all targets completed")
+        if not is_step_completed:
             return
+    
+    if is_step_completed:
+        print("all targets completed")
 
 func build_structures() -> void:
     if get_parent().buildable_structures.size() == 0:
