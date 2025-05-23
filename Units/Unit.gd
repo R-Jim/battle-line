@@ -38,8 +38,6 @@ func _ready():
     if property.get_property("faction") > 0:
         sprite["flip_h"] = true
     
-    update_health_bar()
-
 
 func _process(_delta: float) -> void:
     update_health_bar()
@@ -118,3 +116,12 @@ func _get_skills(phase: StringName) -> Array[Skill]:
         if child is Skill and child._get_phase() == phase:
             skills.append(child)
     return skills
+
+
+
+func _notification(what):
+    if what == NOTIFICATION_PARENTED:
+        if state_machine:
+            state_machine.travel("Start")        
+        is_removing = false
+        is_removable = false
