@@ -6,4 +6,14 @@ class_name Base
 @export var influence_strength = 3
 
 func update_influence_strength(influence_tile_map: InfluenceTilemap) -> void:
-    print(name, ", ", influence_tile_map.get_influence_at(position, true))
+    var incoming_influence_strength = influence_tile_map.get_influence_at(position, true)    
+    if incoming_influence_strength == 0:
+        return
+    
+    influence_strength += incoming_influence_strength
+    if influence_strength > 0:
+        _faction = 1
+    elif influence_strength < 0:
+        _faction = -1
+    else :
+        _faction = 0

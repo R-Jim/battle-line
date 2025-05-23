@@ -38,7 +38,9 @@ func assign_squad_target() -> void:
     squads.sort_custom(sort_right_center)
 
     var is_step_completed: bool
+    var step_number: int = 0
     for targets in targets_steps:
+        step_number += 1
         is_step_completed = true
         for target_node_path in targets:
             var target_base: Base = get_node(target_node_path)
@@ -52,4 +54,6 @@ func assign_squad_target() -> void:
                 squad.command.destination = target_base.position
             
         if is_step_completed:
+            if step_number == targets_steps.size():
+                print("all targets completed")
             return
