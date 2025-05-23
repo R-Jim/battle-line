@@ -1,8 +1,9 @@
-[gd_scene load_steps=20 format=4 uid="uid://gyhbrvuya34u"]
+[gd_scene load_steps=22 format=4 uid="uid://gyhbrvuya34u"]
 
 [ext_resource type="Script" uid="uid://bf20v3cyhib01" path="res://Overworld/Overworld.gd" id="1_6jwp1"]
 [ext_resource type="PackedScene" uid="uid://b8bxh6w4cy0eq" path="res://Overworld/faction.tscn" id="3_nyb65"]
 [ext_resource type="PackedScene" uid="uid://bk2gev4a3gsgq" path="res://Overworld/squad.tscn" id="4_824ie"]
+[ext_resource type="PackedScene" uid="uid://dl04m6p3una8c" path="res://Structures/altar.tscn" id="4_h8npj"]
 [ext_resource type="Script" uid="uid://cjwrcmgcofjsi" path="res://Overworld/Commander.gd" id="4_y8kkq"]
 [ext_resource type="PackedScene" uid="uid://d12cdk8004rqb" path="res://Units/footman.tscn" id="4_yv805"]
 [ext_resource type="PackedScene" uid="uid://xxan7kbsj7vp" path="res://Units/loss.tscn" id="5_r0nop"]
@@ -16,7 +17,8 @@
 [ext_resource type="Script" uid="uid://cce0mobr1nq3a" path="res://Overworld/SelectedSquadOverview.gd" id="13_05cw3"]
 [ext_resource type="PackedScene" uid="uid://dptcp5e0873gx" path="res://Overworld/influence_tile_map.tscn" id="14_05cw3"]
 [ext_resource type="PackedScene" uid="uid://cpi85b3ywg77g" path="res://Structures/player_camp.tscn" id="15_2kprj"]
-[ext_resource type="PackedScene" uid="uid://dgbemjyp3x8gc" path="res://Structures/empty_base.tscn" id="16_0ispa"]
+[ext_resource type="Script" uid="uid://p8a56kp2q6oa" path="res://Overworld/Base.gd" id="15_h8npj"]
+[ext_resource type="PackedScene" uid="uid://dgbemjyp3x8gc" path="res://Structures/empty_structure.tscn" id="16_0ispa"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_0wios"]
 texture = ExtResource("12_4bmk4")
@@ -87,9 +89,11 @@ y_sort_origin = 1
 [node name="PlayerFaction" parent="." node_paths=PackedStringArray("squards") instance=ExtResource("3_nyb65")]
 squards = [NodePath("../Squads/FootmanSquad")]
 
-[node name="EnemyFaction" parent="." node_paths=PackedStringArray("squards") instance=ExtResource("3_nyb65")]
+[node name="EnemyFaction" parent="." node_paths=PackedStringArray("squards", "bases") instance=ExtResource("3_nyb65")]
 faction = -1
 squards = [NodePath("../Squads/LossSquad"), NodePath("../Squads/LossSquad2"), NodePath("../Squads/LossSquad3")]
+buildable_structures = Array[PackedScene]([ExtResource("4_h8npj")])
+bases = NodePath("../Bases")
 
 [node name="Commander" type="Node" parent="EnemyFaction"]
 script = ExtResource("4_y8kkq")
@@ -252,18 +256,31 @@ squards = NodePath("../Squads")
 layout_mode = 2
 
 [node name="InfluenceTileMap" parent="." node_paths=PackedStringArray("influencers") instance=ExtResource("14_05cw3")]
-influencers = [NodePath("../Squads/FootmanSquad"), NodePath("../Squads/LossSquad"), NodePath("../Squads/LossSquad2"), NodePath("../Squads/LossSquad3"), NodePath("../Bases/PlayerCamp")]
+influencers = [NodePath("../Squads/FootmanSquad"), NodePath("../Squads/LossSquad"), NodePath("../Squads/LossSquad2"), NodePath("../Squads/LossSquad3"), NodePath("../Bases/PlayerCampBase")]
 
 [node name="Bases" type="Node2D" parent="."]
 
-[node name="PlayerCamp" parent="Bases" instance=ExtResource("15_2kprj")]
-position = Vector2(1344, 448)
+[node name="PlayerCampBase" type="Node2D" parent="Bases"]
+position = Vector2(1376, 441)
+script = ExtResource("15_h8npj")
+_faction = 1
+metadata/_custom_type_script = "uid://p8a56kp2q6oa"
 
-[node name="EmptyBase" parent="Bases" instance=ExtResource("16_0ispa")]
-position = Vector2(640, 256)
+[node name="PlayerCamp" parent="Bases/PlayerCampBase" instance=ExtResource("15_2kprj")]
 
-[node name="EmptyBase2" parent="Bases" instance=ExtResource("16_0ispa")]
-position = Vector2(680, 648)
+[node name="EmptyBase" type="Node2D" parent="Bases"]
+position = Vector2(856, 208)
+script = ExtResource("15_h8npj")
+metadata/_custom_type_script = "uid://p8a56kp2q6oa"
+
+[node name="Empty" parent="Bases/EmptyBase" instance=ExtResource("16_0ispa")]
+
+[node name="EmptyBase2" type="Node2D" parent="Bases"]
+position = Vector2(888, 664)
+script = ExtResource("15_h8npj")
+metadata/_custom_type_script = "uid://p8a56kp2q6oa"
+
+[node name="Empty" parent="Bases/EmptyBase2" instance=ExtResource("16_0ispa")]
 
 [editable path="Squads/FootmanSquad"]
 [editable path="Squads/LossSquad"]

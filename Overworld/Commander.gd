@@ -3,6 +3,7 @@ extends Node
 @export var targets_steps: Array[Array] = []
 var center_y = 450
 var assign_squad_target_timer: Timer
+var build_structures_timer: Timer
 
 func _ready() -> void:
     var i: int
@@ -15,6 +16,12 @@ func _ready() -> void:
     assign_squad_target_timer.timeout.connect(assign_squad_target)
     assign_squad_target_timer.autostart = true
     add_child(assign_squad_target_timer)
+    
+    build_structures_timer = Timer.new()
+    build_structures_timer.wait_time = 2
+    build_structures_timer.timeout.connect(build_structures)
+    build_structures_timer.autostart = true
+    add_child(build_structures_timer)
         
 
 func sort_right_center(a, b):
@@ -57,3 +64,20 @@ func assign_squad_target() -> void:
             if step_number == targets_steps.size():
                 print("all targets completed")
             return
+
+func build_structures() -> void:
+    if get_parent().buildable_structures.size() == 0:
+        return
+    
+    var empty_faction_bases: Array[Base]
+    for base: Base in get_parent().bases.get_children():
+        if base._faction != get_parent().faction:
+            continue
+        if not base.is_empty():
+            continue
+        
+        empty_faction_bases.append(base)
+    
+    var buildable_structures = get_parent().buildable_structures
+    for empty_base in empty_faction_bases:
+        empty_base.build_structure(buildable_structures[0])

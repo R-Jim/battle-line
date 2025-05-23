@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://dl04m6p3una8c"]
+
+[ext_resource type="Texture2D" uid="uid://d370hbmqxm8ea" path="res://Sprites/2af3a8b5-69c8-4326-a5f6-10fd85d30694.png" id="1_k6oy3"]
+
+[node name="Altar" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("1_k6oy3")
