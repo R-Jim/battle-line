@@ -2,6 +2,8 @@ extends Node2D
 
 @onready var squads = $Squads
 var overworld_timer: Timer
+@onready var influence_tile_map = $InfluenceTileMap
+@onready var bases = $Bases
 
 func _ready() -> void:
     overworld_timer = Timer.new()
@@ -21,3 +23,8 @@ func overworld_cronjob() -> void:
         for unit: Unit in squad.get_units():
             unit.property.start_session()
             unit.property.commit_session()
+    
+    if not influence_tile_map:
+        return
+    for base: Base in bases.get_children():
+        base.update_influence_strength(influence_tile_map)

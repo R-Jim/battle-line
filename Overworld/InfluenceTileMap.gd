@@ -167,5 +167,7 @@ func update_visuals():
         overlay_layer.add_child(overlay)
 
 # Helper method to get influence value at a position
-func get_influence_at(position: Vector2i) -> int:
+func get_influence_at(position: Vector2i, is_global_position: bool = false) -> int:
+    if is_global_position:
+        position = local_to_map(position)
     return influence_map.get(position, 0)

@@ -151,6 +151,7 @@ offset = Vector2(0, -350)
 position = Vector2(800, 400)
 _faction = -1
 _units = [NodePath("../../Units/Loss1"), NodePath("../../Units/Loss2")]
+influence_strength = -2
 
 [node name="Sprite2D" parent="Squads/LossSquad" index="0"]
 scale = Vector2(0.05, 0.05)
@@ -161,6 +162,7 @@ offset = Vector2(0, -350)
 position = Vector2(500, 400)
 _faction = -1
 _units = [NodePath("../../Units/Loss3"), NodePath("../../Units/Loss4")]
+influence_strength = -2
 
 [node name="Sprite2D" parent="Squads/LossSquad2" index="0"]
 scale = Vector2(0.05, 0.05)
@@ -171,6 +173,7 @@ offset = Vector2(0, -350)
 position = Vector2(200, 400)
 _faction = -1
 _units = [NodePath("../../Units/Loss5"), NodePath("../../Units/Loss6")]
+influence_strength = -2
 
 [node name="Sprite2D" parent="Squads/LossSquad3" index="0"]
 scale = Vector2(0.05, 0.05)
@@ -249,7 +252,7 @@ squards = NodePath("../Squads")
 layout_mode = 2
 
 [node name="InfluenceTileMap" parent="." node_paths=PackedStringArray("influencers") instance=ExtResource("14_05cw3")]
-influencers = [NodePath("../Squads/FootmanSquad")]
+influencers = [NodePath("../Squads/FootmanSquad"), NodePath("../Squads/LossSquad"), NodePath("../Squads/LossSquad2"), NodePath("../Squads/LossSquad3"), NodePath("../Bases/PlayerCamp")]
 
 [node name="Bases" type="Node2D" parent="."]
 
