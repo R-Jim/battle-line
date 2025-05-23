@@ -50,9 +50,19 @@ func _ready():
     
 
 func _process(delta: float) -> void:
-    influencers = influencers.filter(func(n): return n)
+    var tmp_influencers: Array[Node] = []
+    var i: int = 0
+    var is_update_influence = false
     
     for influencer in influencers:
+        if not influencer or not influencer.get_parent():
+            if influencers_node_map.has(influencer):
+                influencers_node_map[influencer].queue_free()
+                influencers_node_map.erase(influencer)
+                is_update_influence = true
+            continue
+        
+        tmp_influencers.append(influencer)
         if influencers_node_map.has(influencer):
             continue
 
@@ -60,14 +70,10 @@ func _process(delta: float) -> void:
         influencer_node.influence_strength = influencer.influence_strength
         influencers_node_map[influencer] = influencer_node
         influencers_node.add_child(influencer_node)
+        is_update_influence = true
+    influencers = tmp_influencers
 
-    var is_update_influence = false
     for influencer in influencers_node_map:
-        if not influencer:
-            is_update_influence = true
-            influencers_node_map.erase(influencer)
-            continue
-            
         var influencer_node = influencers_node_map[influencer]
         if influencer_node.position == influencer.position:
             continue
