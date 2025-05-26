@@ -1,0 +1,68 @@
+[gd_scene load_steps=6 format=3 uid="uid://ctfr8v1q2ex04"]
+
+[ext_resource type="PackedScene" uid="uid://d12cdk8004rqb" path="res://Units/footman.tscn" id="1_o5wve"]
+[ext_resource type="PackedScene" uid="uid://xxan7kbsj7vp" path="res://Units/loss.tscn" id="2_05e8v"]
+[ext_resource type="PackedScene" uid="uid://bk2gev4a3gsgq" path="res://Overworld/squad.tscn" id="3_wow6t"]
+[ext_resource type="Texture2D" uid="uid://dvg7wt2cpundu" path="res://Sprites/cadc05d5-1fc4-4fcd-9e5c-9b176531e9a8.png" id="4_r64nl"]
+[ext_resource type="Script" uid="uid://b1gw4t256md7o" path="res://Squad/FormationPreview.gd" id="6_05e8v"]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Units" type="Node2D" parent="."]
+visible = false
+
+[node name="FootmanCommander" parent="Units" instance=ExtResource("1_o5wve")]
+id = "unit_010"
+max_health = 200
+max_attack = 40
+speed = 220
+
+[node name="Footman1" parent="Units" instance=ExtResource("1_o5wve")]
+id = "unit_011"
+
+[node name="Footman2" parent="Units" instance=ExtResource("1_o5wve")]
+id = "unit_012"
+
+[node name="Footman3" parent="Units" instance=ExtResource("1_o5wve")]
+id = "unit_013"
+
+[node name="Loss1" parent="Units" instance=ExtResource("2_05e8v")]
+id = "unit_014"
+max_health = 200
+max_attack = 30
+
+[node name="Loss2" parent="Units" instance=ExtResource("2_05e8v")]
+id = "unit_015"
+
+[node name="Loss3" parent="Units" instance=ExtResource("2_05e8v")]
+id = "unit_016"
+
+[node name="Loss4" parent="Units" instance=ExtResource("2_05e8v")]
+id = "unit_017"
+
+[node name="Loss5" parent="Units" instance=ExtResource("2_05e8v")]
+id = "unit_018"
+
+[node name="Loss6" parent="Units" instance=ExtResource("2_05e8v")]
+id = "unit_019"
+
+[node name="Squads" type="Node2D" parent="."]
+visible = false
+
+[node name="FootmanSquad" parent="Squads" node_paths=PackedStringArray("_units", "commander_unit") instance=ExtResource("3_wow6t")]
+position = Vector2(1072, 441)
+_faction = 1
+_units = [NodePath("../../Units/Footman1"), NodePath("../../Units/Footman2"), NodePath("../../Units/Footman3")]
+commander_unit = NodePath("../../Units/FootmanCommander")
+speed = 50
+
+[node name="Sprite2D" parent="Squads/FootmanSquad" index="0"]
+scale = Vector2(0.05, 0.05)
+texture = ExtResource("4_r64nl")
+
+[node name="FormationPreview" type="Node2D" parent="." node_paths=PackedStringArray("squad")]
+position = Vector2(256, 192)
+script = ExtResource("6_05e8v")
+squad = NodePath("../Squads/FootmanSquad")
+
+[editable path="Squads/FootmanSquad"]
