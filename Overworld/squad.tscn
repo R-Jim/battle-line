@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://bk2gev4a3gsgq"]
+[gd_scene load_steps=9 format=3 uid="uid://bk2gev4a3gsgq"]
 
 [ext_resource type="Script" uid="uid://curro60ib6cvv" path="res://Overworld/Squad.gd" id="1_iaffp"]
 [ext_resource type="Script" uid="uid://cupqrbonpqjcf" path="res://Skirmish/Selectable.gd" id="2_t80n8"]
+[ext_resource type="Script" uid="uid://cjw7pqnwblkcc" path="res://Overworld/SquadSprite.gd" id="2_x4l7e"]
 [ext_resource type="Script" uid="uid://dk2jrngspxfcw" path="res://Overworld/Command.gd" id="3_iolfd"]
 [ext_resource type="Texture2D" uid="uid://cn8xhc12f71rd" path="res://Sprites/flag.png" id="4_rq8sr"]
 
@@ -17,6 +18,7 @@ height = 96.0
 script = ExtResource("1_iaffp")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+script = ExtResource("2_x4l7e")
 
 [node name="SkirmishArea" type="Area2D" parent="."]
 
@@ -24,9 +26,8 @@ script = ExtResource("1_iaffp")
 scale = Vector2(12, 12)
 shape = SubResource("CircleShape2D_7axr6")
 
-[node name="Selectable" type="Area2D" parent="." node_paths=PackedStringArray("sprite", "source")]
+[node name="Selectable" type="Area2D" parent="." node_paths=PackedStringArray("source")]
 script = ExtResource("2_t80n8")
-sprite = NodePath("../Sprite2D")
 source = NodePath("..")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Selectable"]

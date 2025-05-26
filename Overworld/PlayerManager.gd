@@ -11,12 +11,17 @@ func _input(event):
         match event.button_index:
             MOUSE_BUTTON_RIGHT:
                 if event.pressed:
+                    if InputState.get_current_state() != &"SELECT_OWN_SQUAD":
+                        return
+                            
+                    var input_data = InputState.get_current_state_data()
+                    if input_data is not Squad:
+                        return
+                            
+                    var squad: Squad = input_data
                     var destination = current_mouse_position
-                    
-                    for squad:Squad in player_squards:
-                        if squad.selectable.is_selected():
-                            squad.command.is_move = true
-                            squad.command.destination = destination
+                    squad.command.is_move = true
+                    squad.command.destination = destination
 
 
 func _selectable_tile_map_register(map: SelectableTileMap) -> void:

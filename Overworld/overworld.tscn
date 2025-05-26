@@ -81,12 +81,11 @@ position = Vector2(1072, 441)
 _faction = 1
 _units = [NodePath("../../Units/Footman1"), NodePath("../../Units/Footman2"), NodePath("../../Units/Footman3")]
 commander_unit = NodePath("../../Units/FootmanCommander")
-speed = 30
+speed = 50
 
 [node name="Sprite2D" parent="Squads/FootmanSquad" index="0"]
 scale = Vector2(0.05, 0.05)
 texture = ExtResource("7_2kprj")
-offset = Vector2(0, -350)
 
 [node name="LossSquad" parent="Squads" node_paths=PackedStringArray("_units") instance=ExtResource("4_824ie")]
 position = Vector2(800, 400)
@@ -97,7 +96,6 @@ influence_strength = -2
 [node name="Sprite2D" parent="Squads/LossSquad" index="0"]
 scale = Vector2(0.05, 0.05)
 texture = ExtResource("8_0ispa")
-offset = Vector2(0, -350)
 
 [node name="LossSquad2" parent="Squads" node_paths=PackedStringArray("_units") instance=ExtResource("4_824ie")]
 position = Vector2(500, 400)
@@ -108,7 +106,6 @@ influence_strength = -2
 [node name="Sprite2D" parent="Squads/LossSquad2" index="0"]
 scale = Vector2(0.05, 0.05)
 texture = ExtResource("8_0ispa")
-offset = Vector2(0, -350)
 
 [node name="LossSquad3" parent="Squads" node_paths=PackedStringArray("_units") instance=ExtResource("4_824ie")]
 position = Vector2(200, 400)
@@ -119,7 +116,6 @@ influence_strength = -2
 [node name="Sprite2D" parent="Squads/LossSquad3" index="0"]
 scale = Vector2(0.05, 0.05)
 texture = ExtResource("8_0ispa")
-offset = Vector2(0, -350)
 
 [node name="PlayerManager" type="Node" parent="." node_paths=PackedStringArray("player_squards")]
 script = ExtResource("9_r0nop")
