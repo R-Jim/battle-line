@@ -1,22 +1,8 @@
-[gd_scene load_steps=33 format=3 uid="uid://xxan7kbsj7vp"]
+[gd_scene load_steps=24 format=3 uid="uid://xxan7kbsj7vp"]
 
-[ext_resource type="Script" uid="uid://byvgjo8griexj" path="res://Units/Unit.gd" id="1_oan3q"]
-[ext_resource type="Script" uid="uid://cupqrbonpqjcf" path="res://Skirmish/Selectable.gd" id="2_xqtjl"]
-[ext_resource type="Script" uid="uid://d3stps3jmc8nq" path="res://Skills/Combat/SkillMelee.gd" id="3_ogwlw"]
-[ext_resource type="Script" uid="uid://cfjr0h0t8rul3" path="res://Skills/Combat/SkillSacrifice.gd" id="4_xqtjl"]
+[ext_resource type="Script" uid="uid://byvgjo8griexj" path="res://Unit/Unit.gd" id="1_oan3q"]
 [ext_resource type="Texture2D" uid="uid://bmv65laq3lxq8" path="res://Sprites/MiniThief.png" id="5_oan3q"]
-[ext_resource type="Script" uid="uid://dvleo6nrh24i6" path="res://Skills/Combat/SkillDetonate.gd" id="5_ogwlw"]
-[ext_resource type="Texture2D" uid="uid://cn8xhc12f71rd" path="res://Sprites/flag.png" id="6_lrfvy"]
 [ext_resource type="Script" uid="uid://b73v1ig6e1l5p" path="res://Property/Property.gd" id="9_ogwlw"]
-[ext_resource type="Script" uid="uid://doi37j651ts67" path="res://Units/Command.gd" id="9_tld0s"]
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ctwoc"]
-radius = 31.0
-height = 96.0
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_nxogm"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_xqtjl"]
 
 [sub_resource type="Animation" id="Animation_davkp"]
 length = 0.001
@@ -170,8 +156,6 @@ graph_offset = Vector2(73.5776, 3.86251)
 [node name="Loss" type="CharacterBody2D"]
 motion_mode = 1
 script = ExtResource("1_oan3q")
-max_health = 50
-faction = -1
 
 [node name="HealthBar" type="ProgressBar" parent="."]
 offset_left = -26.0
@@ -179,58 +163,6 @@ offset_top = 23.0
 offset_right = 26.0
 offset_bottom = 34.0
 show_percentage = false
-
-[node name="Selectable" type="Area2D" parent="." node_paths=PackedStringArray("sprite", "source")]
-script = ExtResource("2_xqtjl")
-sprite = NodePath("../Sprite2D")
-source = NodePath("..")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Selectable"]
-visible = false
-position = Vector2(-4, 14)
-shape = SubResource("CapsuleShape2D_ctwoc")
-debug_color = Color(0, 0.751532, 0.539796, 0.42)
-
-[node name="SkillSacrifice" type="Area2D" parent="." node_paths=PackedStringArray("_source")]
-position = Vector2(0, 12)
-scale = Vector2(6, 3)
-script = ExtResource("4_xqtjl")
-_sacrifice_unit_timer = 620
-_range = -1
-_action = "sacrifice"
-_source = NodePath("..")
-_phase = "Combat"
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="SkillSacrifice"]
-shape = SubResource("CircleShape2D_nxogm")
-debug_color = Color(0.923819, 0.173943, 0.538559, 0.176471)
-
-[node name="SkillDetonate" type="Area2D" parent="." node_paths=PackedStringArray("_source")]
-position = Vector2(2, 12)
-scale = Vector2(6, 3)
-script = ExtResource("5_ogwlw")
-_detonate_timer_property = "sacrifice_unit_timer"
-_range = 10
-_action = "attack"
-_source = NodePath("..")
-_phase = "Combat"
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="SkillDetonate"]
-shape = SubResource("CircleShape2D_nxogm")
-debug_color = Color(0.923819, 0.173943, 0.538559, 0.176471)
-
-[node name="SkillMelee" type="Area2D" parent="." node_paths=PackedStringArray("_source")]
-position = Vector2(0, 12)
-scale = Vector2(8, 4)
-script = ExtResource("3_ogwlw")
-_range = 8
-_action = "attack"
-_source = NodePath("..")
-_phase = "Combat"
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="SkillMelee"]
-shape = SubResource("CircleShape2D_xqtjl")
-debug_color = Color(0, 0.6, 0.701961, 0.176471)
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(3, 3)
@@ -262,13 +194,3 @@ debug_color = Color(1, 1, 1, 0.180392)
 
 [node name="Property" type="Node" parent="."]
 script = ExtResource("9_ogwlw")
-
-[node name="Command" type="Node2D" parent="." node_paths=PackedStringArray("source")]
-visible = false
-script = ExtResource("9_tld0s")
-source = NodePath("..")
-
-[node name="Flag" type="Sprite2D" parent="Command"]
-visible = false
-scale = Vector2(0.1, 0.1)
-texture = ExtResource("6_lrfvy")

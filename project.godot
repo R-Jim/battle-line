@@ -17,7 +17,6 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-GameMaster="*res://GameMaster.gd"
 Player="*res://Player.gd"
 InputState="*res://InputState.gd"
 

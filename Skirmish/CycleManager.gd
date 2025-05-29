@@ -1,55 +1,50 @@
 extends Node
 
-@export var strategic_cycle_time: float = 1.0  # Cycle duration in seconds
-@export var combat_cycle_time: float = 1.0  # Cycle duration in seconds
 
-@onready var strategic_timer: Timer = _strategic_timer()
-@onready var combat_timer: Timer = _combat_timer()
-
+@export var cycle_time: float = 5.0
 @onready var _unit_manager: UnitManager = $UnitManager
-@onready var _structure_manager: StructureManager = $StructureManager
+@export var melee_zone: Polygon2D
+
+var cycle_timer: Timer
+var phases = [&"Strategic", &"Ranged", &"Melee"]
+
+func _ready() -> void:
+    cycle_timer = Timer.new()
+    cycle_timer.wait_time = cycle_time
+    cycle_timer.timeout.connect(_end_cycle)
+    cycle_timer.autostart = true
+    add_child(cycle_timer)
 
 
-var phases = [&"Strategic", &"Combat"]
-
-func _process(_delta: float) -> void:
-    if strategic_timer.is_stopped():
-        _strategic_start_cycle()
-        strategic_timer.start()	
-        
-    if combat_timer.is_stopped():
-        combat_timer.start()
+func _end_cycle():
+    for unit: Unit in _unit_manager.registered_units:
+        unit.property.start_session()
     
+    #process_phase(&"Strategic")
+    #process_phase(&"Ranged")
+    process_phase(&"Melee")
     
-func _strategic_timer() -> Timer:
-    var timer = Timer.new()
-    timer.wait_time = strategic_cycle_time
-    timer.one_shot = true
-    timer.timeout.connect(_strategic_end_cycle)
-    add_child(timer)
-    return timer
+    for unit: Unit in _unit_manager.registered_units:
+        unit.property.commit_session()
 
-func _combat_timer() -> Timer:
-    var timer = Timer.new()
-    timer.wait_time = combat_cycle_time
-    timer.one_shot = true
-    timer.timeout.connect(_combat_end_cycle)
-    add_child(timer)
-    return timer
-    
-func _strategic_start_cycle():
-    _unit_manager._toggle_move_unit(true)
+func process_phase(phase: StringName) -> void:
+    process_units_melee_toggle()
+    _unit_manager.process_all_units(phase)
 
-func _strategic_end_cycle():
-    _unit_manager._toggle_move_unit(false)
-    # TODO: Fix duplicate start/end session
-    #_unit_manager._process_unit_skills(&"Strategic")
-    #_structure_manager._process_structure_skills(&"Strategic")
+func process_units_melee_toggle() -> void:
+    for unit: Unit in _unit_manager.registered_units:
+        unit.property.set_property("in_melee", is_unit_inside_polygon(melee_zone, unit))
 
-func _combat_end_cycle():
-    _unit_manager._process_unit_skills(&"Combat")
-    _structure_manager._process_structure_skills(&"Combat")
-    _unit_manager._process_unit_properties()
-    _structure_manager._process_structure_properties()
-    _unit_manager._process_unit_removal()
-    _structure_manager._process_structures_health()
+func is_unit_inside_polygon(polygon_node: Polygon2D, target_node: Unit) -> bool:
+    var global_polygon_points = []
+    var polygon = polygon_node.polygon
+
+    # Convert local polygon points to global coordinates
+    for point in polygon:
+        global_polygon_points.append(polygon_node.to_global(point))
+
+    # Get the global position of the target node
+    var point_to_check = target_node.global_position
+
+    # Check if the point is inside the polygon
+    return Geometry2D.is_point_in_polygon(point_to_check, global_polygon_points)

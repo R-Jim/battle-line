@@ -1,66 +1,55 @@
 extends Node
 class_name UnitManager
 
-var registered_units: Dictionary[String, Unit] = {}  # Tracks units
+signal other_unit_processed(unit_manager, unit, output)
 
-  
-func _process(_delta: float) -> void:
-    var childs = get_children()
-    for child in childs:
-        if child is Unit and not registered_units.has(child.id) and !child.is_removable:
-            _register_unit(child, child.id)
-    
-    for unit_id in registered_units:
-        if not registered_units[unit_id] or registered_units[unit_id].get_parent() != self:
-            registered_units.erase(unit_id)
+var registered_units: Array[Unit] = []
 
+func _ready():
+    # Register existing children
+    for child in get_children():
+        if child is Unit:
+            register_unit(child)
 
-func _process_unit_skills(phase: StringName):
-    for unit_id in registered_units:
-        registered_units[unit_id].property.start_session()
+    # Use connect() instead of deprecated signal syntax
+    child_entered_tree.connect(_on_child_entered)
+    child_exiting_tree.connect(_on_child_exiting)
 
-    for unit_id in registered_units:
-        for skill in registered_units[unit_id]._get_skills(phase):
-            var targets = skill._get_targets()
-            for target_id in targets:
-                var property_updates = skill._get_target_effects(target_id)
-                var target = targets[target_id]
-                target.property.add_pending_update(property_updates)
+func register_unit(unit: Unit) -> void:
+    if registered_units.has(unit):
+        return
+    registered_units.append(unit)
+    other_unit_processed.connect(unit._process_other_unit_skills)
 
-            skill._notifi_source()
-            skill._notifi_targets()
-    return
+func unregister_unit(unit: Unit) -> void:
+    registered_units.erase(unit)
 
-func _process_unit_properties():
-    for unit_id in registered_units:
-        registered_units[unit_id].property.commit_pending_updates()
-        registered_units[unit_id].property.commit_session()
-    return
+func _on_child_entered(child: Node) -> void:
+    if child is Unit:
+        register_unit(child)
 
-
-func _register_unit(unit: Node, unit_id: String):
-    registered_units[unit_id] = unit
-    print("registered unit:", unit.id)
-
-func _process_unit_removal():
-    var tmp = registered_units.duplicate()
-    for unit_id in tmp:
-        var unit = registered_units[unit_id]
-        if unit.is_removable:
-            registered_units.erase(unit_id)
-            remove_child(unit)
-
-
-func _toggle_move_unit(toggle: bool):
-    for unit_id in registered_units:
-        registered_units[unit_id].property.set_property("is_move", toggle)
-
-func get_units() -> Array[Unit]:
-  return registered_units.values()
-
-
-func add_unit(unit: Unit) -> void:
-    if unit.get_parent():
-        unit.get_parent().remove_child(unit)
+func _on_child_exiting(child: Node) -> void:
+    if child is Unit and child.is_removable:
+        unregister_unit(child)
         
-    add_child(unit)
+func _process(delta: float) -> void:
+    for unit in registered_units.duplicate():
+        if unit.is_removable:
+            unregister_unit(unit)
+
+func process_all_units(phase: StringName) -> void:
+    for unit: Unit in registered_units:
+        var skills = unit.get_skills(phase)
+        
+        var interactions: Array = []
+        for skill: Skill in skills.values():
+            skill.process_targets(registered_units.duplicate())
+            
+            var target_interactions = skill.get_target_interactions()
+            for target_unit: Unit in target_interactions:
+                for interaction in target_interactions[target_unit]:
+                    target_unit.property.add_pending_update(interaction)
+                target_unit.property.commit_pending_updates()
+            interactions.append(target_interactions)
+        
+        other_unit_processed.emit(self, unit, interactions)

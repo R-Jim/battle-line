@@ -1,18 +1,9 @@
-[gd_scene load_steps=28 format=3 uid="uid://d12cdk8004rqb"]
+[gd_scene load_steps=23 format=3 uid="uid://d12cdk8004rqb"]
 
-[ext_resource type="Script" uid="uid://byvgjo8griexj" path="res://Units/Unit.gd" id="1_51yig"]
-[ext_resource type="Script" uid="uid://cupqrbonpqjcf" path="res://Skirmish/Selectable.gd" id="2_msjom"]
-[ext_resource type="Script" uid="uid://d3stps3jmc8nq" path="res://Skills/Combat/SkillMelee.gd" id="3_vliep"]
+[ext_resource type="Script" uid="uid://byvgjo8griexj" path="res://Unit/Unit.gd" id="1_51yig"]
+[ext_resource type="Script" uid="uid://76nej2n2lsq4" path="res://Unit/Skill.gd" id="4_7lh70"]
 [ext_resource type="Texture2D" uid="uid://dp2jpx6krcd2q" path="res://Sprites/MiniSwordMan.png" id="5_qcwm7"]
-[ext_resource type="Texture2D" uid="uid://cn8xhc12f71rd" path="res://Sprites/flag.png" id="6_co0f8"]
 [ext_resource type="Script" uid="uid://b73v1ig6e1l5p" path="res://Property/Property.gd" id="7_a6ovx"]
-[ext_resource type="Script" uid="uid://doi37j651ts67" path="res://Units/Command.gd" id="7_msjom"]
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ctwoc"]
-radius = 31.0
-height = 96.0
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_nxogm"]
 
 [sub_resource type="Animation" id="Animation_davkp"]
 length = 0.001
@@ -153,7 +144,6 @@ graph_offset = Vector2(-265.14, 34.7625)
 [node name="Footman" type="CharacterBody2D"]
 motion_mode = 1
 script = ExtResource("1_51yig")
-speed = 80
 
 [node name="HealthBar" type="ProgressBar" parent="."]
 offset_left = -26.0
@@ -161,30 +151,6 @@ offset_top = 23.0
 offset_right = 26.0
 offset_bottom = 34.0
 show_percentage = false
-
-[node name="Selectable" type="Area2D" parent="." node_paths=PackedStringArray("sprite", "source")]
-script = ExtResource("2_msjom")
-sprite = NodePath("../Sprite2D")
-source = NodePath("..")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Selectable"]
-visible = false
-position = Vector2(-4, 14)
-shape = SubResource("CapsuleShape2D_ctwoc")
-debug_color = Color(0, 0.751532, 0.539796, 0.42)
-
-[node name="SkillMelee" type="Area2D" parent="." node_paths=PackedStringArray("_source")]
-position = Vector2(0, 12)
-scale = Vector2(8, 4)
-script = ExtResource("3_vliep")
-_range = 8
-_action = "attack"
-_source = NodePath("..")
-_phase = "Combat"
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="SkillMelee"]
-shape = SubResource("CircleShape2D_nxogm")
-debug_color = Color(0, 0.6, 0.701961, 0.176471)
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(3, 3)
@@ -218,10 +184,7 @@ debug_color = Color(1, 1, 1, 0.180392)
 [node name="Property" type="Node" parent="."]
 script = ExtResource("7_a6ovx")
 
-[node name="Command" type="Node2D" parent="." node_paths=PackedStringArray("source")]
-script = ExtResource("7_msjom")
-source = NodePath("..")
-
-[node name="Flag" type="Sprite2D" parent="Command"]
-scale = Vector2(0.1, 0.1)
-texture = ExtResource("6_co0f8")
+[node name="DefaultMeleeSkill" type="Node" parent="."]
+script = ExtResource("4_7lh70")
+_active_phase_string = "Melee"
+metadata/_custom_type_script = "uid://76nej2n2lsq4"

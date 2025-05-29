@@ -5,12 +5,11 @@
 [ext_resource type="PackedScene" uid="uid://bk2gev4a3gsgq" path="res://Overworld/squad.tscn" id="4_824ie"]
 [ext_resource type="PackedScene" uid="uid://dl04m6p3una8c" path="res://Structures/altar.tscn" id="4_h8npj"]
 [ext_resource type="Script" uid="uid://cjwrcmgcofjsi" path="res://Overworld/Commander.gd" id="4_y8kkq"]
-[ext_resource type="PackedScene" uid="uid://d12cdk8004rqb" path="res://Units/footman.tscn" id="4_yv805"]
-[ext_resource type="PackedScene" uid="uid://xxan7kbsj7vp" path="res://Units/loss.tscn" id="5_r0nop"]
+[ext_resource type="PackedScene" uid="uid://d12cdk8004rqb" path="res://Unit/footman.tscn" id="4_yv805"]
+[ext_resource type="PackedScene" uid="uid://xxan7kbsj7vp" path="res://Unit/loss.tscn" id="5_r0nop"]
 [ext_resource type="Texture2D" uid="uid://dvg7wt2cpundu" path="res://Sprites/cadc05d5-1fc4-4fcd-9e5c-9b176531e9a8.png" id="7_2kprj"]
 [ext_resource type="Texture2D" uid="uid://cig2vqe8i5yut" path="res://Sprites/5a8479c9-112f-4c5f-956d-487f887bb6c2.png" id="8_0ispa"]
 [ext_resource type="Script" uid="uid://cqoklv47pk3w0" path="res://Overworld/PlayerManager.gd" id="9_r0nop"]
-[ext_resource type="Script" uid="uid://be7oj8c0tpvxi" path="res://Skirmish/SelectableTileMap.gd" id="10_4uj07"]
 [ext_resource type="Script" uid="uid://1qyi0fxdxp0" path="res://Overworld/Skirmishes.gd" id="11_5wvds"]
 [ext_resource type="PackedScene" uid="uid://7kevi3rg4pri" path="res://squad_card.tscn" id="13_0wios"]
 [ext_resource type="Script" uid="uid://cce0mobr1nq3a" path="res://Overworld/SelectedSquadOverview.gd" id="13_05cw3"]
@@ -19,6 +18,36 @@
 [ext_resource type="Script" uid="uid://p8a56kp2q6oa" path="res://Overworld/Base.gd" id="15_h8npj"]
 [ext_resource type="PackedScene" uid="uid://dgbemjyp3x8gc" path="res://Structures/empty_structure.tscn" id="16_0ispa"]
 [ext_resource type="Texture2D" uid="uid://ub7n71ikaq04" path="res://Sprites/soda_lake_mojave.jpg" id="19_h8npj"]
+
+[sub_resource type="GDScript" id="GDScript_am172"]
+script/source = "extends Node2D
+class_name SelectableTileMap
+
+var cell_size = Vector2(64, 64)  # Change to your grid size
+var hovered_tile: Vector2i = Vector2i(-1, -1)
+@export var _player_manager: Node 
+
+func _ready():
+  _player_manager._selectable_tile_map_register(self)
+
+func _process(_delta):
+    var mouse_pos = get_local_mouse_position()
+    var new_tile = Vector2i(mouse_pos / cell_size)
+
+    if new_tile != hovered_tile:
+        hovered_tile = new_tile
+        queue_redraw()  # Only redraw when the hovered tile changes
+#
+#func _draw():
+    #if hovered_tile.x >= 0 and hovered_tile.y >= 0:
+        #var rect_pos = Vector2(hovered_tile) * cell_size
+        #var rect = Rect2(rect_pos, cell_size)
+        #draw_rect(rect, Color(1, 1, 0, 0.3))  # Filled
+        #draw_rect(rect, Color(1, 1, 0), false, 2.0)  # Outline
+
+func get_current_hovered_tile_center() -> Vector2:
+  return Vector2(hovered_tile) * cell_size + cell_size/2 # to tile center
+"
 
 [node name="Overworld" type="Node2D"]
 script = ExtResource("1_6jwp1")
@@ -40,46 +69,33 @@ targets_steps = Array[Array]([[NodePath("../../Bases/EmptyBase"), NodePath("../.
 visible = false
 
 [node name="FootmanCommander" parent="Units" instance=ExtResource("4_yv805")]
-id = "unit_010"
 max_health = 200
-max_attack = 40
-speed = 220
 
 [node name="Footman1" parent="Units" instance=ExtResource("4_yv805")]
-id = "unit_011"
 
 [node name="Footman2" parent="Units" instance=ExtResource("4_yv805")]
-id = "unit_012"
 
 [node name="Footman3" parent="Units" instance=ExtResource("4_yv805")]
-id = "unit_013"
 
 [node name="Loss1" parent="Units" instance=ExtResource("5_r0nop")]
-id = "unit_014"
 max_health = 200
-max_attack = 30
 
 [node name="Loss2" parent="Units" instance=ExtResource("5_r0nop")]
-id = "unit_015"
 
 [node name="Loss3" parent="Units" instance=ExtResource("5_r0nop")]
-id = "unit_016"
 
 [node name="Loss4" parent="Units" instance=ExtResource("5_r0nop")]
-id = "unit_017"
 
 [node name="Loss5" parent="Units" instance=ExtResource("5_r0nop")]
-id = "unit_018"
 
 [node name="Loss6" parent="Units" instance=ExtResource("5_r0nop")]
-id = "unit_019"
 
 [node name="Squads" type="Node2D" parent="."]
 
 [node name="FootmanSquad" parent="Squads" node_paths=PackedStringArray("_units", "commander_unit") instance=ExtResource("4_824ie")]
 position = Vector2(1072, 441)
 _faction = 1
-_units = [NodePath("../../Units/Footman1"), NodePath("../../Units/Footman2"), NodePath("../../Units/Footman3")]
+_units = [null, null, null]
 commander_unit = NodePath("../../Units/FootmanCommander")
 speed = 50
 
@@ -87,42 +103,54 @@ speed = 50
 scale = Vector2(0.05, 0.05)
 texture = ExtResource("7_2kprj")
 
+[node name="Selectable" parent="Squads/FootmanSquad" index="2"]
+script = null
+
 [node name="LossSquad" parent="Squads" node_paths=PackedStringArray("_units") instance=ExtResource("4_824ie")]
 position = Vector2(800, 400)
 _faction = -1
-_units = [NodePath("../../Units/Loss1"), NodePath("../../Units/Loss2")]
+_units = [null, null]
 influence_strength = -2
 
 [node name="Sprite2D" parent="Squads/LossSquad" index="0"]
 scale = Vector2(0.05, 0.05)
 texture = ExtResource("8_0ispa")
 
+[node name="Selectable" parent="Squads/LossSquad" index="2"]
+script = null
+
 [node name="LossSquad2" parent="Squads" node_paths=PackedStringArray("_units") instance=ExtResource("4_824ie")]
 position = Vector2(500, 400)
 _faction = -1
-_units = [NodePath("../../Units/Loss3"), NodePath("../../Units/Loss4")]
+_units = [null, null]
 influence_strength = -2
 
 [node name="Sprite2D" parent="Squads/LossSquad2" index="0"]
 scale = Vector2(0.05, 0.05)
 texture = ExtResource("8_0ispa")
 
+[node name="Selectable" parent="Squads/LossSquad2" index="2"]
+script = null
+
 [node name="LossSquad3" parent="Squads" node_paths=PackedStringArray("_units") instance=ExtResource("4_824ie")]
 position = Vector2(200, 400)
 _faction = -1
-_units = [NodePath("../../Units/Loss5"), NodePath("../../Units/Loss6")]
+_units = [null, null]
 influence_strength = -2
 
 [node name="Sprite2D" parent="Squads/LossSquad3" index="0"]
 scale = Vector2(0.05, 0.05)
 texture = ExtResource("8_0ispa")
 
+[node name="Selectable" parent="Squads/LossSquad3" index="2"]
+script = null
+
 [node name="PlayerManager" type="Node" parent="." node_paths=PackedStringArray("player_squards")]
 script = ExtResource("9_r0nop")
 player_squards = [NodePath("../Squads/FootmanSquad")]
 
 [node name="SelectableTileMap" type="Node2D" parent="." node_paths=PackedStringArray("_player_manager")]
-script = ExtResource("10_4uj07")
+script = SubResource("GDScript_am172")
 _player_manager = NodePath("../PlayerManager")
 
 [node name="Skirmishes" type="Node2D" parent="." node_paths=PackedStringArray("squards_manager", "skirmish_map_container", "skirmish_map_viewer", "units_manager")]
