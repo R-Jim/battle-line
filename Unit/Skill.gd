@@ -25,7 +25,7 @@ func process_targets(units: Array[Unit]) -> void:
             _target_interactions[unit] = []
         
         _target_interactions[unit].append({
-            "health": -5,
+            "health": -50,
         })
 
 func get_target_interactions() -> Dictionary:

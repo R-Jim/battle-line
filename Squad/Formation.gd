@@ -4,6 +4,7 @@ class_name Formation
 # Formation mapping: unit -> position
 var formation_assignments: Dictionary = {} # {Unit: Vector2}
 @export var spacing: float = 50.0
+@export var padding: float = 50.0
 
 func _ready():
     var parent_data = get_parent()
@@ -22,11 +23,17 @@ func calculate_formation(units: Array[Unit]):
         )
         formation_assignments[units[i]] = position
 
-func get_border() -> Rect2:
+func get_border(active_unit_only: bool = false) -> Rect2:
     if formation_assignments.is_empty():
         return Rect2()
     
-    var positions = formation_assignments.values()
+    var positions: Array
+    if active_unit_only:
+        for unit in formation_assignments.keys().filter(func(unit: Unit): return !unit.is_removable and !unit.is_removing):
+            positions.append(formation_assignments[unit])
+    else:
+        positions = formation_assignments.values()
+    
     var min_pos = positions[0]
     var max_pos = positions[0]
     
@@ -36,4 +43,14 @@ func get_border() -> Rect2:
         max_pos.x = max(max_pos.x, pos.x)
         max_pos.y = max(max_pos.y, pos.y)
     
-    return Rect2(min_pos, max_pos - min_pos)
+    return Rect2(min_pos, max_pos - min_pos).grow(padding)
+
+func apply_formation(offset: Vector2 = Vector2.ZERO) -> void:
+    var parent_data = get_parent()
+    var units = parent_data.get_units()
+    
+    for unit in units:
+        if not formation_assignments.has(unit):
+            continue
+            
+        unit.position = formation_assignments[unit] + offset

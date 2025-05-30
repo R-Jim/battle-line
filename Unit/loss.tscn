@@ -1,6 +1,7 @@
-[gd_scene load_steps=24 format=3 uid="uid://xxan7kbsj7vp"]
+[gd_scene load_steps=25 format=3 uid="uid://xxan7kbsj7vp"]
 
 [ext_resource type="Script" uid="uid://byvgjo8griexj" path="res://Unit/Unit.gd" id="1_oan3q"]
+[ext_resource type="Script" uid="uid://76nej2n2lsq4" path="res://Unit/Skill.gd" id="4_07436"]
 [ext_resource type="Texture2D" uid="uid://bmv65laq3lxq8" path="res://Sprites/MiniThief.png" id="5_oan3q"]
 [ext_resource type="Script" uid="uid://b73v1ig6e1l5p" path="res://Property/Property.gd" id="9_ogwlw"]
 
@@ -194,3 +195,8 @@ debug_color = Color(1, 1, 1, 0.180392)
 
 [node name="Property" type="Node" parent="."]
 script = ExtResource("9_ogwlw")
+
+[node name="DefaultMeleeSkill" type="Node" parent="."]
+script = ExtResource("4_07436")
+_active_phase_string = "Melee"
+metadata/_custom_type_script = "uid://76nej2n2lsq4"

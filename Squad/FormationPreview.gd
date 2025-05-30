@@ -1,6 +1,6 @@
 extends Node2D
 
-@export var squad: Node2D
+@export var squad: Squad
 @export var unit_rect_size: Vector2 = Vector2(8, 8)
 @export var unit_color: Color = Color.BLUE
 @export var border_color: Color = Color.RED
@@ -11,6 +11,7 @@ var formation: Formation
 func _ready():
     if squad and squad.has_node("Formation"):
         formation = squad.get_node("Formation")
+        squad.formation.apply_formation(position)
 
 func _draw():
     if not formation:

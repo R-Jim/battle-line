@@ -9,6 +9,7 @@ class_name Squad
 @onready var skirmish_area = $SkirmishArea
 @onready var selectable = $Selectable
 @onready var command = $Command
+@onready var formation: Formation = $Formation
 @export var commander_unit: Unit
 
 @export var speed: int = 20
@@ -45,7 +46,7 @@ func _ready():
 # Called every frame
 func _process(_delta):
     is_skirmish_ready = false
-    for unit in _units:
+    for unit in get_units():
         if unit.property.get_property("health") > 0:
             is_skirmish_ready = true
             break

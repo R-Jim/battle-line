@@ -2,7 +2,7 @@ extends Node
 
 @export var player_squards: Array[Squad] = []
 
-var _overworld_selectable_tile_map: SelectableTileMap
+@export var _overworld_selectable_tile_map: SelectableTileMap
 
 func _input(event):
     var current_mouse_position = get_viewport().get_mouse_position()
@@ -22,7 +22,3 @@ func _input(event):
                     var destination = current_mouse_position
                     squad.command.is_move = true
                     squad.command.destination = destination
-
-
-func _selectable_tile_map_register(map: SelectableTileMap) -> void:
-  _overworld_selectable_tile_map = map

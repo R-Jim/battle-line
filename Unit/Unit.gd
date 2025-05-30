@@ -56,8 +56,9 @@ func _notification(what):
         is_removing = false
         is_removable = false
 
-func _process_other_unit_skills(unit: Unit, output) -> void:
-    print(name, " processed:", unit.name, output)
+func _process_other_unit_skills(unit_manager: UnitManager, unit: Unit, output) -> void:
+    #print(name, " processed:", unit.name, output)
+    pass
 
 func get_skills(phase: StringName):
     var skills: Dictionary[String, Skill] = {}

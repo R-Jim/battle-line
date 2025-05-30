@@ -9,60 +9,67 @@
 [node name="Node2D" type="Node2D"]
 
 [node name="Units" type="Node2D" parent="."]
-visible = false
 
 [node name="FootmanCommander" parent="Units" instance=ExtResource("1_o5wve")]
-id = "unit_010"
 max_health = 200
-max_attack = 40
-speed = 220
 
 [node name="Footman1" parent="Units" instance=ExtResource("1_o5wve")]
-id = "unit_011"
 
 [node name="Footman2" parent="Units" instance=ExtResource("1_o5wve")]
-id = "unit_012"
 
 [node name="Footman3" parent="Units" instance=ExtResource("1_o5wve")]
-id = "unit_013"
 
 [node name="Loss1" parent="Units" instance=ExtResource("2_05e8v")]
-id = "unit_014"
 max_health = 200
-max_attack = 30
 
 [node name="Loss2" parent="Units" instance=ExtResource("2_05e8v")]
-id = "unit_015"
 
 [node name="Loss3" parent="Units" instance=ExtResource("2_05e8v")]
-id = "unit_016"
 
 [node name="Loss4" parent="Units" instance=ExtResource("2_05e8v")]
-id = "unit_017"
 
 [node name="Loss5" parent="Units" instance=ExtResource("2_05e8v")]
-id = "unit_018"
 
 [node name="Loss6" parent="Units" instance=ExtResource("2_05e8v")]
-id = "unit_019"
 
 [node name="Squads" type="Node2D" parent="."]
 visible = false
 
-[node name="FootmanSquad" parent="Squads" node_paths=PackedStringArray("_units", "commander_unit") instance=ExtResource("3_wow6t")]
+[node name="FootmanSquad" parent="Squads" node_paths=PackedStringArray("_units") instance=ExtResource("3_wow6t")]
 position = Vector2(1072, 441)
 _faction = 1
-_units = [NodePath("../../Units/Footman1"), NodePath("../../Units/Footman2"), NodePath("../../Units/Footman3")]
-commander_unit = NodePath("../../Units/FootmanCommander")
+_units = [NodePath("../../Units/Footman1"), NodePath("../../Units/Footman2")]
 speed = 50
 
 [node name="Sprite2D" parent="Squads/FootmanSquad" index="0"]
 scale = Vector2(0.05, 0.05)
 texture = ExtResource("4_r64nl")
 
+[node name="Selectable" parent="Squads/FootmanSquad" index="2"]
+script = null
+
+[node name="FootmanSquad2" parent="Squads" node_paths=PackedStringArray("_units") instance=ExtResource("3_wow6t")]
+position = Vector2(1072, 441)
+_faction = 1
+_units = [NodePath("../../Units/Footman1")]
+speed = 50
+
+[node name="Sprite2D" parent="Squads/FootmanSquad2" index="0"]
+scale = Vector2(0.05, 0.05)
+texture = ExtResource("4_r64nl")
+
+[node name="Selectable" parent="Squads/FootmanSquad2" index="2"]
+script = null
+
 [node name="FormationPreview" type="Node2D" parent="." node_paths=PackedStringArray("squad")]
 position = Vector2(256, 192)
 script = ExtResource("6_05e8v")
 squad = NodePath("../Squads/FootmanSquad")
 
+[node name="FormationPreview2" type="Node2D" parent="." node_paths=PackedStringArray("squad")]
+position = Vector2(256, 328)
+script = ExtResource("6_05e8v")
+squad = NodePath("../Squads/FootmanSquad2")
+
 [editable path="Squads/FootmanSquad"]
+[editable path="Squads/FootmanSquad2"]

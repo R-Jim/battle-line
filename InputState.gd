@@ -51,7 +51,6 @@ func reset_state() -> void:
     _emit_state_nodes(get_current_state(), false)    
     _current_travers = [_default_state]
     _current_input_data = null
-    print("reset")
 
 
 func _emit_state_nodes(state: StringName, is_active: bool = false) -> void:

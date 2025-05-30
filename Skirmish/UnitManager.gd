@@ -13,7 +13,6 @@ func _ready():
 
     # Use connect() instead of deprecated signal syntax
     child_entered_tree.connect(_on_child_entered)
-    child_exiting_tree.connect(_on_child_exiting)
 
 func register_unit(unit: Unit) -> void:
     if registered_units.has(unit):
@@ -22,15 +21,13 @@ func register_unit(unit: Unit) -> void:
     other_unit_processed.connect(unit._process_other_unit_skills)
 
 func unregister_unit(unit: Unit) -> void:
-    registered_units.erase(unit)
+    if registered_units.has(unit):
+        registered_units.erase(unit)
+    remove_child(unit)
 
 func _on_child_entered(child: Node) -> void:
     if child is Unit:
         register_unit(child)
-
-func _on_child_exiting(child: Node) -> void:
-    if child is Unit and child.is_removable:
-        unregister_unit(child)
         
 func _process(delta: float) -> void:
     for unit in registered_units.duplicate():
